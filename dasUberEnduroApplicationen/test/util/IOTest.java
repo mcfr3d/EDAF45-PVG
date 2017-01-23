@@ -2,8 +2,8 @@ package util;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
@@ -12,10 +12,12 @@ import org.junit.Test;
 public class IOTest {
 
 	@Test
-	public void testWriteOneLine() {
+	public void testWriteOneLine() throws IOException{
 		String header = "StartNr; Namn; Totaltid; Starttid; Måltid";
 		String tmp = "1; Emil Wihlander; 0.00.00; 0.00.00; 0.00.00";
-		IO io = new IO("output.uber");
+		IO io = new IO();
+		io.setPath("output.uber");
+		io.initFile();
 		io.write(tmp);
 		
 		List<String> ls = Files.readAllLines(Paths.get("./output.uber"));
@@ -26,10 +28,12 @@ public class IOTest {
 	}
 
 	@Test
-	public void testWriteTwoLines() {
+	public void testWriteTwoLines() throws IOException {
 		String tmp1 = "1; Emil Wihlander; 0.00.00; 0.00.00; 0.00.00";
 		String tmp2 = "2; Emil Wihlander; 0.00.00; 0.00.00; 0.00.00";
-		IO io = new IO("output.uber");
+		IO io = new IO();
+		io.setPath("output.uber");
+		io.initFile();
 		io.write(tmp1);
 		io.write(tmp2);
 		
@@ -40,10 +44,12 @@ public class IOTest {
 	}
 	
 	@Test
-	public void testWriteNoLines() {
+	public void testWriteNoLines() throws IOException {
 		String header = "StartNr; Namn; Totaltid; Starttid; Måltid";
 		
-		IO io = new IO("output.uber");
+		IO io = new IO();
+		io.setPath("output.uber");
+		io.initFile();
 		
 		List<String> ls = Files.readAllLines(Paths.get("./output.uber"));
 		assertEquals(ls.size(),1);
