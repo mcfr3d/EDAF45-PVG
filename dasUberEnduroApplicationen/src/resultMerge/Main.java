@@ -1,14 +1,15 @@
 package resultMerge;
 
+import util.ResultWriter;
+
 public class Main {
 	public static void main(String[] args) {
 		
-		String startFilePath = "/path";
-		String finishFilePath = "/path";
-		String nameFilePath = "/path";
-		String resultFilePath = "/path";
+		String startFilePath = "../../mapp_med_shit/starttider.txt";
+		String finishFilePath = "../../mapp_med_shit/maltider.txt";
+		String nameFilePath = "../../mapp_med_shit/nanmnfil.txt";
+		String resultFilePath = "../../mapp_med_shit/resultat.txt";
 		
-		// TODO: Fix path
 		Database db = new Database();
 		IOReader.readTimes(startFilePath, finishFilePath, db);
 		IOReader.readNames(nameFilePath, db);

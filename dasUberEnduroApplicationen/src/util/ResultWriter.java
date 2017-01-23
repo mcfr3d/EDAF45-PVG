@@ -11,10 +11,9 @@ import resultMerge.Racer;
 public class ResultWriter {
 
 	
-	static void write(String path, Database db) {
+	public static void write(String path, Database db) {
 		
 		HashMap<Integer, Racer> map = db.getRacers();
-		
 		
 		try{
 		

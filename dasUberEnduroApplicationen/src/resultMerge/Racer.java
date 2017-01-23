@@ -32,7 +32,7 @@ public class Racer {
 	  String start = startTimes.isEmpty() ? "Start?" : (startTimes.size() == 1 ? startTimes.getFirst() : "Flera starttider?");
 	  String finish = finishTimes();
 	  
-	  return "" + startNumber + "; " + name + "; --.--.--; " + start + "; " + finish;
+	  return "" + startNumber + "; " + name + "; " + TotalTimeCalculator.computeDifference(start, finish) + "; " + start + "; " + finish;
   }
   
   private String finishTimes() {

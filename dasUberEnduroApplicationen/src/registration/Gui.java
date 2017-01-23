@@ -14,6 +14,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import util.RegistrationWriter;
+
 public class Gui extends JFrame {
 
 	private JTextArea textOutput;
@@ -27,9 +29,10 @@ public class Gui extends JFrame {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.path = path;
 		this.add(makeMainPanel());
+		textOutput.setText(RegistrationWriter.read(path));
 		this.pack();
 		this.setVisible(true);
-
+		
 	}
 
 	private JPanel makeMainPanel() {
@@ -65,12 +68,14 @@ public class Gui extends JFrame {
 
 	private class RegistrationListener implements ActionListener {
 		@Override
-		public void actionPerformed(ActionEvent e) { //TODO: write to file
+		public void actionPerformed(ActionEvent e) {
 			String time = getCurrentTime();
 			String startNumber = textEntry.getText().trim();
 			if (correctInput(startNumber)) {
 				String outputText = startNumber + "; " + time + "\n" + textOutput.getText();
+				RegistrationWriter.rewrite(path, outputText);
 				textOutput.setText(outputText);
+
 				
 			} else {
 				JOptionPane.showMessageDialog(null,
