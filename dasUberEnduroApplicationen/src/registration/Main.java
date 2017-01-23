@@ -8,7 +8,7 @@ import javax.swing.*;
 
 public class Main {
 	public static void main(String [] args){
-		Race _80sh = new Race();
+		/*Race _80sh = new Race();
 		JFrame Schaufenster = new JFrame();
 			JButton knopf = new JButton("das registrern knopf");
 				knopf.addActionListener(new ActionListener() {
@@ -28,7 +28,9 @@ public class Main {
 		Schaufenster.add(visenKnopfen, BorderLayout.EAST);
 		Schaufenster.pack();
 		Schaufenster.setSize(500, 500);
-		Schaufenster.setVisible(true);
+		Schaufenster.setVisible(true);*/
+		
+		new Gui();
 		
 	}
 
