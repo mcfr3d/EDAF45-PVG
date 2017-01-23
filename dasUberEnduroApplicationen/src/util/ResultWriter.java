@@ -23,7 +23,11 @@ public class ResultWriter {
 		
 			for(Map.Entry<Integer,Racer> entry : map.entrySet()) {
 			
-				writer.println(entry.getValue());
+				String s = entry.getValue().toString();
+				
+				System.out.println(s);
+				
+				writer.println(s);
 			}
 			
 			writer.close();
