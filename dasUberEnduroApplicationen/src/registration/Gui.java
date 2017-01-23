@@ -14,21 +14,25 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import util.RegistrationWriter;
+
 public class Gui extends JFrame {
 
 	private JTextArea textOutput;
 	private JTextField textEntry;
+	private final String path;
 
-	public Gui() {
+	public Gui(String path) {
 		super();
 		this.setTitle("dasUberEnduroApplicationen");
 		this.setSize(300, 200);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+		this.path = path;
 		this.add(makeMainPanel());
+		textOutput.setText(RegistrationWriter.read(path));
 		this.pack();
 		this.setVisible(true);
-
+		
 	}
 
 	private JPanel makeMainPanel() {
@@ -69,7 +73,9 @@ public class Gui extends JFrame {
 			String startNumber = textEntry.getText().trim();
 			if (correctInput(startNumber)) {
 				String outputText = startNumber + "; " + time + "\n" + textOutput.getText();
+				RegistrationWriter.rewrite(path, outputText);
 				textOutput.setText(outputText);
+
 				
 			} else {
 				JOptionPane.showMessageDialog(null,
