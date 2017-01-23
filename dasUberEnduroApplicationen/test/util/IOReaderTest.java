@@ -2,11 +2,9 @@ package util;
 
 import static org.junit.Assert.*;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.HashMap;
-import java.util.List;
 
 import org.junit.Test;
 
@@ -14,48 +12,34 @@ import resultMerge.Database;
 import resultMerge.Racer;
 
 public class IOReaderTest {
+	String path = "test/util/";
 
 	@Test
-	public void testWriteOneLine() throws IOException{
+	public void testReaderWith5Entries() throws IOException{
+		String[] start = {"12.00.00", "12.01.00", "12.02.00", "12.03.00", "12.04.00"};
+		String[] finish = {"13.23.34", "13.15.16", "13.05.06", "13.12.07", "13.16.07"};
 		Database db = new Database();
-		IOReader.readTimes("starttider.txt", "maltider.txt", db);
+		IOReader.readStart(path + "starttider.txt", db);
+		IOReader.readFinish(path + "maltider.txt", db);
 		HashMap<Integer, Racer> map= db.getRacers();
+		assertEquals(map.size(), 5);
 		for (int i : map.keySet()) {
 			Racer r = map.get(i);
+			String[] s = r.toString().split("; ");
+			assertEquals(s[0], Integer.toString(i));
+			assertEquals(s[3], start[i-1]);
+			assertEquals(s[4], finish[i-1]);
 		}
-		assertEquals()
-	}
-
-	@Test
-	public void testWriteTwoLines() throws IOException {
-		String tmp1 = "1; Emil Wihlander; 0.00.00; 0.00.00; 0.00.00";
-		String tmp2 = "2; Emil Wihlander; 0.00.00; 0.00.00; 0.00.00";
-		IO io = new IO();
-		IOReader ior = new IOReader();
-		io.setPath("output.uber");
-		ior.setPath("output.uber");
-		io.initFile();
-		io.write(tmp1);
-		io.write(tmp2);
-		
-		String[] ls = ior.read();
-		assertEquals(ls.length,2);
-		assertEquals(ls[1], tmp1);
-		assertEquals(ls[1], tmp2);
 	}
 	
 	@Test
-	public void testWriteNoLines() throws IOException {
-		String header = "StartNr; Namn; Totaltid; Starttid; Måltid";
-		
-		IO io = new IO();
-		IOReader ior = new IOReader();
-		io.setPath("output.uber");
-		ior.setPath("output.uber");
-		io.initFile();
-		
-		
-		String[] ls = ior.read();
-		assertEquals(ls.length,0);
+	public void testIfFileIsMissing() {
+		Database db = new Database();
+		try {
+			IOReader.readStart(path + "maltider.txt", db);
+			IOReader.readFinish(path + "doesntexist.txt", db);
+			fail();
+		} catch (FileNotFoundException e) {
+		} catch (IOException e) {}
 	}
 }

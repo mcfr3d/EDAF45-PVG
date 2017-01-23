@@ -19,18 +19,26 @@ public class IOReader {
 			info.add(line);
 			line = br.readLine();
 		}
+		br.close();
 		return info;
 	}
 
-	public static void readTimes(String startPath, String finishPath, Database db)
+	public static void readStart(String startPath, Database db)
 			throws FileNotFoundException, IOException {
 		List<String> start = read(startPath);
-		List<String> finish = read(finishPath);
 
 		for (String s : start) {
 			int firstDelimiter = s.indexOf(";");
-			db.addStart(Integer.parseInt(s.substring(0, firstDelimiter)), s.substring(firstDelimiter + 2));
+			int racerId = Integer.parseInt(s.substring(0, firstDelimiter));
+			String time = s.substring(firstDelimiter + 2);
+			db.addStart(racerId, time);
 		}
+	}
+
+	public static void readFinish(String finishPath, Database db)
+			throws FileNotFoundException, IOException {
+		List<String> finish = read(finishPath);
+		
 		for (String s : finish) {
 			int firstDelimiter = s.indexOf(";");
 			db.addFinish(Integer.parseInt(s.substring(0, firstDelimiter)), s.substring(firstDelimiter + 2));
