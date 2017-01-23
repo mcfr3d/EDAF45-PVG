@@ -31,13 +31,15 @@ public class RacerTest {
 	public void testMultipleFinishTimes() {
 		temp.addFinish("12345");
 		temp.addFinish("54321");
-		assertEquals("1; person; --.--.--; Start?; Flera måltider? 12345; 54321", temp.toString());
+		System.out.println(temp.toString());
+		assertEquals("1; person; --.--.--; Start?; 12345; Flera måltider? 54321", temp.toString());
 	}
 	
 	@Test
 	public void testMultipleStartTimes() {
 		temp.addStart("12:00");
 		temp.addStart("12:05");
-		assertEquals("1; person; --.--.--; Flera starttider? 12:00; 12:05; Slut?", temp.toString());
+		System.out.println(temp.toString());
+		assertEquals("1; person; --.--.--; 12:00; Slut?; Flera starttider? 12:05", temp.toString());
 	}
 }
