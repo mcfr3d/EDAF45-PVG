@@ -18,13 +18,14 @@ public class Gui extends JFrame {
 
 	private JTextArea textOutput;
 	private JTextField textEntry;
+	private final String path;
 
-	public Gui() {
+	public Gui(String path) {
 		super();
 		this.setTitle("dasUberEnduroApplicationen");
 		this.setSize(300, 200);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+		this.path = path;
 		this.add(makeMainPanel());
 		this.pack();
 		this.setVisible(true);
@@ -64,7 +65,7 @@ public class Gui extends JFrame {
 
 	private class RegistrationListener implements ActionListener {
 		@Override
-		public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent e) { //TODO: write to file
 			String time = getCurrentTime();
 			String startNumber = textEntry.getText().trim();
 			if (correctInput(startNumber)) {
