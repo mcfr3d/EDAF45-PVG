@@ -1,10 +1,10 @@
-package naturlishenRegistrationen;
+package registrationTest;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class DenHuvudRutaTest {
+public class RaceTest {
 
 	@Test
 	public void test() {

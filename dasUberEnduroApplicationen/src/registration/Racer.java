@@ -1,9 +1,9 @@
-package naturlishenRegistrationen;
+package registration;
 
-public class Rennfahrer {
+public class Racer {
 	String benennung;
 	int DieAnzahl;
-	public Rennfahrer(int ziffer){
+	public Racer(int ziffer){
 		this.benennung = "VederVonAufhausen";
 		DieAnzahl = ziffer;
 	}

@@ -1,4 +1,4 @@
-package naturlishenRegistrationen;
+package registration;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -6,9 +6,9 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-public class DenHuvudRuta {
+public class Main {
 	public static void main(String [] args){
-		DieRennen _80sh = new DieRennen();
+		Race _80sh = new Race();
 		JFrame Schaufenster = new JFrame();
 			JButton knopf = new JButton("das registrern knopf");
 				knopf.addActionListener(new ActionListener() {
