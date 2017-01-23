@@ -31,7 +31,6 @@ public class RacerTest {
 	public void testMultipleFinishTimes() {
 		temp.addFinish("12.00.00");
 		temp.addFinish("12.15.00");
-		System.out.println(temp.toString());
 		assertEquals("1; person; --.--.--; Start?; 12.00.00; Flera måltider? 12.15.00", temp.toString());
 	}
 	
@@ -39,9 +38,13 @@ public class RacerTest {
 	public void testMultipleStartTimes() {
 		temp.addStart("12.00.00");
 		temp.addStart("12.15.00");
-		System.out.println(temp.toString());
 		assertEquals("1; person; --.--.--; 12.00.00; Slut?; Flera starttider? 12.15.00", temp.toString());
 	}
 
-//	public void 
+	@Test
+	public void testImpossibleTotalTime() {
+		temp.addStart("12.00.00");
+		temp.addFinish("12.10.00");
+		
+	}
 }
