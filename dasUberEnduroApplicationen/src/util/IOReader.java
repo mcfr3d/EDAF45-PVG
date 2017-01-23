@@ -28,9 +28,7 @@ public class IOReader {
 
 		for (String s : start) {
 			int firstDelimiter = s.indexOf(";");
-			int racerId = Integer.parseInt(s.substring(0, firstDelimiter));
-			String time = s.substring(firstDelimiter + 2);
-			db.addStart(racerId, time);
+			db.addStart(Integer.parseInt(s.substring(0, firstDelimiter)), s.substring(firstDelimiter + 2));
 		}
 	}
 
