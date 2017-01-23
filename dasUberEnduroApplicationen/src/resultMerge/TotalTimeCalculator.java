@@ -21,17 +21,17 @@ public class TotalTimeCalculator {
 
 		try {
 
-			int s = toSeconds(start);
-			int f = toSeconds(finish);
+			int startSeconds = toSeconds(start);
+			int finishSeconds = toSeconds(finish);
 
-			int d = f - s;
+			int diffSeconds = finishSeconds - startSeconds;
 
-			if (d < 0)
+			if (diffSeconds < 0)
 				throw new Exception("Negative !");
 
-			int seconds = d % 60;
-			int minutes = (d / 60) % 60;
-			int hours = (d / (60 * 60)) % 60;
+			int seconds = diffSeconds % 60;
+			int minutes = (diffSeconds / 60) % 60;
+			int hours = (diffSeconds / (60 * 60)) % 60;
 
 			return String.format("%02d.%02d.%02d", hours, minutes, seconds);
 
@@ -41,5 +41,18 @@ public class TotalTimeCalculator {
 		}
 
 	}
-
-}
+	
+	public static boolean possibleTotalTime(String start, String finish){
+		
+		try {
+			int s = toSeconds(start);
+			int f = toSeconds(finish);
+			int d = f - s;
+			if (d < 15*60){
+				return false;
+			}
+			
+	}
+		catch (Exception e){};	
+return true;
+}}
