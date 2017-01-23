@@ -20,10 +20,10 @@ public class IOTest {
 		io.initFile();
 		io.write(tmp);
 		
-		List<String> ls = Files.readAllLines(Paths.get("./output.uber"));
-		assertEquals(ls.size(),2);
-		assertEquals(ls.get(0), header);
-		assertEquals(ls.get(1), tmp);
+		String[] ls = io.read();
+		assertEquals(ls.length,2);
+		assertEquals(ls[0], header);
+		assertEquals(ls[1], tmp);
 		
 	}
 
@@ -37,10 +37,10 @@ public class IOTest {
 		io.write(tmp1);
 		io.write(tmp2);
 		
-		List<String> ls = Files.readAllLines(Paths.get("./output.uber"));
-		assertEquals(ls.size(),3);
-		assertEquals(ls.get(1), tmp1);
-		assertEquals(ls.get(2), tmp2);
+		String[] ls = io.read();
+		assertEquals(ls.length,2);
+		assertEquals(ls[1], tmp1);
+		assertEquals(ls[1], tmp2);
 	}
 	
 	@Test
@@ -51,8 +51,8 @@ public class IOTest {
 		io.setPath("output.uber");
 		io.initFile();
 		
-		List<String> ls = Files.readAllLines(Paths.get("./output.uber"));
-		assertEquals(ls.size(),1);
-		assertEquals(ls.get(0), header);
+		
+		String[] ls = io.read();
+		assertEquals(ls.length,0);
 	}
 }
