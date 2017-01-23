@@ -26,7 +26,7 @@ public class Gui extends JFrame {
 	private JTextArea textOutput;
 	private JTextField textEntry;
 	private final String path;
-	private final String font = "Helvetica";
+	private final String font = "Linux Biolinum Keyboard O";
 
 	public Gui(String path) {
 		super();
@@ -59,11 +59,11 @@ public class Gui extends JFrame {
 		textEntry = new JTextField(10);
 		textEntry.addActionListener(listener);
 		textEntry.setFont(new Font(font, Font.PLAIN, 34));
-		textEntry.setMaximumSize(new Dimension(600,50));
+		textEntry.setMaximumSize(new Dimension(600, 50));
 		JButton button = new JButton("Registrera");
 		button.addActionListener(listener);
 		button.setFont(new Font(font, Font.PLAIN, 34));
-
+		button.setBackground(new Color(153, 102, 204));
 		panel.add(textEntry);
 		panel.add(button);
 
@@ -72,22 +72,22 @@ public class Gui extends JFrame {
 
 	private class RegistrationListener implements ActionListener {
 		@Override
-		public void actionPerformed(ActionEvent e) { //TODO: write to file
+		public void actionPerformed(ActionEvent e) { // TODO: write to file
 			String time = getCurrentTime();
 			String startNumber = textEntry.getText().trim();
 			if (correctInput(startNumber)) {
 				System.out.println("startnumber is ok will update file");
 				String outputText = startNumber + "; " + time + "\n" + textOutput.getText();
 				textOutput.setText(outputText);
-				
-				try{
+
+				try {
 
 					System.out.println("Writing to file now");
-				    
+
 					Files.write(Paths.get(path), textOutput.getText().getBytes());
-	
+
 					System.out.println("Finished writing to file now");
-				    
+
 				} catch (FileNotFoundException e1) {
 					System.out.println("Could not find file");
 					e1.printStackTrace();
@@ -95,12 +95,10 @@ public class Gui extends JFrame {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				
+
 			} else {
-				JOptionPane.showMessageDialog(null,
-					    "Felaktig input. Använd endast siffror.",
-					    "Felmeddelande",
-					    JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Felaktig input. Använd endast siffror.", "Felmeddelande",
+						JOptionPane.ERROR_MESSAGE);
 			}
 			textEntry.setText("");
 		}
