@@ -29,14 +29,14 @@ public class Racer {
   }
   public String toString() {
 	  
-	  String start = startTimes.isEmpty() ? "Start?" : (startTimes.size() == 1 ? startTimes.getFirst() : "Flera Starttider?");
-	  String finish = finishTimes.isEmpty() ? "Slut?" : (finishTimes.size() == 1 ? finishTimes.getFirst() : "Flera Sluttider?");
+	  String start = getStartTimes();
+	  String finish = getFinishTimes();
 	  String delta = TotalTimeCalculator.computeDifference(start, finish);
 
 	  return "" + startNumber + "; " + name + "; " + delta + "; " + start + "; " + finish;
   }
   
-  private String finishTimes() {
+  private String getFinishTimes() {
 	StringBuilder sb = new StringBuilder();
 		if (finishTimes.size() == 0) {
 				sb.append("Slut?");
@@ -52,6 +52,23 @@ public class Racer {
 	}	
 	return sb.toString();
 }
+  
+  private String getStartTimes() {
+		StringBuilder sb = new StringBuilder();
+			if (startTimes.size() == 0) {
+					sb.append("Start?");
+			} else if (startTimes.size() == 1) {
+					sb.append(startTimes.getFirst());
+			} else {
+				sb.append("Flera starttider? ");
+				for (String time : startTimes) {
+					sb.append(time + "; ");
+				}
+				sb.deleteCharAt(sb.length() - 1);
+				sb.deleteCharAt(sb.length() - 1);
+		}	
+		return sb.toString();
+	}
 
 public String getErrors() {
 	  
