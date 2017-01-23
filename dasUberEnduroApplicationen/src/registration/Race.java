@@ -1,22 +1,22 @@
-package naturlishenRegistrationen;
+package registration;
 
 import java.util.HashSet;
 
-public class DieRennen {
-	HashSet<Rennfahrer> rennen; 
+public class Race {
+	HashSet<Racer> rennen; 
 	int ziffer = 0;
-	public DieRennen(){
-		rennen = new HashSet<Rennfahrer>(); 
+	public Race(){
+		rennen = new HashSet<Racer>(); 
 	}
 	public void addierenRennfahrer(){
-		rennen.add(new Rennfahrer(++ziffer));
+		rennen.add(new Racer(++ziffer));
 	}
 	public int betrag(){
 		return rennen.size();
 	}
 	public String toString(){
 		StringBuilder sb = new StringBuilder();
-		for (Rennfahrer dasRenner : rennen){
+		for (Racer dasRenner : rennen){
 			sb.append(dasRenner);
 			sb.append("\n");
 
