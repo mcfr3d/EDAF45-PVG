@@ -10,6 +10,10 @@ public class Racer {
   
   public Racer(int startNumber) {
     this.startNumber = startNumber;
+    
+    startTimes = new LinkedList<>();
+    finishTimes = new LinkedList<>();
+    
   }
   
   public void setName(String name) {
@@ -25,7 +29,7 @@ public class Racer {
   }
   public String toString() {
 	  
-	  String start = startTimes.isEmpty() ? "Start?" : (startTimes.size() == 1 ? startTimes.getFirst() : "Flera Startider?");
+	  String start = startTimes.isEmpty() ? "Start?" : (startTimes.size() == 1 ? startTimes.getFirst() : "Flera Starttider?");
 	  String finish = finishTimes.isEmpty() ? "Slut?" : (finishTimes.size() == 1 ? finishTimes.getFirst() : "Flera Sluttider?");
 	  
 	  return "" + startNumber + "; " + name + "; --.--.--; " + start + "; " + finish;

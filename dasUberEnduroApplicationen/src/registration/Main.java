@@ -3,8 +3,11 @@ package registration;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Scanner;
 
 import javax.swing.*;
+
+import util.RegistrationWriter;
 
 public class Main {
 	public static void main(String [] args){
@@ -29,8 +32,11 @@ public class Main {
 		Schaufenster.pack();
 		Schaufenster.setSize(500, 500);
 		Schaufenster.setVisible(true);*/
-		
-		new Gui();
+		System.out.println("Ange registreringsfil");
+		Scanner sc = new Scanner(System.in);
+		String path = sc.next();
+		RegistrationWriter.write(path, "reg");
+		new Gui(path);
 		
 	}
 
