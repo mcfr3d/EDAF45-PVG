@@ -31,8 +31,9 @@ public class Racer {
 	  
 	  String start = startTimes.isEmpty() ? "Start?" : (startTimes.size() == 1 ? startTimes.getFirst() : "Flera Starttider?");
 	  String finish = finishTimes.isEmpty() ? "Slut?" : (finishTimes.size() == 1 ? finishTimes.getFirst() : "Flera Sluttider?");
+	  String delta = TotalTimeCalculator.computeDifference(start, finish);
 	  
-	  return "" + startNumber + "; " + name + "; " + TotalTimeCalculator.computeDifference(start, finish) + "; " + start + "; " + finish;
+	  return "" + startNumber + "; " + name + "; " + delta + "; " + start + "; " + finish;
   }
   
   public String getErrors() {
