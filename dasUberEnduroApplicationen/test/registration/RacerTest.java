@@ -17,29 +17,31 @@ public class RacerTest {
 
 	@Test
 	public void testNoStartTime() {
-		temp.addFinish("1234");
-		assertEquals("1; person; --.--.--; Start?; 1234",temp.toString());
+		temp.addFinish("12.00.00");
+		assertEquals("1; person; --.--.--; Start?; 12.00.00",temp.toString());
 	}
 
 	@Test
 	public void testNoFinishTime() {
-		temp.addStart("12345");
-		assertEquals("1; person; --.--.--; 12345; Slut?",temp.toString());
+		temp.addStart("12.00.00");
+		assertEquals("1; person; --.--.--; 12.00.00; Slut?",temp.toString());
 	}
 
 	@Test
 	public void testMultipleFinishTimes() {
-		temp.addFinish("12345");
-		temp.addFinish("54321");
+		temp.addFinish("12.00.00");
+		temp.addFinish("12.15.00");
 		System.out.println(temp.toString());
-		assertEquals("1; person; --.--.--; Start?; 12345; Flera måltider? 54321", temp.toString());
+		assertEquals("1; person; --.--.--; Start?; 12.00.00; Flera måltider? 12.15.00", temp.toString());
 	}
 	
 	@Test
 	public void testMultipleStartTimes() {
-		temp.addStart("12:00");
-		temp.addStart("12:05");
+		temp.addStart("12.00.00");
+		temp.addStart("12.15.00");
 		System.out.println(temp.toString());
-		assertEquals("1; person; --.--.--; 12:00; Slut?; Flera starttider? 12:05", temp.toString());
+		assertEquals("1; person; --.--.--; 12.00.00; Slut?; Flera starttider? 12.15.00", temp.toString());
 	}
+
+//	public void 
 }
