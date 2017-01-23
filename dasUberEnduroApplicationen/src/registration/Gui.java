@@ -12,6 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalTime;
+import java.util.Random;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -24,11 +25,14 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 
 public class Gui extends JFrame {
-
+	private Random r = new Random();
+	
+	
 	private JTextArea textOutput;
 	private JTextField textEntry;
 	private final String path;
 	private final String font = "Arial";
+	
 
 	public Gui(String path) {
 		super();
@@ -47,7 +51,6 @@ public class Gui extends JFrame {
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		textOutput = new JTextArea(10, 30);
 		textOutput.setFont(new Font(font, Font.PLAIN, 34));
-		textOutput.setBackground(new Color(242, 128, 161));
 		
 		
 		panel.add(makeEntryPanel());
@@ -68,6 +71,7 @@ public class Gui extends JFrame {
 		textEntry.addActionListener(listener);
 		textEntry.setFont(new Font(font, Font.PLAIN, 34));
 		textEntry.setMaximumSize(new Dimension(600, 50));
+		textEntry.setBackground(Color.GREEN);
 		JButton button = new JButton("Registrera");
 		button.addActionListener(listener);
 		button.setFont(new Font(font, Font.PLAIN, 34));
@@ -88,7 +92,14 @@ public class Gui extends JFrame {
 				String outputText = startNumber + "; " + time + "\n" + textOutput.getText();
 				textOutput.setText(outputText);
 				textOutput.setCaretPosition(0);
-
+				
+				int a = r.nextInt(255);
+				int b = r.nextInt(255);
+				int c = r.nextInt(255);
+				Color c1 = new Color(a, b, c);
+				Color c2 = new Color(-1*(a-255),-1*(b-255),-1*(c-255));
+				textOutput.setBackground(c1);
+				textOutput.setForeground(c2);
 				try {
 
 					System.out.println("Writing to file now");
