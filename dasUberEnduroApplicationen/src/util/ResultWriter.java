@@ -10,6 +10,7 @@ import resultMerge.Racer;
 
 public class ResultWriter {
 
+	
 	static void write(String path, Database db) {
 		
 		HashMap<Integer, Racer> map = db.getRacers();
@@ -22,7 +23,7 @@ public class ResultWriter {
 		
 			for(Map.Entry<Integer,Racer> entry : map.entrySet()) {
 			
-				writer.println("" + entry.getKey() + "; <name>; <total time>; " + entry.getValue().getStart() + "; " + entry.getValue().getFinish());
+				writer.println(entry.getValue());
 			}
 			
 			writer.close();

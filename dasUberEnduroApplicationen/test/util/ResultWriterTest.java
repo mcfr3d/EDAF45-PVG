@@ -24,15 +24,16 @@ public class ResultWriterTest {
 		Database db = new Database();
 		
 		String path = "output.txt";
-		db.addStart(1, "00:01:00");
-		db.addFinish(1, "00:01:01");
+		db.setName(7,"Emil");
+		db.addStart(7,"00:01:00");
+		db.addFinish(7,"00:01:01");
 
 		ResultWriter.write(path, db);
 		
 		List<String> ls = Files.readAllLines(Paths.get(path));
 		assertEquals(ls.size(),2);
 		assertEquals(ls.get(0), "StartNr; Namn; Totaltid; Starttid; Måltid");
-		assertEquals(ls.get(1), "1; 00:01:00; 00:01:01");
+		assertEquals(ls.get(1), "7; Emil; --:--:--; 00:01:00; 00:01:01");
 	}
 
 	@Test

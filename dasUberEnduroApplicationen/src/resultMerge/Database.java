@@ -8,24 +8,35 @@ public class Database {
 		racers = new HashMap<>();
 	}
 
+	private Racer getRacer(int driver) {
+				
+		if(racers.containsKey(driver)) return racers.get(driver);
+			
+		Racer r = new Racer(driver);
+		racers.put(driver,r);
+		
+		return r;
+	}
+	
 	public void addStart(int driver, String time){
-		if(racers.containsKey(driver)) {
-			racers.get(driver).addStart(time);
-		} else {
-			Racer r = new Racer(driver);
-			r.addStart(time);
-			racers.put(driver, r);
-		}
+		
+		Racer r = getRacer(driver);
+		
+		r.addStart(time);
 	}
 
 	public void addFinish(int driver, String time){
-		if(racers.containsKey(driver)) {
-			racers.get(driver).addFinish(time);
-		} else {
-			Racer r = new Racer(driver);
-			r.addFinish(time);
-			racers.put(driver, r);
-		}
+
+		Racer r = getRacer(driver);
+		
+		r.addFinish(time);
+	}
+
+	public void setName(int driver,String name){
+
+		Racer r = getRacer(driver);
+		
+		r.setName(name);
 	}
 	
 	public HashMap<Integer, Racer> getRacers() {
