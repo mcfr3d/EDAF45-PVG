@@ -27,4 +27,10 @@ public class RacerTest {
 		assertEquals("1; person; --.--.--; 12345; Slut?",temp.toString());
 	}
 
+	@Test
+	public void testMultipleFinishTimes() {
+		temp.addFinish("12345");
+		temp.addFinish("54321");
+		assertEquals("1; person; --.--.--; Start?; Flera måltider? 12345; 54321", temp.toString());
+	}
 }
