@@ -27,4 +27,10 @@ public class Database {
 			racers.put(driver, r);
 		}
 	}
+	public HashMap<Integer, Racer> getRacers() {
+		return racers;
+	}
+	public int size() {
+		return racers.size();
+	}
 }
