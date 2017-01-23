@@ -13,14 +13,15 @@ public class IOTest {
 
 	@Test
 	public void testWriteOneLine() {
+		String header = "StartNr; Namn; Totaltid; Starttid; Måltid";
 		String tmp = "1; Emil Wihlander; 0.00.00; 0.00.00; 0.00.00";
-		IO io = new IO();
-		io.setLocation("output.uber");
+		IO io = new IO("output.uber");
 		io.write(tmp);
 		
 		List<String> ls = Files.readAllLines(Paths.get("./output.uber"));
-		assertEquals(ls.size(),1);
-		assertEquals(ls.get(0), tmp);
+		assertEquals(ls.size(),2);
+		assertEquals(ls.get(0), header);
+		assertEquals(ls.get(1), tmp);
 		
 	}
 
@@ -28,19 +29,24 @@ public class IOTest {
 	public void testWriteTwoLines() {
 		String tmp1 = "1; Emil Wihlander; 0.00.00; 0.00.00; 0.00.00";
 		String tmp2 = "2; Emil Wihlander; 0.00.00; 0.00.00; 0.00.00";
-		IO io = new IO();
-		io.setLocation("output.uber");
+		IO io = new IO("output.uber");
 		io.write(tmp1);
 		io.write(tmp2);
 		
 		List<String> ls = Files.readAllLines(Paths.get("./output.uber"));
-		assertEquals(ls.size(),2);
-		assertEquals(ls.get(0), tmp1);
-		assertEquals(ls.get(1), tmp2);
+		assertEquals(ls.size(),3);
+		assertEquals(ls.get(1), tmp1);
+		assertEquals(ls.get(2), tmp2);
 	}
 	
 	@Test
 	public void testWriteNoLines() {
-		String tmp = "1; Emil Wihlander; 0.00.00; 0.00.00; 0.00.00";
+		String header = "StartNr; Namn; Totaltid; Starttid; Måltid";
+		
+		IO io = new IO("output.uber");
+		
+		List<String> ls = Files.readAllLines(Paths.get("./output.uber"));
+		assertEquals(ls.size(),1);
+		assertEquals(ls.get(0), header);
 	}
 }
