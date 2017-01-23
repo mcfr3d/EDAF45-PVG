@@ -9,7 +9,10 @@ public class TotalTimeCalculator {
 		if (s.length != 3)
 			throw new Exception("Syntax error !");
 
-		int t = (Integer.parseInt(s[0]) * 60 + Integer.parseInt(s[1])) * 60 + Integer.parseInt(s[2]);
+		int t = 0;
+
+		for (int i = 0; i < 3; ++i)
+			t = t * 60 + Integer.parseInt(s[i]);
 
 		return t;
 	}
