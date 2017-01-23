@@ -10,20 +10,16 @@ public class IO {
 		
 	}
 	
-	public void write(String s) {
+	public void write(String s) throws IOException{
 		if (path == null) {
 			System.exit(1);
 		}
-		try{
-		    PrintWriter writer = new PrintWriter(path, "UTF-8");
-		    writer.println(s);
-		    writer.close();
-		} catch (IOException e) {
-		   // do something
-		}
+		PrintWriter writer = new PrintWriter(path, "UTF-8");
+		writer.println(s);
+		writer.close();
 	}
 	
-	public void initFile() {
+	public void initFile() throws IOException{
 		write("StartNr; Namn; Totaltid; Starttid; Måltid");
 	}
 	
