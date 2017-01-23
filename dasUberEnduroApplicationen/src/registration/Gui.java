@@ -28,7 +28,7 @@ public class Gui extends JFrame {
 	private JTextArea textOutput;
 	private JTextField textEntry;
 	private final String path;
-	private final String font = "Linux Biolinum Keyboard O";
+	private final String font = "Arial";
 
 	public Gui(String path) {
 		super();
