@@ -75,7 +75,7 @@ public class ResultWriterTest {
 		assertEquals(ls.size(),3);
 		assertEquals(ls.get(0), "StartNr; Namn; Totaltid; Starttid; Måltid");
 		assertEquals(ls.get(1), "7; Emil; 00.00.01; 00.01.00; 00.01.01");
-		assertEquals(ls.get(2), "9; Jacob; --.--.--; Flera starttider?; 00.20.08");
+		assertEquals(ls.get(2), "9; Jacob; 00.00.08; 00.20.00; 00.20.08; Flera starttider? 00.20.07");
 	}
 
 }

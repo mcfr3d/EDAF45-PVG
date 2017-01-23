@@ -5,6 +5,12 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalTime;
 
 import javax.swing.BoxLayout;
@@ -20,7 +26,7 @@ public class Gui extends JFrame {
 	private JTextArea textOutput;
 	private JTextField textEntry;
 	private final String path;
-	private final String font = "Delphine";
+	private final String font = "Helvetica";
 
 	public Gui(String path) {
 		super();
@@ -70,8 +76,25 @@ public class Gui extends JFrame {
 			String time = getCurrentTime();
 			String startNumber = textEntry.getText().trim();
 			if (correctInput(startNumber)) {
+				System.out.println("startnumber is ok will update file");
 				String outputText = startNumber + "; " + time + "\n" + textOutput.getText();
 				textOutput.setText(outputText);
+				
+				try{
+
+					System.out.println("Writing to file now");
+				    
+					Files.write(Paths.get(path), textOutput.getText().getBytes());
+	
+					System.out.println("Finished writing to file now");
+				    
+				} catch (FileNotFoundException e1) {
+					System.out.println("Could not find file");
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				
 			} else {
 				JOptionPane.showMessageDialog(null,
