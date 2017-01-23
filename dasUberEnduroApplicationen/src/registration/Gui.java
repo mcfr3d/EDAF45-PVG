@@ -1,5 +1,6 @@
 package registration;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -36,10 +37,9 @@ public class Gui extends JFrame {
 	private JPanel makeMainPanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-
 		textOutput = new JTextArea(10, 30);
 		textOutput.setFont(new Font(font, Font.PLAIN, 34));
-
+		textOutput.setBackground(new Color(242, 128, 161));
 		panel.add(makeEntryPanel());
 		panel.add(textOutput);
 		return panel;
