@@ -16,27 +16,17 @@ public class ResultWriter {
 		HashMap<Integer, Racer> map = db.getRacers();
 		
 		try{
-		
 			PrintWriter writer = new PrintWriter(path, "UTF-8");
 			writer.println("StartNr; Namn; Totaltid; Starttid; Måltid");
 		
 			for(Map.Entry<Integer,Racer> entry : map.entrySet()) {
-			
 				String s = entry.getValue().toString();
-				
-				System.out.println(s);
-				
 				writer.println(s);
 			}
-			
 			writer.close();
-		
-		} 
-		catch(IOException e) {
 			
-			
+		} catch(IOException e) {
+			System.exit(1);
 		}
-		
 	}
-
 }
