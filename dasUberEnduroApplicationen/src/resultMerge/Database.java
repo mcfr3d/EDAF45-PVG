@@ -4,7 +4,7 @@ import java.util.HashMap;
 public class Database {
 	private HashMap<Integer, Racer> racers;
 
-	public Database(){
+	public Database() {
 		racers = new HashMap<>();
 	}
 
@@ -27,9 +27,11 @@ public class Database {
 			racers.put(driver, r);
 		}
 	}
+	
 	public HashMap<Integer, Racer> getRacers() {
 		return racers;
 	}
+	
 	public int size() {
 		return racers.size();
 	}
