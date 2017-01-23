@@ -78,5 +78,4 @@ public class ResultWriterTest {
 		assertEquals(ls.get(2), "9; Jacob; --.--.--; Flera Starttider?; 00.20.08");
 	}
 
-
 }

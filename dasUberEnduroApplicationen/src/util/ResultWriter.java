@@ -15,7 +15,6 @@ public class ResultWriter {
 		
 		HashMap<Integer, Racer> map = db.getRacers();
 		
-		
 		try{
 		
 			PrintWriter writer = new PrintWriter(path, "UTF-8");
