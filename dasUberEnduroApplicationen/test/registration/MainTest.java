@@ -1,4 +1,4 @@
-package registrationTest;
+package registration;
 
 import static org.junit.Assert.*;
 

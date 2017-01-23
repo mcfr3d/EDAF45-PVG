@@ -1,4 +1,4 @@
-package resultMergeTest;
+package resultMerge;
 
 import resultMerge.TotalTimeCalculator;
 import static org.junit.Assert.*;
