@@ -18,15 +18,17 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 
 public class Gui extends JFrame {
 
 	private JTextArea textOutput;
 	private JTextField textEntry;
 	private final String path;
-	private final String font = "Linux Biolinum Keyboard O";
+	private final String font = "Arial";
 
 	public Gui(String path) {
 		super();
@@ -46,8 +48,14 @@ public class Gui extends JFrame {
 		textOutput = new JTextArea(10, 30);
 		textOutput.setFont(new Font(font, Font.PLAIN, 34));
 		textOutput.setBackground(new Color(242, 128, 161));
+		
+		
 		panel.add(makeEntryPanel());
 		panel.add(textOutput);
+		JScrollPane scroller = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,  
+				   ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scroller.setViewportView(textOutput);
+		panel.add(scroller);
 		return panel;
 	}
 
@@ -79,6 +87,7 @@ public class Gui extends JFrame {
 				System.out.println("startnumber is ok will update file");
 				String outputText = startNumber + "; " + time + "\n" + textOutput.getText();
 				textOutput.setText(outputText);
+				textOutput.setCaretPosition(0);
 
 				try {
 

@@ -78,4 +78,12 @@ public class Racer {
 		// append if 0 starts, 0 finish, >1 start, >1 finish
 		return sb.toString();
 	}
+	
+	public String getFirstStartTime() {
+		return startTimes.getFirst();
+	}
+	
+	public String getFirstFinishTime() {
+		return finishTimes.getFirst();
+	}
 }
