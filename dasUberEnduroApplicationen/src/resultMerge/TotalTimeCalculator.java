@@ -41,18 +41,20 @@ public class TotalTimeCalculator {
 		}
 
 	}
-	
-	public static boolean possibleTotalTime(String start, String finish){
-		
+
+	public static boolean possibleTotalTime(String start, String finish) {
+
 		try {
 			int s = toSeconds(start);
 			int f = toSeconds(finish);
 			int d = f - s;
-			if (d < 15*60){
+			if (d < 15 * 60) {
 				return false;
 			}
-			
+
+		} catch (Exception e) {
+			return false;
+		}
+		return true;
 	}
-		catch (Exception e){};	
-return true;
-}}
+}
