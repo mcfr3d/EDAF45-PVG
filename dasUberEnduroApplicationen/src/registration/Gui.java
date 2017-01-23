@@ -14,13 +14,12 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import util.RegistrationWriter;
-
 public class Gui extends JFrame {
 
 	private JTextArea textOutput;
 	private JTextField textEntry;
 	private final String path;
+	private final String font = "Delphine";
 
 	public Gui(String path) {
 		super();
@@ -29,10 +28,9 @@ public class Gui extends JFrame {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.path = path;
 		this.add(makeMainPanel());
-		textOutput.setText(RegistrationWriter.read(path));
 		this.pack();
 		this.setVisible(true);
-		
+
 	}
 
 	private JPanel makeMainPanel() {
@@ -40,7 +38,7 @@ public class Gui extends JFrame {
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
 		textOutput = new JTextArea(10, 30);
-		textOutput.setFont(new Font("Helvetica", Font.PLAIN, 34));
+		textOutput.setFont(new Font(font, Font.PLAIN, 34));
 
 		panel.add(makeEntryPanel());
 		panel.add(textOutput);
@@ -54,11 +52,11 @@ public class Gui extends JFrame {
 		// Components
 		textEntry = new JTextField(10);
 		textEntry.addActionListener(listener);
-		textEntry.setFont(new Font("Helvetica", Font.PLAIN, 34));
+		textEntry.setFont(new Font(font, Font.PLAIN, 34));
 		textEntry.setMaximumSize(new Dimension(600,50));
 		JButton button = new JButton("Registrera");
 		button.addActionListener(listener);
-		button.setFont(new Font("Helvetica", Font.PLAIN, 34));
+		button.setFont(new Font(font, Font.PLAIN, 34));
 
 		panel.add(textEntry);
 		panel.add(button);
@@ -68,14 +66,12 @@ public class Gui extends JFrame {
 
 	private class RegistrationListener implements ActionListener {
 		@Override
-		public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent e) { //TODO: write to file
 			String time = getCurrentTime();
 			String startNumber = textEntry.getText().trim();
 			if (correctInput(startNumber)) {
 				String outputText = startNumber + "; " + time + "\n" + textOutput.getText();
-				RegistrationWriter.rewrite(path, outputText);
 				textOutput.setText(outputText);
-
 				
 			} else {
 				JOptionPane.showMessageDialog(null,
