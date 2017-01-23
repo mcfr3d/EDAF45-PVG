@@ -26,7 +26,7 @@ public class Gui extends JFrame {
 	private JTextArea textOutput;
 	private JTextField textEntry;
 	private final String path;
-	private final String font = "Delphine";
+	private final String font = "Helvetica";
 
 	public Gui(String path) {
 		super();
