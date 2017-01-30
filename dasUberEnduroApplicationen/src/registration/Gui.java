@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,6 +19,7 @@ import java.util.Random;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -26,86 +28,46 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 
-public class Gui extends JFrame {
-	private Random r = new Random();
+import util.IOReader;
+import util.RegistrationWriter;
+import util.ResultWriter;
 
+public class Gui extends JFrame {
+
+	private Random r = new Random();
 	private JTextArea textOutput;
 	private JTextField textEntry;
-	private final String path;
+	private String path;
 	private final String font = "Arial";
 
 	public Gui(String path) {
+
 		super();
+
+		this.path = path;
+		
+		
 		this.setTitle("dasUberEnduroApplicationen");
 		this.setSize(300, 200);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.path = path;
 		this.add(makeMainPanel());
 		this.pack();
+
 		this.setVisible(true);
-
-		this.addWindowListener(new WindowListener() {
-
-			@Override
-			public void windowOpened(WindowEvent e) {
-				// TODO Auto-generated method stub
-
-				randomizeColor();
-			}
-
-			@Override
-			public void windowClosing(WindowEvent e) {
-				// TODO Auto-generated method stub
-
-				randomizeColor();
-			}
-
-			@Override
-			public void windowClosed(WindowEvent e) {
-				// TODO Auto-generated method stub
-
-				randomizeColor();
-			}
-
-			@Override
-			public void windowIconified(WindowEvent e) {
-				// TODO Auto-generated method stub
-
-				randomizeColor();
-			}
-
-			@Override
-			public void windowDeiconified(WindowEvent e) {
-				// TODO Auto-generated method stub
-
-				randomizeColor();
-			}
-
-			@Override
-			public void windowActivated(WindowEvent e) {
-				// TODO Auto-generated method stub
-
-				randomizeColor();
-			}
-
-			@Override
-			public void windowDeactivated(WindowEvent e) {
-				// TODO Auto-generated method stub
-				
-				randomizeColor();
-			}
-
-		});
-		
 	}
 
 	private JPanel makeMainPanel() {
+
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+		String s = RegistrationWriter.read(path);
+		
 		textOutput = new JTextArea(10, 30);
 		textOutput.setFont(new Font(font, Font.PLAIN, 34));
 		textOutput.setEditable(false);
-
+		textOutput.setText(s);
+		
 		panel.add(makeEntryPanel());
 		panel.add(textOutput);
 		JScrollPane scroller = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -124,11 +86,11 @@ public class Gui extends JFrame {
 		textEntry.addActionListener(listener);
 		textEntry.setFont(new Font(font, Font.PLAIN, 34));
 		textEntry.setMaximumSize(new Dimension(600, 50));
-		textEntry.setBackground(Color.GREEN);
+		textEntry.setBackground(Color.WHITE);
 		JButton button = new JButton("Registrera");
 		button.addActionListener(listener);
 		button.setFont(new Font(font, Font.PLAIN, 34));
-		button.setBackground(new Color(153, 102, 204));
+		button.setBackground(new Color(0,255,0));
 		panel.add(textEntry);
 		panel.add(button);
 
@@ -167,7 +129,7 @@ public class Gui extends JFrame {
 				textOutput.setText(outputText);
 				textOutput.setCaretPosition(0);
 
-				randomizeColor();
+				//randomizeColor();
 
 				try {
 
