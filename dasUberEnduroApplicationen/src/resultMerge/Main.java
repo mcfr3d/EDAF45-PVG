@@ -10,13 +10,15 @@ import util.ResultWriter;
 
 public class Main {
 
-	public static void main(String[] args) throws IOException {
-
+	public static void main(String[] args) {
+		
+		try {
+		
 		Getopt g = new Getopt(args, "o:t:n:s:f:m:", true);
 
 		int c;
 		String outputFile = null;
-		String type = null;
+		String type = "maraton";
 		String massStartTime = null;
 		String nameFile = null;
 		List<String> startFiles = new LinkedList<>();
@@ -55,9 +57,9 @@ public class Main {
 			}
 		}
 
-		if (outputFile != null && nameFile != null && type != null) {
+		if (outputFile != null && nameFile != null) {
 
-			Database db = new Database(massStartTime, type.equals("Varvlopp"));
+			Database db = new Database(massStartTime, type.equals("varvlopp"));
 
 			IOReader.readNames(nameFile, db);
 			
@@ -67,6 +69,13 @@ public class Main {
 				IOReader.readFinish(finishFile, db);
 
 			ResultWriter.write(outputFile, db);
+		}else {
+			System.out.println("Otillräcklig indata! Resultatfilens destiantion och namnfilens destination krävs.");
+		}
+		
+		} catch (IOException e) {
+			System.out.println("Någon av filerna du angav gick inte att öppna.");
+			System.err.println(e);
 		}
 
 	}
