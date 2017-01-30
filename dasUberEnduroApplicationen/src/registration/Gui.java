@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -26,13 +28,11 @@ import javax.swing.ScrollPaneConstants;
 
 public class Gui extends JFrame {
 	private Random r = new Random();
-	
-	
+
 	private JTextArea textOutput;
 	private JTextField textEntry;
 	private final String path;
 	private final String font = "Arial";
-	
 
 	public Gui(String path) {
 		super();
@@ -44,6 +44,59 @@ public class Gui extends JFrame {
 		this.pack();
 		this.setVisible(true);
 
+		this.addWindowListener(new WindowListener() {
+
+			@Override
+			public void windowOpened(WindowEvent e) {
+				// TODO Auto-generated method stub
+
+				randomizeColor();
+			}
+
+			@Override
+			public void windowClosing(WindowEvent e) {
+				// TODO Auto-generated method stub
+
+				randomizeColor();
+			}
+
+			@Override
+			public void windowClosed(WindowEvent e) {
+				// TODO Auto-generated method stub
+
+				randomizeColor();
+			}
+
+			@Override
+			public void windowIconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+
+				randomizeColor();
+			}
+
+			@Override
+			public void windowDeiconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+
+				randomizeColor();
+			}
+
+			@Override
+			public void windowActivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+
+				randomizeColor();
+			}
+
+			@Override
+			public void windowDeactivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+				randomizeColor();
+			}
+
+		});
+		
 	}
 
 	private JPanel makeMainPanel() {
@@ -51,12 +104,12 @@ public class Gui extends JFrame {
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		textOutput = new JTextArea(10, 30);
 		textOutput.setFont(new Font(font, Font.PLAIN, 34));
-		
-		
+		textOutput.setEditable(false);
+
 		panel.add(makeEntryPanel());
 		panel.add(textOutput);
-		JScrollPane scroller = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,  
-				   ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		JScrollPane scroller = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scroller.setViewportView(textOutput);
 		panel.add(scroller);
 		return panel;
@@ -82,6 +135,27 @@ public class Gui extends JFrame {
 		return panel;
 	}
 
+	private Color randomColor() {
+
+		int a = r.nextInt(255);
+		int b = r.nextInt(255);
+		int c = r.nextInt(255);
+		return new Color(a, b, c);
+	}
+
+	private Color negativeColor(Color c) {
+
+		return new Color(255 - c.getRed(), 255 - c.getGreen(), 255 - c.getBlue());
+	}
+
+	private void randomizeColor() {
+
+		Color c = randomColor();
+
+		textOutput.setBackground(c);
+		textOutput.setForeground(negativeColor(c));
+	}
+
 	private class RegistrationListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) { // TODO: write to file
@@ -92,14 +166,9 @@ public class Gui extends JFrame {
 				String outputText = startNumber + "; " + time + "\n" + textOutput.getText();
 				textOutput.setText(outputText);
 				textOutput.setCaretPosition(0);
-				
-				int a = r.nextInt(255);
-				int b = r.nextInt(255);
-				int c = r.nextInt(255);
-				Color c1 = new Color(a, b, c);
-				Color c2 = new Color(-1*(a-255),-1*(b-255),-1*(c-255));
-				textOutput.setBackground(c1);
-				textOutput.setForeground(c2);
+
+				randomizeColor();
+
 				try {
 
 					System.out.println("Writing to file now");
