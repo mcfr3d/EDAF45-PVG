@@ -1,30 +1,83 @@
 package resultMerge;
 
+import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
+
+import util.Getopt;
 import util.IOReader;
 import util.ResultWriter;
 
 public class Main {
 
-	public static void run(String dir) {
-
-		String startFilePath = dir + "/starttider.txt";
-		String finishFilePath = dir + "/maltider.txt";
-		String nameFilePath = dir + "/namnfil.txt";
-		String resultFilePath = dir + "/resultat.txt";
-
-		Database db = new Database();
+	public static void main(String[] args) {
+		
 		try {
-			IOReader.readStart(startFilePath, db);
-			IOReader.readFinish(finishFilePath, db);
-			IOReader.readNames(nameFilePath, db);
-		} catch (Exception e) {
-			e.printStackTrace();
+		
+		Getopt g = new Getopt(args, "o:t:n:s:f:m:", true);
+
+		int c;
+		String outputFile = null;
+		String type = "maraton";
+		String massStartTime = null;
+		String nameFile = null;
+		List<String> startFiles = new LinkedList<>();
+		List<String> finishFiles = new LinkedList<>();
+
+		while ((c = g.getOption()) != -1) {
+
+			switch (c) {
+
+			case 'o':
+				outputFile = g.getOptarg();
+				break;
+
+			case 'm':
+				massStartTime = g.getOptarg();
+				break;
+
+			case 's':
+				startFiles.add(g.getOptarg());
+				break;
+
+			case 'f':
+				finishFiles.add(g.getOptarg());
+				break;
+
+			case 't':
+				type = g.getOptarg();
+				break;
+
+			case 'n':
+				nameFile = g.getOptarg();
+				break;
+
+			default:
+				System.out.print("getopt() returned " + c + "\n");
+			}
 		}
 
-		ResultWriter.write(resultFilePath, db);
+		if (outputFile != null && nameFile != null) {
+
+			Database db = new Database(massStartTime, type.equals("varvlopp"));
+
+			IOReader.readNames(nameFile, db);
+			
+			for (String startFile : startFiles)
+				IOReader.readStart(startFile, db);
+			for (String finishFile : finishFiles)
+				IOReader.readFinish(finishFile, db);
+
+			ResultWriter.write(outputFile, db);
+		}else {
+			System.out.println("Otillräcklig indata! Resultatfilens destiantion och namnfilens destination krävs.");
+		}
+		
+		} catch (IOException e) {
+			System.out.println("Någon av filerna du angav gick inte att öppna.");
+			System.err.println(e);
+		}
+
 	}
 
-	public static void main(String[] args) {
-		run("mapp_med_shit");
-	}
 }
