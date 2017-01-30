@@ -15,7 +15,17 @@
   	<h4>Registration</h4>
   	<p>*APPLICATION DESCRIPTION*</p>
   	<h4>Resultcalculator</h4>
-  	<p>*APPLICATION DESCRIPTION*</p>
+	Name: resultMerge
+	arguments:
+		<div>-o: output file path, mandatory</div>
+        <div>-n: name file path, mandatory</div>
+        <div>-f: finish file path, mandatory</div>
+        <div>-s: start file path, mandatory if not massstart</div>
+        <div>-t=maraton: [maraton, varvlopp], mandatory</div>
+        <div>-m: hh.mm.ss, massstart optional</div>
+        
+  	<h4>Exempel</h4>
+  	<div> java -jar resultMerge.jar -o resultat.txt -s starttider.txt -f maltider.txt -n namnfil.txt </div>
 	<h3>How to run</h3>
 	<p>*INSTALLATION DESCRIPTION*</p>
 	<br>

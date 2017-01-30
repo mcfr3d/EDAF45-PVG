@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Getopt {
 
     private String[]    argv;
-    private ArrayList   arglist;
+    private ArrayList<String>   arglist;
     private String      optarg, opts;
     private int         ichr = 0, optind = 0;
     private char        optopt;
@@ -25,7 +25,7 @@ public class Getopt {
     private Getopt(String opts)
     {
         this.opts = opts;
-        arglist = new ArrayList();
+        arglist = new ArrayList<>();
     }
     
     //----------------------------------------------------------------------
