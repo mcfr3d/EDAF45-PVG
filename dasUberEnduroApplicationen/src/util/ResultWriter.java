@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import resultMerge.Database;
+import resultMerge.MultiLapRace;
 import resultMerge.Racer;
 
 public class ResultWriter {
@@ -17,11 +18,29 @@ public class ResultWriter {
 		Map<Integer, Racer> racers = db.getRacers();
 		List<String> raceClasses = db.getRaceClasses();
 		Map<String, List<Racer>> classifiedRacers = new HashMap<String, List<Racer>>();
+		//StartNr; Namn; #Varv; TotalTid; Varv1; Varv2; Varv3; Start; Varvning1; Varvning2; Mål
+		String header = "";
+		if (db.isMultiLapRace()) {
+			int nbrLaps = MultiLapRace.maxLaps;
+			StringBuilder sb = new StringBuilder();
+			sb.append("StartNr; Namn; #Varv; TotalTid; ");
+			for (int i = 1; i <= nbrLaps; i++) {
+				sb.append("Varv" + i + "; ");
+			}
+			sb.append("Start; ");
+			for (int i = 1; i < nbrLaps; i++) {
+				sb.append("Varvning"+ i + "; ");
+			}
+			sb.append("Mål");
+			header = sb.toString();
+		} else {
+			header = "StartNr; Namn; Totaltid; Starttid; Måltid";
+		}
 
 		if (raceClasses.isEmpty()) {
 			try {
 				PrintWriter writer = new PrintWriter(path, "UTF-8");
-				writer.println("StartNr; Namn; Totaltid; Starttid; Måltid");
+				writer.println(header);
 				for (Map.Entry<Integer, Racer> racer : racers.entrySet()) {
 					writer.println(racer.getValue());
 				}
@@ -47,7 +66,7 @@ public class ResultWriter {
 				for (Map.Entry<String, List<Racer>> racerClassList : classifiedRacers.entrySet()) {
 					String racerClass = racerClassList.getKey();
 					writer.println(racerClass);
-					writer.println("StartNr; Namn; Totaltid; Starttid; Måltid");
+					writer.println(header);
 					for (Racer racer : racerClassList.getValue()) {
 						writer.println(racer);
 					}

@@ -91,6 +91,10 @@ public class Database {
 		r.setRacerClass(raceClass);
 	}
 	
+	public boolean isMultiLapRace() {
+		return multiLap;
+	}
+	
 	public List<String> getRaceClasses() {
 		return raceClasses;
 	}
