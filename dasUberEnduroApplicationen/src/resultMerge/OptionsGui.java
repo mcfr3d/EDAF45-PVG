@@ -61,7 +61,7 @@ public class OptionsGui extends JFrame{
 
 		JPanel panel = new JPanel();
 
-		GridLayout layout = new GridLayout(4, 1);
+		GridLayout layout = new GridLayout(3, 1);
 
 		
 		layout.setHgap(8);
@@ -71,22 +71,20 @@ public class OptionsGui extends JFrame{
 
 		panel.add(new JLabel("Välj typ av race"));
 		
-		JButton buttons[] = new JButton[3];
+		JButton buttons[] = new JButton[2];
 
-		for (int i = 0; i < 3; ++i) {
+		for (int i = 0; i < 2; ++i) {
 
 			buttons[i] = new JButton("Button " + (i + 1));
 
 			panel.add(buttons[i]);
 		}
 
-		buttons[0].setText("Normalt race");
-		buttons[1].setText("Maraton race");
-		buttons[2].setText("Mass start");
+		buttons[0].setText("Maraton");
+		buttons[1].setText("Varvlopp");
 
 		buttons[0].addActionListener(new RaceListener(0));
 		buttons[1].addActionListener(new RaceListener(1));
-		buttons[2].addActionListener(new RaceListener(2));
 
 		panel.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(8.0f)));
 
