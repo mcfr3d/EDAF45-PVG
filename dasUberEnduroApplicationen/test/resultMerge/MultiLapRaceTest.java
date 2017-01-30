@@ -25,9 +25,9 @@ public class MultiLapRaceTest {
 	@Test
 	public void testTwoLap() {
 		temp.addStart("00.00.00");
-		temp.addFinish("01.00.00");
-		temp.addFinish("02.00.00");
-		assertEquals("2; 02.00.00; 01.00.00; 01.00.00; 00.00.00; 01.00.00; 02.00.00", temp.genResult());
+		temp.addFinish("01.00.01");
+		temp.addFinish("02.00.03");
+		assertEquals("2; 02.00.03; 01.00.01; 01.00.02; 00.00.00; 01.00.01; 02.00.03", temp.genResult());
 	}
 	@Test
 	public void testTwoDrivers() {
