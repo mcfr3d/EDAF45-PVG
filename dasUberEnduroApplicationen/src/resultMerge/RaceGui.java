@@ -101,8 +101,42 @@ public class RaceGui extends JPanel{
 	
 
 	final JFileChooser fc = new JFileChooser("/h/d5/n/dat15jca/workspace/pvgvt17-team06-production/dasUberEnduroApplicationen/mapp_med_shit");
-	private Database db = new Database();
+	protected Database db = new Database();
 	private JFrame frame;
+	
+	protected void addNameFileButton() {
+		
+		JButton button = new JButton("Läs namnfil");
+		
+
+		button.addActionListener(new NameFileButtonListener());
+		
+		this.add(button);
+	}	
+	protected void addStartFileButton() {
+
+		JButton button = new JButton("Läs startfil");
+
+		button.addActionListener(new StartFileButtonListener());
+		
+		this.add(button);
+	}
+	protected void addFinishFileButton() {
+
+		JButton button = new JButton("Läs målfil");
+
+		button.addActionListener(new FinishFileButtonListener());
+		
+		this.add(button);
+	}
+	protected void addExportButton() {
+
+		JButton button = new JButton("Exportera resultat");
+
+		button.addActionListener(new ExportButtonListener());
+		
+		this.add(button);
+	}
 	
 	RaceGui(JFrame frame,String type) {
 						
@@ -116,25 +150,6 @@ public class RaceGui extends JPanel{
 		this.setLayout(layout);
 
 		this.add(new JLabel(type));
-		
-		JButton buttons[] = new JButton[4];
-
-		for (int i = 0; i < 4; ++i) {
-
-			buttons[i] = new JButton("Button " + (i + 1));
-
-			this.add(buttons[i]);
-		}
-
-		buttons[0].setText("Läs namnfil");
-		buttons[1].setText("Läs startfil");
-		buttons[2].setText("Läs målgångsfil");
-		buttons[3].setText("Exportera resultat");
-
-		buttons[0].addActionListener(new NameFileButtonListener());
-		buttons[1].addActionListener(new StartFileButtonListener());
-		buttons[2].addActionListener(new FinishFileButtonListener());
-		buttons[3].addActionListener(new ExportButtonListener());
 		
 	}
 	

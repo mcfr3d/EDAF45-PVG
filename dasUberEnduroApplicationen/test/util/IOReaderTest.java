@@ -14,7 +14,7 @@ import resultMerge.Database;
 import resultMerge.Racer;
 
 public class IOReaderTest {
-	String path = "test/util/";
+	String path = "dasUberEnduroApplicationen/mapp_med_shit/";
 
 	@Before
 	public void init() {
@@ -55,7 +55,7 @@ public class IOReaderTest {
 			assertEquals(s[1], names[i-1]);
 			assertEquals(s[3], start[i-1]);
 			assertEquals(s[4], finish[i-1]);
-			assertEquals(r.getRaceClass(), classes[i-1]);
+			assertEquals(r.getRacerClass(), classes[i-1]);
 		}
 	}
 	

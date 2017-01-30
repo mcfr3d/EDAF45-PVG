@@ -6,9 +6,10 @@ import org.junit.Test;
 
 public class RaceTest {
 
+	/*
 	@Test
 	public void test() {
 		fail("Not yet implemented");
 	}
-
+	 */
 }

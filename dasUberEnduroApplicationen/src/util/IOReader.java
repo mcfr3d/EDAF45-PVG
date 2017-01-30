@@ -44,13 +44,13 @@ public class IOReader {
 	public static void readNames(String namePath, Database db) throws FileNotFoundException, IOException {
 		List<String> nameList = read(namePath);
 		
-		String currentClass = "Default";
+		String currentClass = "DEFAULT";
 		for(int i = 1; i < nameList.size(); i++) {
 			String s = nameList.get(i);
 			if (Character.isDigit(s.charAt(0))) {
 				int firstDelimiter = s.indexOf(";");
 				db.setName(Integer.parseInt(s.substring(0, firstDelimiter)), s.substring(firstDelimiter + 2));
-				db.setClass(Integer.parseInt(s.substring(0, firstDelimiter)), currentClass);
+				db.setRacerClass(Integer.parseInt(s.substring(0, firstDelimiter)), currentClass);
 			} else {
 				currentClass = s;
 			}

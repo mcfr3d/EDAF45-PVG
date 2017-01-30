@@ -6,7 +6,12 @@ public class NormalRaceGui extends RaceGui {
 
 	NormalRaceGui(JFrame frame) {
 		super(frame, "Normal race");
-		// TODO Auto-generated constructor stub
+		
+		this.addNameFileButton();
+		this.addStartFileButton();
+		this.addFinishFileButton();
+		this.addExportButton();
+		
 	}
 
 }

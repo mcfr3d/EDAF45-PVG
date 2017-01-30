@@ -44,11 +44,22 @@ public class DatabaseTest {
 	}
 	
 	@Test
+	public void testRacerClass(){
+		Database db = new Database();
+		db.setRacerClass(1, "SENIOR");
+		db.setRacerClass(2,"JUNIOR");
+		assertTrue(db.size() == 2);
+	}
+	
+	
+	@Test
 	public void testMultipleRacers(){
 		Database db = new Database();
 		db.addStart(1,"00.00.00");
 		db.addFinish(2,"00.00.01");
 		assertTrue(db.size() == 2);
 	}
+	
+	
 	
 }
