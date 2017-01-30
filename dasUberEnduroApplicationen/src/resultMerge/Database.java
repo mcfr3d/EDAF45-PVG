@@ -7,11 +7,22 @@ import java.util.List;
 public class Database {
 	private HashMap<Integer, Racer> racers;
 	private List<String> raceClasses;
+	private boolean multiLap;
 	private boolean massStart = false;
 	private String massStartTime;
 
-
+	//kept so previous tests works. tests should be refactored.
+	// creates a db for OneLapRace without massStart.
 	public Database() {
+		this(null, false);
+	}
+	
+	public Database(String massStartTime, boolean multiLap) {
+		if(massStartTime != null) {
+			this.massStart = true;
+			this.massStartTime = massStartTime;
+		}
+		this.multiLap = multiLap;
 		racers = new HashMap<>();
 		raceClasses = new ArrayList<String>();
 	}
@@ -19,16 +30,23 @@ public class Database {
 	// TODO: check that format of time is ok.
 	public boolean setMassStart(String time) {
 
-		boolean correctFormat = true;
-
+		boolean correctFormat = false;
+		try {
+			TotalTimeCalculator.timeFormater(time);
+			correctFormat = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
 		if (correctFormat) {
-
 			massStart = true;
 			massStartTime = time;
 			for (Racer r : racers.values()) {
 				r.addStart(time);
 			}
 		}
+		
 		return correctFormat;
 	}
 
@@ -37,7 +55,7 @@ public class Database {
 		if (racers.containsKey(driver))
 			return racers.get(driver);
 
-		Racer r = new Racer(driver);
+		Racer r = new Racer(driver, multiLap);
 		racers.put(driver, r);
 
 		return r;
