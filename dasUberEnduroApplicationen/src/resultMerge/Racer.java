@@ -1,7 +1,7 @@
 package resultMerge;
 
 import java.util.LinkedList;
-
+//TODO:Fix proper error generation for easier tests.
 public class Racer {
 
 	private LinkedList<String> startTimes, finishTimes;
@@ -35,6 +35,7 @@ public class Racer {
 		String delta = TotalTimeCalculator.computeDifference(start, finish);
 		String moreStartTimes = "";
 		String moreFinishTimes = "";
+		String impossibleTime = "";
 		if (startTimes.size() > 1) {
 			moreStartTimes = multipleStartTimes();
 		}
@@ -42,8 +43,12 @@ public class Racer {
 			moreFinishTimes = multipleFinishTimes();
 		}
 
+		if (!TotalTimeCalculator.possibleTotalTime(start, finish)) {
+			impossibleTime = "; Omöjlig Totaltid?";
+		}
+
 		return "" + startNumber + "; " + name + "; " + delta + "; " + start + "; " + finish + moreStartTimes
-				+ moreFinishTimes;
+				+ moreFinishTimes + impossibleTime;
 	}
 
 	private String multipleFinishTimes() {
@@ -56,15 +61,16 @@ public class Racer {
 		return sb.toString();
 	}
 
-	private String multipleStartTimes(){
+	private String multipleStartTimes() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("; Flera starttider? ");
-		for (int i = 1; i < startTimes.size(); i++){
+		for (int i = 1; i < startTimes.size(); i++) {
 			sb.append(startTimes.get(i) + " ");
 		}
 		sb.deleteCharAt(sb.length() - 1);
 		return sb.toString();
 	}
+
 	public String getErrors() {
 
 		StringBuilder sb = new StringBuilder();
@@ -72,5 +78,12 @@ public class Racer {
 		// append if 0 starts, 0 finish, >1 start, >1 finish
 		return sb.toString();
 	}
-
+	
+	public String getFirstStartTime() {
+		return startTimes.getFirst();
+	}
+	
+	public String getFirstFinishTime() {
+		return finishTimes.getFirst();
+	}
 }
