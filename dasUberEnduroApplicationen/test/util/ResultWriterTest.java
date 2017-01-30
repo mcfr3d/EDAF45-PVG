@@ -20,15 +20,15 @@ public class ResultWriterTest {
 		
 		String path = "output.txt";
 		db.setName(7,"Emil");
-		db.addStart(7,"00.01.00");
-		db.addFinish(7,"00.01.01");
+		db.addStart(7,"00.00.00");
+		db.addFinish(7,"01.00.00");
 
 		ResultWriter.write(path, db);
 		
 		List<String> ls = Files.readAllLines(Paths.get(path));
 		assertEquals(ls.size(),2);
 		assertEquals(ls.get(0), "StartNr; Namn; Totaltid; Starttid; Måltid");
-		assertEquals(ls.get(1), "7; Emil; 00.00.01; 00.01.00; 00.01.01");
+		assertEquals(ls.get(1), "7; Emil; 01.00.00; 00.00.00; 01.00.00");
 	}
 	@Test
 	public void testDatabaseMultipleEntry() throws IOException {
@@ -38,20 +38,20 @@ public class ResultWriterTest {
 		String path = "output.txt";
 		
 		db.setName(7,"Emil");
-		db.addStart(7,"00.01.00");
-		db.addFinish(7,"00.01.01");
+		db.addStart(7,"00.00.00");
+		db.addFinish(7,"01.00.00");
 
 		db.setName(9,"Jacob");
-		db.addStart(9,"00.20.00");
-		db.addFinish(9,"00.20.08");
+		db.addStart(9,"02.00.00");
+		db.addFinish(9,"04.00.00");
 		
 		ResultWriter.write(path, db);
 		
 		List<String> ls = Files.readAllLines(Paths.get(path));
 		assertEquals(ls.size(),3);
 		assertEquals(ls.get(0), "StartNr; Namn; Totaltid; Starttid; Måltid");
-		assertEquals(ls.get(1), "7; Emil; 00.00.01; 00.01.00; 00.01.01");
-		assertEquals(ls.get(2), "9; Jacob; 00.00.08; 00.20.00; 00.20.08");
+		assertEquals(ls.get(1), "7; Emil; 01.00.00; 00.00.00; 01.00.00");
+		assertEquals(ls.get(2), "9; Jacob; 02.00.00; 02.00.00; 04.00.00");
 	}
 	@Test
 	public void testDatabaseFaultyEntries() throws IOException {
@@ -59,23 +59,23 @@ public class ResultWriterTest {
 		Database db = new Database();
 		
 		String path = "output.txt";
-		
+
 		db.setName(7,"Emil");
-		db.addStart(7,"00.01.00");
-		db.addFinish(7,"00.01.01");
+		db.addStart(7,"00.00.00");
+		db.addFinish(7,"01.00.00");
 
 		db.setName(9,"Jacob");
-		db.addStart(9,"00.20.00");
-		db.addStart(9,"00.20.07");
-		db.addFinish(9,"00.20.08");
+		db.addStart(9,"02.00.00");
+		db.addFinish(9,"04.00.00");
+		db.addFinish(9,"05.00.00");
 		
 		ResultWriter.write(path, db);
 		
 		List<String> ls = Files.readAllLines(Paths.get(path));
 		assertEquals(ls.size(),3);
 		assertEquals(ls.get(0), "StartNr; Namn; Totaltid; Starttid; Måltid");
-		assertEquals(ls.get(1), "7; Emil; 00.00.01; 00.01.00; 00.01.01");
-		assertEquals(ls.get(2), "9; Jacob; 00.00.08; 00.20.00; 00.20.08; Flera starttider? 00.20.07");
+		assertEquals(ls.get(1), "7; Emil; 01.00.00; 00.00.00; 01.00.00");
+		assertEquals(ls.get(2), "9; Jacob; 02.00.00; 02.00.00; 04.00.00; Flera måltider? 05.00.00");
 	}
 
 }
