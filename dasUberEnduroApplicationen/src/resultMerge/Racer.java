@@ -3,6 +3,7 @@ package resultMerge;
 public class Racer {
 
 	private String name;
+	private String racerClass;
 	private int startNumber;
 	
 	private RaceType rt = new OneLapRace();
@@ -21,6 +22,16 @@ public class Racer {
 
 	public void addFinish(String finishTime) {
 		rt.addFinish(finishTime);
+	}
+	
+	//DUMMY
+	public void setRacerClass(String raceClass) {
+		this.racerClass = raceClass;
+	}
+	
+	//DUMMY
+	public String getRacerClass() {
+		return racerClass;
 	}
 
 	public String toString() {

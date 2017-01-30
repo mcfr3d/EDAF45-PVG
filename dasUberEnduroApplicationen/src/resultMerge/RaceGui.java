@@ -1,36 +1,29 @@
 package resultMerge;
 
 import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.border.Border;
 
 import util.IOReader;
 import util.ResultWriter;
 
-public class Gui extends JFrame {
+public class RaceGui extends JPanel{
 
-	final JFileChooser fc = new JFileChooser("./mapp_med_shit");
-	private Database db = new Database();
 	
 	private class NameFileButtonListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent eee) {
 						
-			int returnVal = fc.showOpenDialog(Gui.this);
+			int returnVal = fc.showOpenDialog(frame);
 
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				
@@ -51,7 +44,7 @@ public class Gui extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent eee) {
 						
-			int returnVal = fc.showOpenDialog(Gui.this);
+			int returnVal = fc.showOpenDialog(frame);
 			
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				
@@ -72,7 +65,7 @@ public class Gui extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent eee) {
 						
-			int returnVal = fc.showOpenDialog(Gui.this);
+			int returnVal = fc.showOpenDialog(frame);
 			
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				
@@ -93,7 +86,7 @@ public class Gui extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent eee) {
 					
-			int userSelection = fc.showSaveDialog(Gui.this);
+			int userSelection = fc.showSaveDialog(frame);
 			 
 			if (userSelection == JFileChooser.APPROVE_OPTION) {
 			    File fileToSave = fc.getSelectedFile();
@@ -106,61 +99,59 @@ public class Gui extends JFrame {
 		}
 	}
 	
+
+	final JFileChooser fc = new JFileChooser("/h/d5/n/dat15jca/workspace/pvgvt17-team06-production/dasUberEnduroApplicationen/mapp_med_shit");
+	protected Database db = new Database();
+	private JFrame frame;
 	
+	protected void addNameFileButton() {
+		
+		JButton button = new JButton("Läs namnfil");
+		
+
+		button.addActionListener(new NameFileButtonListener());
+		
+		this.add(button);
+	}	
+	protected void addStartFileButton() {
+
+		JButton button = new JButton("Läs startfil");
+
+		button.addActionListener(new StartFileButtonListener());
+		
+		this.add(button);
+	}
+	protected void addFinishFileButton() {
+
+		JButton button = new JButton("Läs målfil");
+
+		button.addActionListener(new FinishFileButtonListener());
+		
+		this.add(button);
+	}
+	protected void addExportButton() {
+
+		JButton button = new JButton("Exportera resultat");
+
+		button.addActionListener(new ExportButtonListener());
+		
+		this.add(button);
+	}
 	
-
-	private JPanel makeButtonPanel() {
-
-		JPanel panel = new JPanel();
-
+	RaceGui(JFrame frame,String type) {
+						
+		this.frame = frame;
+		
 		GridLayout layout = new GridLayout(5, 1);
 
 		layout.setHgap(8);
 		layout.setVgap(8);
 
-		panel.setLayout(layout);
+		this.setLayout(layout);
 
-		JButton buttons[] = new JButton[5];
-
-		for (int i = 0; i < 5; ++i) {
-
-			buttons[i] = new JButton("Button " + (i + 1));
-
-			panel.add(buttons[i]);
-		}
-
-		buttons[0].setText("Läs namnfil");
-		buttons[1].setText("Mass start");
-		buttons[2].setText("Läs startfil");
-		buttons[3].setText("Läs målgångsfil");
-		buttons[4].setText("Exportera resultat");
-
-		buttons[0].addActionListener(new NameFileButtonListener());
+		this.add(new JLabel(type));
 		
-		buttons[2].addActionListener(new StartFileButtonListener());
-		buttons[3].addActionListener(new FinishFileButtonListener());
-		buttons[4].addActionListener(new ExportButtonListener());
-		
-		
-		panel.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(8.0f)));
-
-		return panel;
 	}
-
-	public Gui() {
-
-		super();
-		this.setTitle("Sortering");
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.add(makeButtonPanel());
-		this.pack();
-		this.setVisible(true);
-
-	}
-
-	public static void main(String[] args) {
-
-		new Gui();
-	}
-
+	
+	
 }

@@ -42,12 +42,18 @@ public class IOReader {
 	}
 
 	public static void readNames(String namePath, Database db) throws FileNotFoundException, IOException {
-		List<String> names = read(namePath);
-
-		for(int i = 1; i < names.size(); i++) {
-			String s = names.get(i);
-			int firstDelimiter = s.indexOf(";");
-			db.setName(Integer.parseInt(s.substring(0, firstDelimiter)), s.substring(firstDelimiter + 2));
+		List<String> nameList = read(namePath);
+		
+		String currentClass = "DEFAULT";
+		for(int i = 1; i < nameList.size(); i++) {
+			String s = nameList.get(i);
+			if (Character.isDigit(s.charAt(0))) {
+				int firstDelimiter = s.indexOf(";");
+				db.setName(Integer.parseInt(s.substring(0, firstDelimiter)), s.substring(firstDelimiter + 2));
+				db.setRacerClass(Integer.parseInt(s.substring(0, firstDelimiter)), currentClass);
+			} else {
+				currentClass = s;
+			}
 		}
 	}
 }
