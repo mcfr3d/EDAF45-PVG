@@ -45,7 +45,7 @@ public class Database {
 		if (racers.containsKey(driver))
 			return racers.get(driver);
 
-		Racer r = new Racer(driver);
+		Racer r = new Racer(driver, multiLap);
 		racers.put(driver, r);
 
 		return r;
