@@ -73,7 +73,7 @@ public class Main {
 			System.out.println("Otillräcklig indata! Resultatfilens destiantion och namnfilens destination krävs.");
 		}
 		
-		} catch (IOException e) {
+		} catch (Exception e) {
 			System.out.println("Någon av filerna du angav gick inte att öppna.");
 			System.err.println(e);
 		}

@@ -41,19 +41,47 @@ public class IOReader {
 		}
 	}
 
-	public static void readNames(String namePath, Database db) throws FileNotFoundException, IOException {
-		List<String> nameList = read(namePath);
-		
+	public static void readNames(String path, Database db) throws Exception {
+
+		ArrayList<String> lines = new ArrayList<String>(read(path));
+
 		String currentClass = "DEFAULT";
-		for(int i = 1; i < nameList.size(); i++) {
-			String s = nameList.get(i);
-			if (Character.isDigit(s.charAt(0))) {
-				int firstDelimiter = s.indexOf(";");
-				db.setName(Integer.parseInt(s.substring(0, firstDelimiter)), s.substring(firstDelimiter + 2));
-				db.setRacerClass(Integer.parseInt(s.substring(0, firstDelimiter)), currentClass);
+
+		String[] columnHeaders = lines.get(0).split("\\;\\ ");
+
+		if (columnHeaders.length < 2)
+			throw new Exception("Syntax error");
+
+		db.setColumnHeaders(columnHeaders);
+		
+		for (int i = 1; i < lines.size(); i++) {
+			
+			String[] words = lines.get(i).split("\\;\\ ");
+
+			if (words.length == 1) {
+
+				currentClass = words[0];
+
 			} else {
-				currentClass = s;
+
+				if (words.length != columnHeaders.length)
+					throw new Exception("Syntax error");
+
+				int racerIndex = Integer.parseInt(words[0]);
+				String racerName = words[1];
+
+				db.setName(racerIndex, racerName);
+				db.setRacerClass(racerIndex, currentClass);
+
+				for (int j = 2; j < columnHeaders.length; ++j) {
+					
+					db.addOptionalData(racerIndex,words[j]);
+				}
 			}
+
 		}
+
 	}
+
+
 }

@@ -27,6 +27,29 @@ public class ResultWriterTest {
 	}
 	
 	@Test
+	public void testMultiLapRace() throws IOException {
+		db = new Database(null, true);
+		db.setName(7,"Emil");
+		db.addStart(7,"00.00.00");
+		db.addFinish(7,"01.00.00");
+		
+		db.setName(9,"Jacob");
+		db.addStart(9,"02.00.00");
+		db.addFinish(9,"04.00.00");
+		db.addFinish(9,"05.00.00");
+		db.addFinish(9,"06.00.00");
+
+		ResultWriter.write(path, db);
+		
+		List<String> ls = Files.readAllLines(Paths.get(path));
+		assertEquals(3, ls.size());
+		assertEquals("StartNr; Namn; #Varv; TotalTid; Varv1; Varv2; Varv3; Start; Varvning1; Varvning2; Mål", ls.get(0));
+		assertEquals("7; Emil; 1; 01.00.00; 01.00.00; ; ; 00.00.00; 01.00.00; ; ", ls.get(1));
+		assertEquals("9; Jacob; 3; 04.00.00; 02.00.00; 01.00.00; 01.00.00; 02.00.00; 04.00.00; 05.00.00; 06.00.00", ls.get(2));
+		
+	}
+	
+	@Test
 	public void testNoRaceClasses() throws IOException {
 		db = new Database();
 		db.setName(7,"Emil");
