@@ -7,7 +7,7 @@ public class TotalTimeCalculator {
 		String[] s = time.split("\\.");
 
 		if (s.length != 3)
-			throw new Exception("Syntax error !");
+			throw new Exception("Syntax error!");
 
 		int t = 0;
 
@@ -27,19 +27,30 @@ public class TotalTimeCalculator {
 			int diffSeconds = finishSeconds - startSeconds;
 
 			if (diffSeconds < 0)
-				throw new Exception("Negative !");
+				throw new Exception("Negative!");
 
-			int seconds = diffSeconds % 60;
-			int minutes = (diffSeconds / 60) % 60;
-			int hours = (diffSeconds / (60 * 60)) % 60;
-
-			return String.format("%02d.%02d.%02d", hours, minutes, seconds);
+			int[] time = secondsToTime(diffSeconds);
+			return String.format("%02d.%02d.%02d", time[0], time[1], time[2]);
 
 		} catch (Exception e) {
 
 			return "--.--.--";
 		}
 
+	}
+
+	private static int[] secondsToTime(int seconds) {
+		int[] time = new int[3];
+		time[2] = seconds % 60;
+		time[1] = (seconds / 60) % 60;
+		time[0] = (seconds / (60 * 60)) % 60;
+		return time;
+	}
+
+	public static String timeFormater(String input) throws Exception {
+		int tempSeconds = toSeconds(input);
+		int[] time = secondsToTime(tempSeconds);
+		return String.format("%02d.%02d.%02d", time[0], time[1], time [2]);
 	}
 
 	public static boolean possibleTotalTime(String start, String finish) {
