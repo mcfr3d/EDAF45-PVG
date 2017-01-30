@@ -27,7 +27,7 @@ public class ListItem extends JPanel {
 		this.setLayout(new BoxLayout(this,BoxLayout.X_AXIS));
 		JLabel timeLabel = new JLabel("Tid: " + time);
 		timeLabel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-		timeLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+		timeLabel.setFont(new Font("Arial", Font.PLAIN, 34));
 		
 		JButton editButton = new JButton("Edit");
 		editButton.addActionListener(new EditButtonListener());

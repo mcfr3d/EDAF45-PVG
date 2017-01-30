@@ -1,13 +1,12 @@
 package registration;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,12 +14,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalTime;
+import java.util.HashMap;
+import java.util.Optional;
 import java.util.Random;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -28,52 +29,60 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 
-import util.IOReader;
 import util.RegistrationWriter;
-import util.ResultWriter;
 
-public class Gui extends JFrame {
-
+public class Gui extends JFrame implements Subscriber{
 	private Random r = new Random();
+	
+	
 	private JTextArea textOutput;
 	private JTextField textEntry;
-	private String path;
+	private final String path;
 	private final String font = "Arial";
+	private JPanel faultyRegistrationPanel;
+	private HashMap<ListItem, String> map = new HashMap<>();
+	
+	
 
 	public Gui(String path) {
-
 		super();
-
-		this.path = path;
-		
-		
 		this.setTitle("dasUberEnduroApplicationen");
 		this.setSize(300, 200);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.path = path;
 		this.add(makeMainPanel());
 		this.pack();
-
 		this.setVisible(true);
+
 	}
 
 	private JPanel makeMainPanel() {
-
 		JPanel panel = new JPanel();
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-		String s = RegistrationWriter.read(path);
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		panel.add(makeEntryPanel());
+		JScrollPane scroller = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,  
+				   ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		
-		textOutput = new JTextArea(10, 30);
+		scroller.setViewportView(makeOutputPanel());
+		panel.add(scroller);
+		return panel;
+	}
+	
+	private JPanel makeOutputPanel() {
+		JPanel panel = new JPanel();
+		panel.setLayout(new GridLayout(1,2));
+		String s = RegistrationWriter.read(path);
+		textOutput = new JTextArea(10, 10);
 		textOutput.setFont(new Font(font, Font.PLAIN, 34));
 		textOutput.setEditable(false);
 		textOutput.setText(s);
-		
-		panel.add(makeEntryPanel());
 		panel.add(textOutput);
-		JScrollPane scroller = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
-				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scroller.setViewportView(textOutput);
-		panel.add(scroller);
+		faultyRegistrationPanel = new JPanel();
+		faultyRegistrationPanel.setLayout(new BoxLayout(faultyRegistrationPanel, BoxLayout.Y_AXIS));
+		faultyRegistrationPanel.setBackground(Color.BLUE);
+		panel.add(faultyRegistrationPanel);
+
 		return panel;
 	}
 
@@ -86,67 +95,33 @@ public class Gui extends JFrame {
 		textEntry.addActionListener(listener);
 		textEntry.setFont(new Font(font, Font.PLAIN, 34));
 		textEntry.setMaximumSize(new Dimension(600, 50));
-		textEntry.setBackground(Color.WHITE);
+		textEntry.setBackground(Color.GREEN);
 		JButton button = new JButton("Registrera");
 		button.addActionListener(listener);
 		button.setFont(new Font(font, Font.PLAIN, 34));
-		button.setBackground(new Color(0,255,0));
+		button.setBackground(new Color(153, 102, 204));
 		panel.add(textEntry);
 		panel.add(button);
 
 		return panel;
 	}
 
-	private Color randomColor() {
-
-		int a = r.nextInt(255);
-		int b = r.nextInt(255);
-		int c = r.nextInt(255);
-		return new Color(a, b, c);
-	}
-
-	private Color negativeColor(Color c) {
-
-		return new Color(255 - c.getRed(), 255 - c.getGreen(), 255 - c.getBlue());
-	}
-
-	private void randomizeColor() {
-
-		Color c = randomColor();
-
-		textOutput.setBackground(c);
-		textOutput.setForeground(negativeColor(c));
-	}
-
+	
+	
+	
 	private class RegistrationListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) { // TODO: write to file
 			String time = getCurrentTime();
 			String startNumber = textEntry.getText().trim();
 			if (correctInput(startNumber)) {
-				System.out.println("startnumber is ok will update file");
-				String outputText = startNumber + "; " + time + "\n" + textOutput.getText();
-				textOutput.setText(outputText);
-				textOutput.setCaretPosition(0);
+				writeToFile(time, startNumber);
 
-				//randomizeColor();
-
-				try {
-
-					System.out.println("Writing to file now");
-
-					Files.write(Paths.get(path), textOutput.getText().getBytes());
-
-					System.out.println("Finished writing to file now");
-
-				} catch (FileNotFoundException e1) {
-					System.out.println("Could not find file");
-					e1.printStackTrace();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-
+			} else if (startNumber.length() == 0) { 
+				ListItem li = new ListItem(time, map, Gui.this);
+				map.put(li, time);
+				faultyRegistrationPanel.add(li);
+				faultyRegistrationPanel.revalidate();
 			} else {
 				JOptionPane.showMessageDialog(null, "Felaktig input. Använd endast siffror.", "Felmeddelande",
 						JOptionPane.ERROR_MESSAGE);
@@ -158,7 +133,7 @@ public class Gui extends JFrame {
 			for (char c : input.toCharArray()) {
 				if (!Character.isDigit(c)) {
 					return false;
-				}
+				} 
 			}
 			return input.length() != 0;
 		}
@@ -169,6 +144,64 @@ public class Gui extends JFrame {
 			String minute = String.format("%02d", currentTime.getMinute());
 			String second = String.format("%02d", currentTime.getSecond());
 			return hour + "." + minute + "." + second;
+		}
+	}
+
+
+
+
+	@Override
+	public void update() {
+		if(!checkIfRemoved()) {
+			checkEdit();
+		}
+		faultyRegistrationPanel.repaint();
+		faultyRegistrationPanel.revalidate();
+	}
+
+	private void checkEdit() {
+		for(ListItem item: map.keySet()){
+			if(map.get(item).contains(";")){
+				String[] temp = map.get(item).split(";");
+				writeToFile(temp[1].trim(),temp[0].trim());
+				faultyRegistrationPanel.remove(item);
+				map.remove(item);
+				break;
+			}
+		}
+		
+	}
+
+	private boolean checkIfRemoved() {
+		for(Component c : faultyRegistrationPanel.getComponents()) {
+			if(!map.containsKey(c)) {
+				faultyRegistrationPanel.remove(c);
+				return true;
+			}
+		}
+		return false;
+	}
+	
+
+	private void writeToFile(String time, String startNumber) {
+		System.out.println("startnumber is ok will update file");
+		String outputText = startNumber + "; " + time + "\n" + textOutput.getText();
+		textOutput.setText(outputText);
+		textOutput.setCaretPosition(0);
+		try {
+
+			System.out.println("Writing to file now");
+
+			Files.write(Paths.get(path), textOutput.getText().getBytes());
+
+			System.out.println("Finished writing to file now");
+
+		} catch (FileNotFoundException e1) {
+			System.out.println("Could not find file");
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 	}
 }
