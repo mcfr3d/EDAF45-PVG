@@ -44,7 +44,7 @@ public class ResultWriterTest {
 		List<String> ls = Files.readAllLines(Paths.get(path));
 		assertEquals(3, ls.size());
 		assertEquals("StartNr; Namn; #Varv; TotalTid; Varv1; Varv2; Varv3; Start; Varvning1; Varvning2; Mål", ls.get(0));
-		assertEquals("7; Emil; 1; 01.00.00; 01.00.00; ; ; 00.00.00; 01.00.00; ; ", ls.get(1));
+		assertEquals("7; Emil; 1; 01.00.00; 01.00.00; ; ; 00.00.00; 01.00.00; ;", ls.get(1));
 		assertEquals("9; Jacob; 3; 04.00.00; 02.00.00; 01.00.00; 01.00.00; 02.00.00; 04.00.00; 05.00.00; 06.00.00", ls.get(2));
 		
 	}
