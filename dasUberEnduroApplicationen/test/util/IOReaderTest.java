@@ -3,7 +3,6 @@ package util;
 import static org.junit.Assert.*;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -11,7 +10,6 @@ import java.util.HashMap;
 import org.junit.Before;
 import org.junit.Test;
 
-import javafx.scene.shape.Path;
 import resultMerge.Database;
 import resultMerge.Racer;
 
