@@ -44,7 +44,7 @@ public class IOReader {
 	public static void readNames(String namePath, Database db) throws FileNotFoundException, IOException {
 		List<String> nameList = read(namePath);
 		
-		String currentClass = "Default";
+		String currentClass = "DEFAULT";
 		for(int i = 1; i < nameList.size(); i++) {
 			String s = nameList.get(i);
 			if (Character.isDigit(s.charAt(0))) {
