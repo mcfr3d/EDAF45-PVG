@@ -5,10 +5,22 @@ import java.util.HashMap;
 public class Database {
 	private HashMap<Integer, Racer> racers;
 
+	private boolean multiLap;
 	private boolean massStart = false;
 	private String massStartTime;
 
+	//kept so previous tests works. tests should be refactored.
+	// creates a db for OneLapRace without massStart.
 	public Database() {
+		this(null, false);
+	}
+	
+	public Database(String massStartTime, boolean multiLap) {
+		if(massStartTime != null) {
+			this.massStart = true;
+			this.massStartTime = massStartTime;
+		}
+		this.multiLap = multiLap;
 		racers = new HashMap<>();
 	}
 

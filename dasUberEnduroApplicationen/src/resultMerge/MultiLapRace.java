@@ -5,7 +5,7 @@ import java.util.TreeSet;
 
 public class MultiLapRace implements RaceType {
 	public static int maxLaps = 0;
-	public static String raceTime = "";
+	//public static String raceTime = ""; should be used for errorhandling.
 	private LinkedList<String> startTimes = new LinkedList<>();
 	private TreeSet<String> finishTimes = new TreeSet<>();
 	private String start = "";
