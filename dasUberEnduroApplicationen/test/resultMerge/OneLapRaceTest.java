@@ -1,4 +1,4 @@
-package registration;
+package resultMerge;
 
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -6,7 +6,7 @@ import org.junit.*;
 
 import resultMerge.Racer;
 
-public class RacerTest {
+public class OneLapRaceTest {
 	Racer temp;
 	
 	@Before
