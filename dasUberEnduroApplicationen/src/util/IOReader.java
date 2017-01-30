@@ -43,9 +43,9 @@ public class IOReader {
 
 	public static void readNames(String namePath, Database db) throws FileNotFoundException, IOException {
 		List<String> nameList = read(namePath);
-		
+
 		String currentClass = "DEFAULT";
-		for(int i = 1; i < nameList.size(); i++) {
+		for (int i = 1; i < nameList.size(); i++) {
 			String s = nameList.get(i);
 			if (Character.isDigit(s.charAt(0))) {
 				int firstDelimiter = s.indexOf(";");
@@ -56,4 +56,56 @@ public class IOReader {
 			}
 		}
 	}
+
+	public static void readPersonalInfo(String path, Database db) throws Exception {
+
+		ArrayList<String> lines = new ArrayList<String>(read(path));
+
+		String currentClass = "DEFAULT";
+
+		String[] columnHeaders = lines.get(0).split("\\;");
+
+		if (columnHeaders.length < 2)
+			throw new Exception("Syntax error");
+
+		//db.setColumnHeaders(columnHeaders);
+		
+		for (int i = 1; i < lines.size(); i++) {
+
+			String[] words = lines.get(i).split("\\;");
+
+			if (words.length == 1) {
+
+				currentClass = words[0];
+
+			} else {
+
+				if (words.length != columnHeaders.length)
+					throw new Exception("Syntax error");
+
+				int racerIndex = Integer.parseInt(words[0]);
+				String racerName = words[1];
+
+				db.setName(racerIndex, racerName);
+				db.setRacerClass(racerIndex, currentClass);
+
+				for (int j = 2; j < columnHeaders.length; ++j) {
+					
+					System.out.println("OptionalData[" + (j - 2) + "] = " + words[j]);
+					
+					//db.addOptionalData(racerIndex,words[j]);
+				}
+			}
+
+		}
+
+	}
+
+	public static void main(String[] args) throws Exception {
+
+		Database db = new Database();
+
+		IOReader.readPersonalInfo("dasUberEnduroApplicationen/mapp_med_shit/personalInfo.txt", db);
+	}
+
 }
