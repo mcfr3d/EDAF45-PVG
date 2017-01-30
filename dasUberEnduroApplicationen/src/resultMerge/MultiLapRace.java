@@ -12,7 +12,9 @@ public class MultiLapRace implements RaceType {
 	private String finish = "";
 	@Override
 	public void addStart(String start) {
-		if(startTimes.isEmpty()) this.start = start;
+		if(startTimes.isEmpty()) {
+			this.start = start;
+		}
 		startTimes.add(start);
 		maxLaps = Math.max(maxLaps, finishTimes.size());
 	}

@@ -27,16 +27,23 @@ public class Database {
 	// TODO: check that format of time is ok.
 	public boolean setMassStart(String time) {
 
-		boolean correctFormat = true;
-
+		boolean correctFormat = false;
+		try {
+			TotalTimeCalculator.timeFormater(time);
+			correctFormat = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
 		if (correctFormat) {
-
 			massStart = true;
 			massStartTime = time;
 			for (Racer r : racers.values()) {
 				r.addStart(time);
 			}
 		}
+		
 		return correctFormat;
 	}
 
