@@ -25,89 +25,85 @@ public class Gui extends JFrame {
 
 	final JFileChooser fc = new JFileChooser("./mapp_med_shit");
 	private Database db = new Database();
-	
+
 	private class NameFileButtonListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent eee) {
-						
+
 			int returnVal = fc.showOpenDialog(Gui.this);
 
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				
+
 				File file = fc.getSelectedFile();
-				
+
 				try {
-					IOReader.readNames(file.getPath(),db);
+					IOReader.readNames(file.getPath(), db);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				
+
 			}
-			
-			
+
 		}
 	}
+
 	private class StartFileButtonListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent eee) {
-						
+
 			int returnVal = fc.showOpenDialog(Gui.this);
-			
+
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				
+
 				File file = fc.getSelectedFile();
-				
+
 				try {
 					IOReader.readStart(file.getPath(), db);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				
+
 			}
-			
-			
+
 		}
 	}
+
 	private class FinishFileButtonListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent eee) {
-						
+
 			int returnVal = fc.showOpenDialog(Gui.this);
-			
+
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				
+
 				File file = fc.getSelectedFile();
-				
+
 				try {
 					IOReader.readFinish(file.getPath(), db);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				
+
 			}
-			
-			
+
 		}
 	}
+
 	private class ExportButtonListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent eee) {
-					
+
 			int userSelection = fc.showSaveDialog(Gui.this);
-			 
+
 			if (userSelection == JFileChooser.APPROVE_OPTION) {
-			    File fileToSave = fc.getSelectedFile();
-			    
-			    System.out.println("Save as file: " + fileToSave.getAbsolutePath());
-				ResultWriter.write(fileToSave.getPath(),db);
+				File fileToSave = fc.getSelectedFile();
+
+				System.out.println("Save as file: " + fileToSave.getAbsolutePath());
+				ResultWriter.write(fileToSave.getPath(), db);
 			}
-						
-			
+
 		}
 	}
-	
-	
-	
 
 	private JPanel makeButtonPanel() {
 
@@ -136,12 +132,11 @@ public class Gui extends JFrame {
 		buttons[4].setText("Exportera resultat");
 
 		buttons[0].addActionListener(new NameFileButtonListener());
-		
+
 		buttons[2].addActionListener(new StartFileButtonListener());
 		buttons[3].addActionListener(new FinishFileButtonListener());
 		buttons[4].addActionListener(new ExportButtonListener());
-		
-		
+
 		panel.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(8.0f)));
 
 		return panel;
