@@ -56,4 +56,10 @@ public class RacerTest {
 		System.out.println(temp.toString());
 		assertEquals("1; person; 00.15.00; 12.00.00; 12.15.00", temp.toString());
 	}
+	//TODO
+//	@Test
+//	public void testRacerClass(){
+//		temp.setRacerClass("Juniorer");
+//	}
+	
 }

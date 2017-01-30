@@ -61,6 +61,12 @@ public class Database {
 		r.setName(name);
 	}
 
+	public void setClass(int driver, String raceClass) {
+
+		Racer r = getRacer(driver);
+		r.setRaceClass(raceClass);
+	}
+
 	public HashMap<Integer, Racer> getRacers() {
 		return racers;
 	}
@@ -68,4 +74,5 @@ public class Database {
 	public int size() {
 		return racers.size();
 	}
+
 }
