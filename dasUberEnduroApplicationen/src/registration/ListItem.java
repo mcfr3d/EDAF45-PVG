@@ -1,6 +1,8 @@
 package registration;
 
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -25,13 +27,19 @@ public class ListItem extends JPanel {
 		this.setLayout(new BoxLayout(this,BoxLayout.X_AXIS));
 		JLabel timeLabel = new JLabel("Tid: " + time);
 		timeLabel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-		timeLabel.setFont(new Font("Arial", Font.PLAIN, 34));
+		timeLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+		
 		JButton editButton = new JButton("Edit");
 		editButton.addActionListener(new EditButtonListener());
+		
 		JButton removeButton = new JButton("Remove");
 		removeButton.addActionListener(new RemoveButtonListener());
 		this.add(timeLabel);
+		JPanel componentSeparator = new JPanel();
+		componentSeparator.setMaximumSize(new Dimension(10, 10));
+		this.add(componentSeparator);
 		this.add(editButton);
+		this.add(componentSeparator);
 		this.add(removeButton);
 	}
 	
