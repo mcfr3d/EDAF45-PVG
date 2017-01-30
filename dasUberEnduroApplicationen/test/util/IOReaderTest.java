@@ -2,6 +2,7 @@ package util;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -10,18 +11,23 @@ import java.util.HashMap;
 import org.junit.Before;
 import org.junit.Test;
 
+import javafx.scene.shape.Path;
 import resultMerge.Database;
 import resultMerge.Racer;
 
 public class IOReaderTest {
-	String path = "dasUberEnduroApplicationen/mapp_med_shit/";
-
 	@Before
 	public void init() {
 		try {
-			PrintWriter writer1 = new PrintWriter(path + "starttider.txt", "UTF-8");
-			PrintWriter writer2 = new PrintWriter(path + "maltider.txt", "UTF-8");
-			PrintWriter writer3 = new PrintWriter(path + "namnfil.txt", "UTF-8");
+			File f1 = new File("starttider.txt");
+			f1.createNewFile();
+			File f2 = new File("maltider.txt");
+			f2.createNewFile();
+			File f3 = new File("namnfil.txt");
+			f3.createNewFile();
+			PrintWriter writer1 = new PrintWriter(f1, "UTF-8");
+			PrintWriter writer2 = new PrintWriter(f2, "UTF-8");
+			PrintWriter writer3 = new PrintWriter(f3, "UTF-8");
 			writer1.print("1; 12.00.00" + "\n" + "2; 12.00.00" + "\n" + "3; 12.00.00" + "\n" + "4; 12.00.00" + "\n"
 					+ "5; 12.00.00");
 			writer2.print("2; 12.21.00" + "\n" + "4; 12.23.00" + "\n" + "5; 12.24.00" + "\n" + "3; 12.43.00" + "\n"
@@ -43,9 +49,9 @@ public class IOReaderTest {
 		String[] names = { "Anders Asson", "Bengt Bsson", "Chris Csson", "David Dsson", "Erik Esson" };
 		String[] classes = { "SENIOR", "SENIOR", "JUNIOR", "JUNIOR", "JUNIOR" };
 		Database db = new Database();
-		IOReader.readStart(path + "starttider.txt", db);
-		IOReader.readFinish(path + "maltider.txt", db);
-		IOReader.readNames(path + "namnfil.txt", db);
+		IOReader.readStart("starttider.txt", db);
+		IOReader.readFinish("maltider.txt", db);
+		IOReader.readNames("namnfil.txt", db);
 		HashMap<Integer, Racer> map = db.getRacers();
 		assertEquals(map.size(), 5);
 		for (int i : map.keySet()) {
@@ -59,13 +65,18 @@ public class IOReaderTest {
 		}
 	}
 	
+	
+	
+	
+	
+	
 	@Test
 	public void testIfFileIsMissing() {
 		Database db = new Database();
 		try {
-			IOReader.readStart(path + "maltider.txt", db);
-			IOReader.readNames(path + "namnfil.txt", db);
-			IOReader.readFinish(path + "doesntexist.txt", db);
+			IOReader.readStart("maltider.txt", db);
+			IOReader.readNames("namnfil.txt", db);
+			IOReader.readFinish("doesntexist.txt", db);
 		} catch (Exception e) {
 			assertTrue(true);
 		}
