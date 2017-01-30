@@ -17,6 +17,7 @@ import java.util.Random;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -31,6 +32,7 @@ public class Gui extends JFrame implements Subscriber{
 	
 	private JTextArea textOutput;
 	private JTextField textEntry;
+	private JButton button;
 	private final String path;
 	private final String font = "Arial";
 	private JPanel faultyRegistrationPanel;
@@ -71,7 +73,6 @@ public class Gui extends JFrame implements Subscriber{
 		panel.add(textOutput);
 		faultyRegistrationPanel = new JPanel();
 		faultyRegistrationPanel.setLayout(new BoxLayout(faultyRegistrationPanel, BoxLayout.Y_AXIS));
-		faultyRegistrationPanel.setBackground(Color.BLUE);
 		panel.add(faultyRegistrationPanel);
 
 		return panel;
@@ -86,11 +87,9 @@ public class Gui extends JFrame implements Subscriber{
 		textEntry.addActionListener(listener);
 		textEntry.setFont(new Font(font, Font.PLAIN, 34));
 		textEntry.setMaximumSize(new Dimension(600, 50));
-		textEntry.setBackground(Color.GREEN);
-		JButton button = new JButton("Registrera");
+		button = new JButton("Registrera");
 		button.addActionListener(listener);
 		button.setFont(new Font(font, Font.PLAIN, 34));
-		button.setBackground(new Color(153, 102, 204));
 		panel.add(textEntry);
 		panel.add(button);
 
@@ -105,6 +104,10 @@ public class Gui extends JFrame implements Subscriber{
 		public void actionPerformed(ActionEvent e) { // TODO: write to file
 			String time = getCurrentTime();
 			String startNumber = textEntry.getText().trim();
+			colorizer(faultyRegistrationPanel);
+			colorizer(textOutput);
+			colorizer(textEntry);
+			colorizer(button);
 			if (correctInput(startNumber)) {
 				writeToFile(time, startNumber);
 
@@ -138,8 +141,21 @@ public class Gui extends JFrame implements Subscriber{
 		}
 	}
 
-
-
+	private Color randomColor() {
+		int a = r.nextInt(255);
+		int b = r.nextInt(255);
+		int c = r.nextInt(255);
+		return new Color(a,b,c);
+	}
+	
+	private Color invertedColor(Color col) {
+		return new Color((col.getRed()+128)%255, (col.getGreen()+128)%255, (col.getBlue()+128)%255);
+	}
+	
+	private void colorizer(JComponent jc) {
+		jc.setBackground(randomColor());
+		jc.setForeground(invertedColor(jc.getBackground()));
+	}
 
 	@Override
 	public void update() {
