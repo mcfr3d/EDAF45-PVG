@@ -50,7 +50,7 @@ public class IOReader {
 			if (Character.isDigit(s.charAt(0))) {
 				int firstDelimiter = s.indexOf(";");
 				db.setName(Integer.parseInt(s.substring(0, firstDelimiter)), s.substring(firstDelimiter + 2));
-				db.setClass(Integer.parseInt(s.substring(0, firstDelimiter)), currentClass);
+				db.setRacerClass(Integer.parseInt(s.substring(0, firstDelimiter)), currentClass);
 			} else {
 				currentClass = s;
 			}

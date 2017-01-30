@@ -54,10 +54,10 @@ public class Database {
 		r.setName(name);
 	}
 
-	public void setClass(int driver, String raceClass) {
+	public void setRacerClass(int driver, String raceClass) {
 
 		Racer r = getRacer(driver);
-		r.setRaceClass(raceClass);
+		r.setRacerClass(raceClass);
 	}
 
 	public HashMap<Integer, Racer> getRacers() {
