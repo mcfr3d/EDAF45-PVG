@@ -9,19 +9,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalTime;
 import java.util.HashMap;
-import java.util.Optional;
 import java.util.Random;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -183,14 +179,7 @@ public class Gui extends JFrame implements Subscriber{
 		String outputText = startNumber + "; " + time + "\n" + textOutput.getText();
 		textOutput.setText(outputText);
 		textOutput.setCaretPosition(0);
-		
-//				int a = r.nextInt(255);
-//				int b = r.nextInt(255);
-//				int c = r.nextInt(255);
-//				Color c1 = new Color(a, b, c);
-//				Color c2 = new Color(-1*(a-255),-1*(b-255),-1*(c-255));
-//				textOutput.setBackground(c1);
-//				textOutput.setForeground(c2);
+
 		try {
 
 			System.out.println("Writing to file now");
