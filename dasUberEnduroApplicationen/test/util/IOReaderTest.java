@@ -4,8 +4,10 @@ import static org.junit.Assert.*;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import resultMerge.Database;
@@ -14,6 +16,18 @@ import resultMerge.Racer;
 public class IOReaderTest {
 	String path = "test/util/";
 
+//	@Before
+//	public void init() {
+//		try {
+//			PrintWriter writer = new PrintWriter(path + "starttider.txt", "UTF-8");
+//			for (int i = 0; i < 5; i++) {
+//				writer.println();
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
+	
 	@Test
 	public void testReaderWith5Entries() throws IOException{
 		String[] start = {"12.00.00", "12.01.00", "12.02.00", "12.03.00", "12.04.00"};
