@@ -1,10 +1,12 @@
 package resultMerge;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Database {
 	private HashMap<Integer, Racer> racers;
-
+	private List<String> raceClasses;
 	private boolean multiLap;
 	private boolean massStart = false;
 	private String massStartTime;
@@ -22,6 +24,7 @@ public class Database {
 		}
 		this.multiLap = multiLap;
 		racers = new HashMap<>();
+		raceClasses = new ArrayList<String>();
 	}
 
 	// TODO: check that format of time is ok.
@@ -81,9 +84,15 @@ public class Database {
 	}
 
 	public void setRacerClass(int driver, String raceClass) {
-
+		if (!raceClasses.contains(raceClass)) {
+			raceClasses.add(raceClass);
+		}
 		Racer r = getRacer(driver);
 		r.setRacerClass(raceClass);
+	}
+	
+	public List<String> getRaceClasses() {
+		return raceClasses;
 	}
 
 	public HashMap<Integer, Racer> getRacers() {
