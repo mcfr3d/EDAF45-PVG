@@ -1,10 +1,12 @@
 package registration;
 
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Optional;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -22,6 +24,8 @@ public class ListItem extends JPanel {
 		this.sub = sub;
 		this.setLayout(new BoxLayout(this,BoxLayout.X_AXIS));
 		JLabel timeLabel = new JLabel("Tid: " + time);
+		timeLabel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+		timeLabel.setFont(new Font("Arial", Font.PLAIN, 34));
 		JButton editButton = new JButton("Edit");
 		editButton.addActionListener(new EditButtonListener());
 		JButton removeButton = new JButton("Remove");
