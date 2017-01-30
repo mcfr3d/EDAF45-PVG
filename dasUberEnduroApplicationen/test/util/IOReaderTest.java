@@ -14,7 +14,7 @@ import resultMerge.Database;
 import resultMerge.Racer;
 
 public class IOReaderTest {
-	String path = "test/util/";
+	String path = "dasUberEnduroApplicationen/mapp_med_shit/";
 
 	@Before
 	public void init() {

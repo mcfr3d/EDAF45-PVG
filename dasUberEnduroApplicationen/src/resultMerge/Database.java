@@ -13,12 +13,19 @@ public class Database {
 	}
 
 	// TODO: check that format of time is ok.
-	public void setMassStart(String time) {
-		massStart = true;
-		massStartTime = time;
-		for (Racer r : racers.values()) {
-			r.addStart(time);
+	public boolean setMassStart(String time) {
+
+		boolean correctFormat = true;
+
+		if (correctFormat) {
+
+			massStart = true;
+			massStartTime = time;
+			for (Racer r : racers.values()) {
+				r.addStart(time);
+			}
 		}
+		return correctFormat;
 	}
 
 	private Racer getRacer(int driver) {
