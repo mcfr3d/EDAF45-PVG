@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.TreeSet;
 
 public class MultiLapRace implements RaceType {
-	public static int maxLaps = 0;
+	private static int maxLaps = 0;
 	//public static String raceTime = ""; should be used for errorhandling.
 	private LinkedList<String> startTimes = new LinkedList<>();
 	private TreeSet<String> finishTimes = new TreeSet<>();
@@ -100,6 +100,14 @@ public class MultiLapRace implements RaceType {
 	//Should only be used during testing
 	public void resetStatic() {
 		maxLaps = 0;
+	}
+	
+	public int getLaps() {
+		if(startTimes.size() == 0) return 0;
+		return finishTimes.size();
+	}
+	public static void setMaxLaps(int laps) {
+		maxLaps = laps;
 	}
 
 }

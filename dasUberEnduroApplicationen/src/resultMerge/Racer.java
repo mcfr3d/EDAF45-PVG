@@ -50,7 +50,12 @@ public class Racer {
 	
 	public String getFirstStartTime() {
 		return rt.getStart();
+	}	
+	
+	public int getLaps() {
+		return rt.getLaps();
 	}
+	
 	public void addOptionalData(String data) {
 		
 		optionalData.add(data);

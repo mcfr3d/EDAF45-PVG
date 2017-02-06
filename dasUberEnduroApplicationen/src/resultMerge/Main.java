@@ -70,7 +70,7 @@ public class Main {
 
 			ResultWriter.write(outputFile, db);
 		}else {
-			System.out.println("Otillräcklig indata! Resultatfilens destiantion och namnfilens destination krävs.");
+			System.out.println("Otillräcklig indata! Resultatfilens destination och namnfilens destination krävs.");
 		}
 		
 		} catch (Exception e) {

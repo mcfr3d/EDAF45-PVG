@@ -45,7 +45,7 @@ public class IOReader {
 
 		ArrayList<String> lines = new ArrayList<String>(read(path));
 
-		String currentClass = "DEFAULT";
+		String currentClass = "";
 
 		String[] columnHeaders = lines.get(0).split("\\;\\ ");
 
@@ -69,9 +69,7 @@ public class IOReader {
 
 				int racerIndex = Integer.parseInt(words[0]);
 				String racerName = words[1];
-
-				db.setName(racerIndex, racerName);
-				db.setRacerClass(racerIndex, currentClass);
+				db.addRacer(racerIndex, racerName, currentClass);
 
 				for (int j = 2; j < columnHeaders.length; ++j) {
 					

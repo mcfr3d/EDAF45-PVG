@@ -6,4 +6,5 @@ public interface RaceType {
 	public String genResult();
 	public String getStart();
 	public String getFinish();
+	public int getLaps();
 }

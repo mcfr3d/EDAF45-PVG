@@ -10,7 +10,7 @@ import java.util.Scanner;
 import resultMerge.Database;
 import resultMerge.Racer;
 
-public class RegistrationWriter {
+public class RegistrationIO {
 
 	
 	public static void rewrite(String path, String data) {		
@@ -24,6 +24,7 @@ public class RegistrationWriter {
 			System.out.println("File does not exist");		
 		}
 	}
+	
 	public static String read(String path) {
 		StringBuilder sb = new StringBuilder();
 		try {
