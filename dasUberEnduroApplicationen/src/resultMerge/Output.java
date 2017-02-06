@@ -27,7 +27,7 @@ public class Output {
 
 		if (html) {
 
-			String text = db.getResult(false);
+			String text = db.getResult(sorted);
 
 			List<List<String>> lines = new LinkedList<List<String>>();
 
