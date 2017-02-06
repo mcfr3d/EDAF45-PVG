@@ -6,3 +6,5 @@
 *.jar
 *.txt
 **/.gradle
+*.zip
+.DS_Store

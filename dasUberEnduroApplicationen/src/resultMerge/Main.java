@@ -1,6 +1,5 @@
 package resultMerge;
 
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,71 +10,72 @@ import util.ResultWriter;
 public class Main {
 
 	public static void main(String[] args) {
-		
+
 		try {
-		
-		Getopt g = new Getopt(args, "o:t:n:s:f:m:", true);
 
-		int c;
-		String outputFile = null;
-		String type = "maraton";
-		String massStartTime = null;
-		String nameFile = null;
-		List<String> startFiles = new LinkedList<>();
-		List<String> finishFiles = new LinkedList<>();
+			int c;
+			String outputFile = null;
+			String type = "maraton";
+			String massStartTime = null;
+			String nameFile = null;
+			List<String> startFiles = new LinkedList<>();
+			List<String> finishFiles = new LinkedList<>();
 
-		while ((c = g.getOption()) != -1) {
+			Getopt g = new Getopt(args, "o:t:n:s:f:m:", true);
 
-			switch (c) {
+			while ((c = g.getOption()) != -1) {
 
-			case 'o':
-				outputFile = g.getOptarg();
-				break;
+				switch (c) {
 
-			case 'm':
-				massStartTime = g.getOptarg();
-				break;
+				case 'o':
+					outputFile = g.getOptarg();
+					break;
 
-			case 's':
-				startFiles.add(g.getOptarg());
-				break;
+				case 'm':
+					massStartTime = g.getOptarg();
+					break;
 
-			case 'f':
-				finishFiles.add(g.getOptarg());
-				break;
+				case 's':
+					startFiles.add(g.getOptarg());
+					break;
 
-			case 't':
-				type = g.getOptarg();
-				break;
+				case 'f':
+					finishFiles.add(g.getOptarg());
+					break;
 
-			case 'n':
-				nameFile = g.getOptarg();
-				break;
+				case 't':
+					type = g.getOptarg();
+					break;
 
-			default:
-				System.out.print("getopt() returned " + c + "\n");
+				case 'n':
+					nameFile = g.getOptarg();
+					break;
+
+				default:
+					System.out.print("getopt() returned " + c + "\n");
+				}
 			}
-		}
 
-		if (outputFile != null && nameFile != null) {
+			if (outputFile != null && nameFile != null) {
 
-			Database db = new Database(massStartTime, type.equals("varvlopp"));
+				Database db = new Database(massStartTime, type.equals("varvlopp"));
 
-			IOReader.readNames(nameFile, db);
-			
-			for (String startFile : startFiles)
-				IOReader.readStart(startFile, db);
-			for (String finishFile : finishFiles)
-				IOReader.readFinish(finishFile, db);
+				IOReader.readNames(nameFile, db);
 
-			ResultWriter.write(outputFile, db);
-		}else {
-			System.out.println("Otillräcklig indata! Resultatfilens destiantion och namnfilens destination krävs.");
-		}
-		
+				for (String startFile : startFiles)
+					IOReader.readStart(startFile, db);
+				for (String finishFile : finishFiles)
+					IOReader.readFinish(finishFile, db);
+
+				ResultWriter.write(outputFile,db);
+				
+			} else {
+				
+				System.out.println("Otillräcklig indata");
+			}
+
 		} catch (Exception e) {
-			System.out.println("Någon av filerna du angav gick inte att öppna.");
-			System.err.println(e);
+			e.printStackTrace();
 		}
 
 	}

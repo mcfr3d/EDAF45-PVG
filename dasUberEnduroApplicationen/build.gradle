@@ -5,6 +5,7 @@ repositories {
 }
 
 dependencies {
+   compile files('jar/json-20160810.jar')
    testCompile 'junit:junit:4.12'
 }
 

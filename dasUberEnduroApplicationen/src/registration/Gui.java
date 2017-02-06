@@ -19,8 +19,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 
-import resultMerge.TotalTimeCalculator;
 import util.RegistrationIO;
+import util.TotalTimeCalculator;
 
 public class Gui extends JFrame implements Subscriber {
 	private JTextArea textOutput;

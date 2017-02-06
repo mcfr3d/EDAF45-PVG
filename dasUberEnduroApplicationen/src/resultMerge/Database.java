@@ -7,14 +7,16 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
+import util.TotalTimeCalculator;
+
 public class Database {
 	private HashMap<Integer, Racer> racers;
 	private List<String> raceClasses;
 	private boolean multiLap;
 	private boolean massStart = false;
 	private String massStartTime;
-	private List<String> columnHeaders;
 	private String stipulatedTime = "00.00.00";
+	private String[] columnHeaders;
 
 	// kept so previous tests works. tests should be refactored.
 	// creates a db for OneLapRace without massStart.
@@ -66,15 +68,9 @@ public class Database {
 	}
 
 	private Racer getRacer(int driver) {
-
-		if (racers.containsKey(driver))
-			return racers.get(driver);
-
-		Racer r = new Racer(driver, multiLap);
-		r.setRacerClass("Ej Anmäld");
-		racers.put(driver, r);
-
-		return r;
+		if (!racers.containsKey(driver))
+			addRacer(driver, "", "Ej Anmäld");
+		return racers.get(driver);
 	}
 
 	public void addStart(int driver, String time) {
@@ -136,12 +132,11 @@ public class Database {
 		HashMap<String, HashSet<Racer>> raceClasses = new HashMap<>();
 		for (Racer r : racers.values()) {
 			String raceC = r.getRacerClass();
-			if (!raceClasses.containsKey(r.getRacerClass())) {
+			if (!raceClasses.containsKey(raceC)) {
 				raceClasses.put(raceC, new HashSet<>());
 			}
 			raceClasses.get(raceC).add(r);
-		}
-		
+		}		
 		for (String s : raceClasses.keySet()) {
 			sb.append(genResultForClass(s, raceClasses.get(s), sort));
 		}
@@ -150,6 +145,7 @@ public class Database {
 	}
 
 	private String genResultForClass(String raceClass, HashSet<Racer> racersInClass, boolean sort) {
+
 		int maxLaps = 0;
 		for (Racer r : racersInClass) {
 			maxLaps = Math.max(maxLaps, r.getLaps());
@@ -207,24 +203,39 @@ public class Database {
 	}
 
 	private String genHeader(int laps) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(genRacerHeader());
+		sb.append(genRaceTypeHeader(laps));
+		return sb.toString();
+	}
+
+	private String genRacerHeader() {
+		StringBuilder sb = new StringBuilder();
+		for (String s : columnHeaders) {
+			sb.append(s + "; ");
+		}
+		return sb.toString();
+	}
+
+	private String genRaceTypeHeader(int laps) {
 		if (!multiLap) {
-			return "StartNr; Namn; Totaltid; Starttid; Måltid";
+			return "Totaltid; Starttid; Måltid";
+		} else {
+			StringBuilder header = new StringBuilder("#Varv; TotalTid;");
+			for (int i = 1; i <= laps; i++) {
+				header.append(" Varv" + i + ";");
+			}
+			header.append(" Start;");
+			for (int i = 1; i < laps; i++) {
+				header.append(" Varvning" + i + ";");
+			}
+			header.append(" Mål");
+			return header.toString();
 		}
-		StringBuilder header = new StringBuilder("StartNr; Namn; #Varv; TotalTid;");
-		for (int i = 1; i <= laps; i++) {
-			header.append(" Varv" + i + ";");
-		}
-		header.append(" Start;");
-		for (int i = 1; i < laps; i++) {
-			header.append(" Varvning" + i + ";");
-		}
-		header.append(" Mål");
-		return header.toString();
 	}
 
 	public void setColumnHeaders(String[] columnHeaders) {
-
-		this.columnHeaders = Arrays.asList(columnHeaders);
+		this.columnHeaders = columnHeaders;
 	}
 
 }

@@ -1,4 +1,4 @@
-package resultMerge;
+package util;
 
 import java.time.LocalTime;
 

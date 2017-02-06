@@ -19,6 +19,7 @@ public class DatabaseTest {
 	@Before
 	public void SetUp() {
 		db = new Database();
+		db.setColumnHeaders(new String[]{"StartNr", "Namn"}); 
 	}
 	
 	@After
@@ -85,6 +86,7 @@ public class DatabaseTest {
 	@Test
 	public void testOneRacerMultipleLapsSort() {
 		db = new Database(null, true);
+		db.setColumnHeaders(new String[]{"StartNr", "Namn"}); 
 		db.addRacer(1, "Test Tsson", "Tester");
 		db.addStart(1, "00.00.00");
 		db.addFinish(1, "00.00.01");
@@ -125,6 +127,7 @@ public class DatabaseTest {
 	@Test
 	public void testMultipleLapRaceSort() {
 		db = new Database(null, true);
+		db.setColumnHeaders(new String[]{"StartNr", "Namn"}); 
 		db.addRacer(1, "Test Tsson", "Tester");
 		db.addStart(1, "00.00.00");
 		db.addFinish(1, "00.00.01");
@@ -162,6 +165,7 @@ public class DatabaseTest {
 	@Test
 	public void testMultipleDifferentLapsRaceSort() {
 		db = new Database(null, true);
+		db.setColumnHeaders(new String[]{"StartNr", "Namn"}); 
 		db.addRacer(1, "Test Tsson", "Tester");
 		db.addStart(1, "00.00.00");
 		db.addFinish(1, "00.00.01");
@@ -191,5 +195,12 @@ public class DatabaseTest {
 		assertEquals("Sort not working with one racer, one lap: ", result, db.getResult(true));			
 	}
 
+	public void testMissingDriver() {
+		Database db = new Database();
+		db.addStart(1,"00.00.00");
+		db.addFinish(1,"00.00.01");
+		Racer r = db.getRacers().get(1);
+		assertEquals(r.getRacerClass(), "Ej Anmäld");
+	}
 	
 }

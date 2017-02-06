@@ -1,9 +1,10 @@
 package resultMerge;
 
-import resultMerge.TotalTimeCalculator;
 import static org.junit.Assert.*;
 import java.util.List;
 import org.junit.Test;
+
+import util.TotalTimeCalculator;
 
 public class TotalTimeCalculatorTest {
 
