@@ -2,6 +2,8 @@ package resultMerge;
 
 import java.util.LinkedList;
 
+import util.TotalTimeCalculator;
+
 public class OneLapRace implements RaceType {
 	private LinkedList<String> startTimes = new LinkedList<>();
 	private LinkedList<String> finishTimes = new LinkedList<>();

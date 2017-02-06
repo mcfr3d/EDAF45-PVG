@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
+import util.TotalTimeCalculator;
+
 public class Database {
 	private HashMap<Integer, Racer> racers;
 	private List<String> raceClasses;

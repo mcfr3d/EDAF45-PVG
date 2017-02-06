@@ -3,6 +3,8 @@ package resultMerge;
 import java.util.LinkedList;
 import java.util.TreeSet;
 
+import util.TotalTimeCalculator;
+
 public class MultiLapRace implements RaceType {
 	private static int maxLaps = 0;
 	//public static String raceTime = ""; should be used for errorhandling.
