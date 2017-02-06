@@ -60,6 +60,13 @@ public class DatabaseTest {
 		assertTrue(db.size() == 2);
 	}
 	
-	
+	@Test
+	public void testMissingDriver() {
+		Database db = new Database();
+		db.addStart(1,"00.00.00");
+		db.addFinish(1,"00.00.01");
+		Racer r = db.getRacers().get(1);
+		assertEquals(r.getRacerClass(), "Ej Anmäld");
+	}
 	
 }
