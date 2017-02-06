@@ -14,44 +14,18 @@ public class Main {
 
 		try {
 
-			Getopt g = new Getopt(args, "o:t:n:s:f:m:", true);
+			Getopt g = new Getopt(args, "c:", true);
 
 			int c;
-			String outputFile = null;
-			String type = "maraton";
-			String massStartTime = null;
-			String nameFile = null;
-			List<String> startFiles = new LinkedList<>();
-			List<String> finishFiles = new LinkedList<>();
 
-			
+			String configFilePath = "config.json";
 			
 			while ((c = g.getOption()) != -1) {
 
 				switch (c) {
 
-				case 'o':
-					outputFile = g.getOptarg();
-					break;
-
-				case 'm':
-					massStartTime = g.getOptarg();
-					break;
-
-				case 's':
-					startFiles.add(g.getOptarg());
-					break;
-
-				case 'f':
-					finishFiles.add(g.getOptarg());
-					break;
-
-				case 't':
-					type = g.getOptarg();
-					break;
-
-				case 'n':
-					nameFile = g.getOptarg();
+				case 'c':
+					configFilePath = g.getOptarg();
 					break;
 
 				default:
@@ -59,24 +33,10 @@ public class Main {
 				}
 			}
 
-			if (outputFile != null && nameFile != null) {
-
-				Database db = new Database(massStartTime, type.equals("varvlopp"));
-
-				IOReader.readNames(nameFile, db);
-
-				for (String startFile : startFiles)
-					IOReader.readStart(startFile, db);
-				for (String finishFile : finishFiles)
-					IOReader.readFinish(finishFile, db);
-
-				ResultWriter.write(outputFile, db);
-			} else {
-				System.out.println("Otillräcklig indata! Resultatfilens destination och namnfilens destination krävs.");
-			}
-
+			ConfigReader.readConfig(configFilePath);
+			
 		} catch (Exception e) {
-			System.out.println("Någon av filerna du angav gick inte att öppna.");
+			
 			System.err.println(e);
 		}
 
