@@ -75,8 +75,7 @@ public class Main {
 			}
 
 		} catch (Exception e) {
-
-			System.err.println(e);
+			e.printStackTrace();
 		}
 
 	}

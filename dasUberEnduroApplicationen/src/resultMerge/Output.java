@@ -84,7 +84,7 @@ public class Output {
 
 			} catch (IOException e) {
 				System.err.println("Couldn't write result to file!");
-				System.err.println(e);
+				e.printStackTrace();
 			}
 
 		} else {
