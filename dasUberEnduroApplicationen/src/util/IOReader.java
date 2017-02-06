@@ -53,9 +53,9 @@ public class IOReader {
 			throw new Exception("Syntax error");
 
 		db.setColumnHeaders(columnHeaders);
-		
+
 		for (int i = 1; i < lines.size(); i++) {
-			
+
 			String[] words = lines.get(i).split("\\;\\ ");
 
 			if (words.length == 1) {
@@ -72,14 +72,12 @@ public class IOReader {
 				db.addRacer(racerIndex, racerName, currentClass);
 
 				for (int j = 2; j < columnHeaders.length; ++j) {
-					
-					db.addOptionalData(racerIndex,words[j]);
+
+					db.addOptionalData(racerIndex, words[j]);
 				}
 			}
 
 		}
 
 	}
-
-
 }
