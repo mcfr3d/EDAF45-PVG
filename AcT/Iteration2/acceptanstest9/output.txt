@@ -1,6 +1,0 @@
-StartNr; Namn; Totaltid; Starttid; Måltid
-4; David Dsson; 00.20.00; 12.03.00; 12.23.00; Flera måltider? 12.43.00 13.12.07
-2; Bengt Bsson; 00.20.00; 12.01.00; 12.21.00; Flera måltider? 12.41.00 13.15.16
-5; Erik Esson; 00.20.00; 12.04.00; 12.24.00; Flera måltider? 12.44.00
-1; Anders Asson; 00.30.00; 12.00.00; 12.30.00; Flera måltider? 13.00.00 13.23.34
-3; Chris Csson; 00.20.00; 12.02.00; 12.22.00; Flera måltider? 12.42.00 13.05.06

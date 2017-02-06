@@ -1,9 +1,0 @@
-JUNIOR
-StartNr; Namn; Totaltid; Starttid; Måltid
-102; David Dsson; 00.23.00; 12.00.00; 12.23.00; Flera måltider? 12.43.00
-103; Erik Esson; 00.24.00; 12.00.00; 12.24.00
-101; Chris Csson; 00.22.00; 12.00.00; 12.22.00; Flera måltider? 12.42.00
-SENIOR
-StartNr; Namn; Totaltid; Starttid; Måltid
-2; Bengt Bsson; 00.21.00; 12.00.00; 12.21.00; Flera måltider? 13.15.16
-1; Anders Asson; 01.00.00; 12.00.00; 13.00.00; Flera måltider? 12.30.00 13.23.34
