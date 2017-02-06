@@ -63,7 +63,7 @@ public class IOReader {
 		for (int i = 1; i < lines.size(); i++) {
 
 			String[] words = lines.get(i).split(";");
-			for(int j = 0; i<words.length; i++)
+			for(int j = 0; j<words.length; j++)
 				words[j] = words[j].trim();
 				
 
@@ -79,7 +79,6 @@ public class IOReader {
 				int racerIndex = Integer.parseInt(words[0]);
 				String racerName = words[1];
 				db.addRacer(racerIndex, racerName, currentClass);
-
 				for (int j = 2; j < columnHeaders.length; ++j) {
 
 					db.addOptionalData(racerIndex, words[j]);
