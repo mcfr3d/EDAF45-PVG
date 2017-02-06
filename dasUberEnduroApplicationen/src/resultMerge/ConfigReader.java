@@ -22,6 +22,7 @@ public class ConfigReader {
 		String type = "maraton";
 		String massStartTime = null;
 		String nameFilePath = null;
+		String stipulatedTime = null;
 		List<String> startFiles = new LinkedList<>();
 		List<String> finishFiles = new LinkedList<>();
 
@@ -39,6 +40,7 @@ public class ConfigReader {
 			type = root.optString("race type", "maraton");
 			massStartTime = root.optString("group start", null);
 			nameFilePath = root.getString("name file");
+			stipulatedTime = root.optString("stipulated time", null);
 
 			JSONArray jsonStartFiles = root.getJSONArray("start files");
 			JSONArray jsonFinishFiles = root.getJSONArray("finish files");
@@ -59,8 +61,16 @@ public class ConfigReader {
 			System.out.println(e);
 			System.exit(0);
 		}
+		boolean isLapRace = type.equals("varvlopp");
+		Database db = new Database(massStartTime, isLapRace);
 		
-		Database db = new Database(massStartTime, type.equals("varvlopp"));
+		if(isLapRace) {
+			if(stipulatedTime != null) {
+				db.setStipulatedTime(stipulatedTime);
+			} else {
+				throw new IllegalArgumentException("Missing stipulated time for lap race");
+			}
+		}
 
 		IOReader.readNames(nameFilePath, db);
 		
