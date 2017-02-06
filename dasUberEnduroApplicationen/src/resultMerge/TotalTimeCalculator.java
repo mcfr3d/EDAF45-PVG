@@ -1,5 +1,7 @@
 package resultMerge;
 
+import java.time.LocalTime;
+
 public class TotalTimeCalculator {
 
 	private static int toSeconds(String time) throws Exception {
@@ -67,5 +69,13 @@ public class TotalTimeCalculator {
 			return false;
 		}
 		return true;
+	}
+	
+	public static String getCurrentTime() {
+		LocalTime currentTime = LocalTime.now();
+		String hour = String.format("%02d", currentTime.getHour());
+		String minute = String.format("%02d", currentTime.getMinute());
+		String second = String.format("%02d", currentTime.getSecond());
+		return hour + "." + minute + "." + second;
 	}
 }
