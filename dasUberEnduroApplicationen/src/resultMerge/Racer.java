@@ -35,12 +35,10 @@ public class Racer {
 		rt.addFinish(finishTime);
 	}
 
-	// DUMMY
 	public void setRacerClass(String raceClass) {
 		this.racerClass = raceClass;
 	}
 
-	// DUMMY
 	public String getRacerClass() {
 		return racerClass;
 	}

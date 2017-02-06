@@ -32,21 +32,24 @@ public class MultiLapRace implements RaceType {
 	@Override
 	public String genResult() {
 		String[] res = new String[maxLaps * 2 + 3];
-		for (int i = 0; i < res.length; i++) {
+		for (int i = 0; i < res.length; i++)
 			res[i] = "";
-		}
+
 		res[maxLaps + 2] = startT();
 		int i = maxLaps + 3;
-		for (String s : finishTimes) {
+		
+		for (String s : finishTimes)
 			res[i++] = s;
-		}
+
 		if (startTimes.isEmpty()) {
 			res[0] = Math.max(0, finishTimes.size() - 1) + "";
 		} else {
 			res[0] = finishTimes.size() + "";
 		}
+		
 		res[1] = TotalTimeCalculator.computeDifference(start, finish);
 		boolean impossibleLapTime = false;
+		
 		if (finishTimes.size() > 0) {
 			for (i = 0; i < finishTimes.size(); i++) {
 				String currentTime = TotalTimeCalculator.computeDifference(res[2 + maxLaps + i], res[3 + maxLaps + i]);
@@ -63,18 +66,19 @@ public class MultiLapRace implements RaceType {
 
 		StringBuilder sb = new StringBuilder();
 
-		for (i = 0; i < res.length; i++) {
+		for (i = 0; i < res.length; i++)
 			sb.append(res[i]).append("; ");
-		}
-		if (startTimes.size() > 1) {
+
+		if (startTimes.size() > 1)
 			multipleStartTimesGen(sb);
-		}
-		if (impossibleLapTime) {
+
+		if (impossibleLapTime)
 			sb.append("Omöjlig varvtid?");
-		}
+
 		String out = sb.toString();
 		if (out.charAt(out.length() - 2) != ';')
 			return out;
+
 		return out.substring(0, out.length() - 2).trim();
 	}
 

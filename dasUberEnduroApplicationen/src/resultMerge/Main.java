@@ -1,6 +1,5 @@
 package resultMerge;
 
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,8 +13,6 @@ public class Main {
 
 		try {
 
-			Getopt g = new Getopt(args, "o:t:n:s:f:m:", true);
-
 			int c;
 			String outputFile = null;
 			String type = "maraton";
@@ -24,8 +21,8 @@ public class Main {
 			List<String> startFiles = new LinkedList<>();
 			List<String> finishFiles = new LinkedList<>();
 
-			
-			
+			Getopt g = new Getopt(args, "o:t:n:s:f:m:", true);
+
 			while ((c = g.getOption()) != -1) {
 
 				switch (c) {
@@ -70,13 +67,15 @@ public class Main {
 				for (String finishFile : finishFiles)
 					IOReader.readFinish(finishFile, db);
 
-				ResultWriter.write(outputFile, db);
+				ResultWriter.write(outputFile,db);
+				
 			} else {
-				System.out.println("Otillräcklig indata! Resultatfilens destination och namnfilens destination krävs.");
+				
+				System.out.println("Otillräcklig indata");
 			}
 
 		} catch (Exception e) {
-			System.out.println("Någon av filerna du angav gick inte att öppna.");
+
 			System.err.println(e);
 		}
 
