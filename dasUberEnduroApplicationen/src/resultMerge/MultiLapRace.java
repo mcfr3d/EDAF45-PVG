@@ -75,9 +75,9 @@ public class MultiLapRace implements RaceType {
 	
 
 	private void multipleStartTimesGen(StringBuilder sb) {
-		sb.append("Flera starttider?");
+		sb.append("Flera starttider? ");
 		for(int i=1;i< startTimes.size();i++){
-			sb.append(" " + startTimes.get(i));
+			sb.append(startTimes.get(i) + " ");
 		}
 		
 	}

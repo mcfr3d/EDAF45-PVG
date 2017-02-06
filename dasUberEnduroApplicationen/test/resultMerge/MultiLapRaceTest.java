@@ -68,7 +68,7 @@ public class MultiLapRaceTest {
 		temp.addFinish("12.22.00");
 		temp.addFinish("12.42.00");
 		temp.addFinish("13.05.06");
-		assertEquals("3; 01.03.06; 00.20.00; 00.20.00; 00.23.06; 12.02.00; 12.22.00; 12.42.00; 13.05.06; Flera starttider? 12.05.00", temp.genResult());
+		assertEquals("3; 01.03.06; 00.20.00; 00.20.00; 00.23.06; 12.02.00; 12.22.00; 12.42.00; 13.05.06; Flera starttider? 12.05.00 ", temp.genResult());
 	}
 	
 	@Test

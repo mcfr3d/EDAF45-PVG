@@ -16,7 +16,7 @@ public class ResultWriter {
 	public static void write(String path, Database db) {
 		try {
 			PrintWriter writer = new PrintWriter(path, "UTF-8");
-			writer.print(db.getResult());
+			writer.print(db.getResult(false));
 			writer.close();
 		} catch (IOException e) {
 			System.err.println("Couldn't write result to file!");
