@@ -14,7 +14,7 @@ public class Database {
 	private boolean multiLap;
 	private boolean massStart = false;
 	private String massStartTime;
-	private List<String> columnHeaders;
+	private String[] columnHeaders;
 
 	// kept so previous tests works. tests should be refactored.
 	// creates a db for OneLapRace without massStart.
@@ -193,7 +193,7 @@ public class Database {
 
 	public void setColumnHeaders(String[] columnHeaders) {
 
-		this.columnHeaders = Arrays.asList(columnHeaders);
+		this.columnHeaders = columnHeaders;
 	}
 
 }
