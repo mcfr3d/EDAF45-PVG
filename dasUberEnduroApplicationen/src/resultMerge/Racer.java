@@ -1,10 +1,14 @@
 package resultMerge;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class Racer {
 
 	private String name;
 	private String racerClass;
 	private int startNumber;
+	private List<String> optionalData = new LinkedList<>();
 	
 	private RaceType rt;
 
@@ -46,9 +50,14 @@ public class Racer {
 	
 	public String getFirstStartTime() {
 		return rt.getStart();
-	}
+	}	
 	
 	public int getLaps() {
 		return rt.getLaps();
+	}
+	
+	public void addOptionalData(String data) {
+		
+		optionalData.add(data);
 	}
 }

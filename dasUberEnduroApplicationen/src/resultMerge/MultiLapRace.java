@@ -23,9 +23,7 @@ public class MultiLapRace implements RaceType {
 	public void addFinish(String finish) {
 		finishTimes.add(finish);
 		this.finish = finishTimes.last();
-		if(startTimes.size() > 0){
-			maxLaps = Math.max(maxLaps, finishTimes.size());
-		}
+		maxLaps = Math.max(maxLaps, finishTimes.size());
 	}
 
 	@Override
@@ -39,10 +37,23 @@ public class MultiLapRace implements RaceType {
 		for(String s : finishTimes){
 			res[i++] = s;
 		}
-		res[0] = finishTimes.size() + "";
+		if(startTimes.isEmpty()){
+			res[0] = Math.max(0,finishTimes.size()-1) + "";
+		} else{
+			res[0] = finishTimes.size() + "";
+		}
 		res[1] = TotalTimeCalculator.computeDifference(start, finish);
-		for(i = 0; i < finishTimes.size(); i++){
-			res[2+i] = TotalTimeCalculator.computeDifference(res[2 + maxLaps + i], res[3 + maxLaps + i]);
+		boolean impossibleLapTime = false;
+		if(finishTimes.size() > 0) {
+			for(i = 0; i < finishTimes.size(); i++){
+				String currentTime = TotalTimeCalculator.computeDifference(res[2 + maxLaps + i], res[3 + maxLaps + i]);
+				res[2+i] = Character.isDigit(currentTime.charAt(0)) ? currentTime : "";
+				// Checks if impossible laptime
+				if(!TotalTimeCalculator.possibleTotalTime(res[2 + maxLaps + i], res[3 + maxLaps + i]) && Character.isDigit(currentTime.charAt(0))) impossibleLapTime = true; 
+			}
+		} else {
+			// Missing finish time
+			res[maxLaps + 3]  = "Slut?"; 
 		}
 		
 		StringBuilder sb = new StringBuilder();
@@ -50,9 +61,25 @@ public class MultiLapRace implements RaceType {
 		for(i = 0; i < res.length; i++){
 			sb.append(res[i]).append("; ");
 		}
+		if(startTimes.size()>1){
+			multipleStartTimesGen(sb);
+		}
+		if(impossibleLapTime) {
+			sb.append("Omöjlig varvtid?");
+		}
 		String out = sb.toString();
 		if(out.charAt(out.length() - 2) != ';') return out;
-		return out.substring(0, out.length() - 2);		
+		return out.substring(0, out.length() - 2).trim();		
+	}
+	
+	
+
+	private void multipleStartTimesGen(StringBuilder sb) {
+		sb.append("Flera starttider?");
+		for(int i=1;i< startTimes.size();i++){
+			sb.append(" " + startTimes.get(i));
+		}
+		
 	}
 
 	@Override

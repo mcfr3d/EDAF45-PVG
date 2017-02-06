@@ -1,6 +1,7 @@
 package resultMerge;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -11,6 +12,7 @@ public class Database {
 	private boolean multiLap;
 	private boolean massStart = false;
 	private String massStartTime;
+	private List<String> columnHeaders;
 
 	//kept so previous tests works. tests should be refactored.
 	// creates a db for OneLapRace without massStart.
@@ -116,6 +118,11 @@ public class Database {
 		return racers;
 	}
 
+	public void addOptionalData(int driver,String data) {
+		
+		getRacer(driver).addOptionalData(data);
+	}
+	
 	public int size() {
 		return racers.size();
 	}
@@ -170,6 +177,11 @@ public class Database {
 		}
 		header.append(" Mål");
 		return header.toString();
+	}
+
+	public void setColumnHeaders(String[] columnHeaders) {
+		
+		this.columnHeaders = Arrays.asList(columnHeaders);
 	}
 
 }

@@ -45,18 +45,13 @@ public class ResultWriterTest {
 		db.addStart(7,"00.00.00");
 		db.addFinish(7,"01.00.00");
 		
-		db.addRacer(9,"Jacob", "Damer");
-		db.addStart(9,"02.00.00");
-		db.addFinish(9,"04.00.00");
-		
 		ResultWriter.write(path, db);
 		
 		List<String> ls = Files.readAllLines(Paths.get(path));
-		assertEquals(4, ls.size());
+		assertEquals(3, ls.size());
 		assertEquals("Damer", ls.get(0));
 		assertEquals("StartNr; Namn; Totaltid; Starttid; Måltid", ls.get(1));
 		assertEquals("7; Emil; 01.00.00; 00.00.00; 01.00.00", ls.get(2));
-		assertEquals("9; Jacob; 02.00.00; 02.00.00; 04.00.00", ls.get(3));
 		
 	}
 

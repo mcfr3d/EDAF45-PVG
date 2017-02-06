@@ -47,7 +47,7 @@ public class IOReaderTest {
 	}
 
 	@Test
-	public void testReaderWith5Entries() throws IOException {
+	public void testReaderWith5Entries() throws Exception {
 		String start = "12.00.00";
 		String[] finish = { "13.00.00", "12.21.00", "12.43.00", "12.23.00", "12.24.00" , "13.00.01"};
 		String[] names = { "Anders Asson", "Bengt Bsson", "Chris Csson", "David Dsson", "Erik Esson", "Fredrik Fsson" };
