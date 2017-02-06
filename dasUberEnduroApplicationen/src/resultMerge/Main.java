@@ -18,15 +18,20 @@ public class Main {
 			String type = "maraton";
 			String massStartTime = null;
 			String nameFile = null;
+			String stipulatedTime = null;
 			List<String> startFiles = new LinkedList<>();
 			List<String> finishFiles = new LinkedList<>();
 
-			Getopt g = new Getopt(args, "o:t:n:s:f:m:", true);
+			Getopt g = new Getopt(args, "o:t:n:s:f:m:l:", true);
 
 			while ((c = g.getOption()) != -1) {
 
 				switch (c) {
-
+				
+				case 'l':
+					stipulatedTime = g.getOptarg();
+					break;
+				
 				case 'o':
 					outputFile = g.getOptarg();
 					break;
@@ -61,7 +66,14 @@ public class Main {
 				Database db = new Database(massStartTime, type.equals("varvlopp"));
 
 				IOReader.readNames(nameFile, db);
-
+				if (type.equals("varvlopp")) {
+					if (stipulatedTime != null) {
+						db.setStipulatedTime(stipulatedTime);
+					} else {
+						System.out.println("Otillräcklig indata");
+					}
+				}
+				
 				for (String startFile : startFiles)
 					IOReader.readStart(startFile, db);
 				for (String finishFile : finishFiles)

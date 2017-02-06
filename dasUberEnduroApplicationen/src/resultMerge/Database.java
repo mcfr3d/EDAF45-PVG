@@ -1,8 +1,6 @@
 package resultMerge;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -34,26 +32,17 @@ public class Database {
 		raceClasses = new ArrayList<String>();
 	}
 
-	// TODO: check that format of time is ok.
 	public boolean setMassStart(String time) {
-
-		boolean correctFormat = false;
-		try {
-			TotalTimeCalculator.timeFormater(time);
-			correctFormat = true;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		if (correctFormat) {
+		boolean isCorrectFormat =TotalTimeCalculator.isCorrectFormat(time);
+		
+		if (isCorrectFormat) {
 			massStart = true;
 			massStartTime = time;
 			for (Racer r : racers.values()) {
 				r.addStart(time);
 			}
 		}
-
-		return correctFormat;
+		return isCorrectFormat;
 	}
 
 	public void addRacer(int startNo, String name, String raceClass) {
@@ -116,7 +105,6 @@ public class Database {
 	}
 
 	public void addOptionalData(int driver, String data) {
-
 		getRacer(driver).addOptionalData(data);
 	}
 
