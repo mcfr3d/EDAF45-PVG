@@ -56,16 +56,16 @@ public class Output {
 				writer.println("        caption {");
 				writer.println("          font-weight: bold;");
 				writer.println("          border-width: 2px;");
-				writer.println("          border-color: \"#666666\";");
+				writer.println("          border-color: \"#D3E51D\";");
 				writer.println("          font-size: 500%;");
 				writer.println("        }");
 				writer.println("      </style>");
 				writer.println("      <title>Page Title</title>");
 				writer.println("      <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />");
 				writer.println("    </head>");
-				writer.println("    <body style=\"background-color: #F280A1\">");
-				writer.println("    <table style=\"width:100%\" bgcolor=\"#00FF00\">");
-				writer.println("      <caption>Das Über HTML Resultat</caption>");
+				writer.println("    <body style=\"background-color: #1733AF\">");
+				writer.println("    <table style=\"width:100%\" bgcolor=\"#D3E51D\">");
+				writer.println("      <caption><font color=\"yellow\">Das Über HTML Resultat</font></caption>");
 				for (List<String> line : lines) {
 
 					writer.println("      <tr>");

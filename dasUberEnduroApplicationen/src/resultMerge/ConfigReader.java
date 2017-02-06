@@ -59,9 +59,6 @@ public class ConfigReader {
 			System.out.println(e);
 			System.exit(0);
 		}
-
-		System.out.println("start filer: " + startFiles);
-		System.out.println("finish filer: " + finishFiles);
 		
 		Database db = new Database(massStartTime, type.equals("varvlopp"));
 
