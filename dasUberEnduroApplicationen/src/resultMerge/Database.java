@@ -2,6 +2,7 @@ package resultMerge;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 public class Database {
@@ -50,12 +51,24 @@ public class Database {
 		return correctFormat;
 	}
 
+	public void addRacer(int startNo, String name, String raceClass) {
+		Racer r = new Racer(startNo, multiLap);
+		r.setName(name);
+		r.setRacerClass(raceClass);
+		if(racers.containsKey(startNo)) {
+			System.err.println("A racer with the startNo" + startNo + " was already in database");
+		} else {
+			racers.put(startNo, r);
+		}
+	}
+	
 	private Racer getRacer(int driver) {
 
 		if (racers.containsKey(driver))
 			return racers.get(driver);
 
 		Racer r = new Racer(driver, multiLap);
+		r.setRacerClass("Ej Anmäld");
 		racers.put(driver, r);
 
 		return r;
@@ -105,6 +118,58 @@ public class Database {
 
 	public int size() {
 		return racers.size();
+	}
+	
+	public String getResult() {
+		StringBuilder sb = new StringBuilder();
+		HashMap<String, HashSet<Racer>> raceClasses = new HashMap<>();
+		for(Racer r: racers.values()) {
+			String raceC = r.getRacerClass();
+			if(!raceClasses.containsKey(r.getRacerClass())) {
+				raceClasses.put(raceC, new HashSet<>());
+			}
+			raceClasses.get(raceC).add(r);
+		}
+		
+		for(String s: raceClasses.keySet()) {
+			sb.append(genResultForClass(s, raceClasses.get(s)));
+		}
+		
+		return sb.toString();
+	}
+	
+	private String genResultForClass(String raceClass, HashSet<Racer> racersInClass) {
+		int maxLaps = 0;
+		for(Racer r: racersInClass) {
+			maxLaps = Math.max(maxLaps, r.getLaps());
+		}
+		StringBuilder sb = new StringBuilder();
+		if(!raceClass.equals("")) sb.append(raceClass).append('\n');
+		sb.append(genHeader(maxLaps)).append('\n');
+		//should be done dependent on what race we have
+		MultiLapRace.setMaxLaps(maxLaps);
+		
+		for(Racer r: racersInClass) {
+			sb.append(r.toString()).append('\n');
+		}
+		
+		return sb.toString();
+	}
+	
+	private String genHeader(int laps) {
+		if(!multiLap) {
+			return "StartNr; Namn; Totaltid; Starttid; Måltid";
+		}
+		StringBuilder header = new StringBuilder("StartNr; Namn; #Varv; TotalTid;");
+		for(int i = 1; i<=laps; i++) {
+			header.append(" Varv" + i + ";");
+		}
+		header.append(" Start;");
+		for (int i = 1; i < laps; i++) {
+			header.append(" Varvning"+ i + ";");
+		}
+		header.append(" Mål");
+		return header.toString();
 	}
 
 }

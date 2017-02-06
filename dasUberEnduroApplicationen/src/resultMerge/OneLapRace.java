@@ -82,5 +82,10 @@ public class OneLapRace implements RaceType {
 	public String getFinish() {
 		return finish;
 	}
+	
+	@Override
+	public int getLaps() {
+		return Math.min(1, Math.min(startTimes.size(), finishTimes.size()));
+	}
 
 }

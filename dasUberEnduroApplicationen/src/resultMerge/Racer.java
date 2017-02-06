@@ -47,4 +47,8 @@ public class Racer {
 	public String getFirstStartTime() {
 		return rt.getStart();
 	}
+	
+	public int getLaps() {
+		return rt.getLaps();
+	}
 }
