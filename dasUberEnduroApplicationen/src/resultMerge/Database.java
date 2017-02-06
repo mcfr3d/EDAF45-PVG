@@ -127,7 +127,7 @@ public class Database {
 		HashMap<String, HashSet<Racer>> raceClasses = new HashMap<>();
 		for (Racer r : racers.values()) {
 			String raceC = r.getRacerClass();
-			if (!raceClasses.containsKey(r.getRacerClass())) {
+			if (!raceClasses.containsKey(raceC)) {
 				raceClasses.put(raceC, new HashSet<>());
 			}
 			raceClasses.get(raceC).add(r);
