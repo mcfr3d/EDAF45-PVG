@@ -61,13 +61,14 @@ public class IOReaderTest {
 		assertEquals(map.size(), 6);
 		for (int i : map.keySet()) {
 			Racer r = map.get(i);
-			String s[] = r.toString().split("; ");
-			assertEquals(s[0], Integer.toString(i)); // s[0] borde returnera
+			String tostr = r.toString();
+			String s[] = tostr.split("; ");
+			assertEquals(Integer.toString(i), s[0]); // s[0] borde returnera
 														// startnummer
-			assertEquals(s[1], names[i - 1]); // s[1] borde returnera namn
-			assertEquals(s[3], start); // s[3] borde returnera starttid
-			assertEquals(s[4], finish[i - 1]); // s[4] borde returnera sluttid
-			assertEquals(r.getRacerClass(), classes[i - 1]); // kollar
+			assertEquals(names[i - 1], s[1]); // s[1] borde returnera namn
+			assertEquals(start, s[3]); // s[3] borde returnera starttid
+			assertEquals(finish[i - 1], s[4]); // s[4] borde returnera sluttid
+			assertEquals(classes[i - 1], r.getRacerClass()); // kollar
 																// racerklass
 		}
 	}

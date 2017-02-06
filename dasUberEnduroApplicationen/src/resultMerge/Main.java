@@ -63,6 +63,7 @@ public class Main {
 
 			if (outputFile != null && nameFile != null) {
 
+				System.out.println(type.equals("varvlopp"));
 				Database db = new Database(massStartTime, type.equals("varvlopp"));
 
 				IOReader.readNames(nameFile, db);
