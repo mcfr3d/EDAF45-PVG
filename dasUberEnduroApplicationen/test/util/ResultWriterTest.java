@@ -36,8 +36,31 @@ public class ResultWriterTest {
 
 		List<String> ls = Files.readAllLines(Paths.get(path));
 		assertEquals(2, ls.size());
-		assertEquals("StartNr; Namn; #Varv; TotalTid; Varv1; Start; Mål", ls.get(0));
-		assertEquals("7; Emil; 1; 01.00.00; 01.00.00; 00.00.00; 01.00.00", ls.get(1));
+		assertEquals("Plac; StartNr; Namn; #Varv; TotalTid; Varv1; Start; Mål", ls.get(0));
+		assertEquals("1; 7; Emil; 1; 01.00.00; 01.00.00; 00.00.00; 01.00.00", ls.get(1));
+
+	}
+	
+	@Test
+	public void testStipulatedTimeMultiLapRace() throws IOException {
+		db = new Database(null, true);
+		db.setStipulatedTime("01.00.00");
+		String[] s = { "StartNr", "Namn" };
+		db.setColumnHeaders(s);
+		db.addRacer(7, "Emil", "");
+		db.addStart(7, "00.00.00");
+		db.addFinish(7, "01.00.05");
+		
+		db.addRacer(8, "Kalle", "");
+		db.addStart(8, "00.00.00");
+		db.addFinish(8, "00.55.00");
+		ResultWriter.write(path, db);
+
+		List<String> ls = Files.readAllLines(Paths.get(path));
+		assertEquals(3, ls.size());
+		assertEquals("Plac; StartNr; Namn; #Varv; TotalTid; Varv1; Start; Mål", ls.get(0));
+		assertEquals("1; 7; Emil; 1; 01.00.05; 01.00.05; 00.00.00; 01.00.05", ls.get(1));
+		assertEquals("; 8; Kalle; 1; 00.55.00; 00.55.00; 00.00.00; 00.55.00", ls.get(2));
 
 	}
 
@@ -52,8 +75,8 @@ public class ResultWriterTest {
 		List<String> ls = Files.readAllLines(Paths.get(path));
 		assertEquals(3, ls.size());
 		assertEquals("Damer", ls.get(0));
-		assertEquals("StartNr; Namn; Totaltid; Starttid; Måltid", ls.get(1));
-		assertEquals("7; Emil; 01.00.00; 00.00.00; 01.00.00", ls.get(2));
+		assertEquals("Plac; StartNr; Namn; Totaltid; Starttid; Måltid", ls.get(1));
+		assertEquals("1; 7; Emil; 01.00.00; 00.00.00; 01.00.00", ls.get(2));
 
 	}
 
@@ -77,14 +100,14 @@ public class ResultWriterTest {
 		assertEquals("DAMER", set.first());
 		assertEquals("SENIOR", set.last());
 
-		assertEquals("StartNr; Namn; Totaltid; Starttid; Måltid", ls.get(1));
-		assertEquals("StartNr; Namn; Totaltid; Starttid; Måltid", ls.get(4));
+		assertEquals("Plac; StartNr; Namn; Totaltid; Starttid; Måltid", ls.get(1));
+		assertEquals("Plac; StartNr; Namn; Totaltid; Starttid; Måltid", ls.get(4));
 
 		set = new TreeSet<>();
 		set.add(ls.get(2));
 		set.add(ls.get(5));
-		assertEquals("9; Jacob; 02.00.00; 02.00.00; 04.00.00", set.last());
-		assertEquals("10; Emil; 01.00.00; 02.00.01; 03.00.01", set.first());
+		assertEquals("1; 9; Jacob; 02.00.00; 02.00.00; 04.00.00", set.last());
+		assertEquals("1; 10; Emil; 01.00.00; 02.00.01; 03.00.01", set.first());
 	}
 	
 	@Test public void testDynamicHeader() throws IOException {
@@ -101,7 +124,7 @@ public class ResultWriterTest {
 		List<String> ls = Files.readAllLines(Paths.get(path));
 		assertEquals(3, ls.size());
 		assertEquals("Damer", ls.get(0));
-		assertEquals("StartNr; Namn; Klubb; Totaltid; Starttid; Måltid", ls.get(1));
-		assertEquals("7; Emil; Djurgården; 01.00.00; 00.00.00; 01.00.00", ls.get(2));
+		assertEquals("Plac; StartNr; Namn; Klubb; Totaltid; Starttid; Måltid", ls.get(1));
+		assertEquals("1; 7; Emil; Djurgården; 01.00.00; 00.00.00; 01.00.00", ls.get(2));
 	}
 }

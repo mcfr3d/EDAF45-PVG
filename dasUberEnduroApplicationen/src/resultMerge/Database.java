@@ -184,7 +184,7 @@ public class Database {
 			sb.append(i + "; " + sortedRacerList.get(i-1).toString()).append('\n');
 		}
 		for(int i = 0; i < invalidStipulatedTime.size(); i++) {
-			sb.append(invalidStipulatedTime.get(i).toString()).append('\n');
+			sb.append("; " + invalidStipulatedTime.get(i).toString()).append('\n');
 		}
 	}
 	
