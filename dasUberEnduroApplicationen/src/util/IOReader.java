@@ -28,7 +28,12 @@ public class IOReader {
 
 		for (String s : start) {
 			int firstDelimiter = s.indexOf(";");
-			db.addStart(Integer.parseInt(s.substring(0, firstDelimiter)), s.substring(firstDelimiter + 2));
+			if(firstDelimiter != -1) {
+				db.addStart(Integer.parseInt(s.substring(0, firstDelimiter)), s.substring(firstDelimiter + 2));
+			} else if(!s.equals("")) {
+				System.err.println("feeel: " + s);
+				throw new IOException(s);
+			}
 		}
 	}
 
