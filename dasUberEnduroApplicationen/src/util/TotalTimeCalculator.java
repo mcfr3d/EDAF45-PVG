@@ -48,8 +48,18 @@ public class TotalTimeCalculator {
 		time[0] = (seconds / (60 * 60)) % 60;
 		return time;
 	}
-
-	public static String timeFormater(String input) throws Exception {
+	
+	public static boolean isCorrectFormat(String input) {
+		try {
+			timeFormatter(input);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+		
+	}
+	
+	public static String timeFormatter(String input) throws Exception {
 		int tempSeconds = toSeconds(input);
 		int[] time = secondsToTime(tempSeconds);
 		return String.format("%02d.%02d.%02d", time[0], time[1], time [2]);
