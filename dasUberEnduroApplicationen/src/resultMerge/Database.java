@@ -160,19 +160,35 @@ public class Database {
 	}
 
 	private String genHeader(int laps) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(genRacerHeader());
+		sb.append(genRaceTypeHeader(laps));
+		return sb.toString();
+	}
+
+	private String genRacerHeader() {
+		StringBuilder sb = new StringBuilder();
+		for (String s : columnHeaders) {
+			sb.append(s + "; ");
+		}
+		return sb.toString();
+	}
+
+	private String genRaceTypeHeader(int laps) {
 		if (!multiLap) {
-			return "StartNr; Namn; Totaltid; Starttid; Måltid";
+			return "Totaltid; Starttid; Måltid";
+		} else {
+			StringBuilder header = new StringBuilder("#Varv; TotalTid;");
+			for (int i = 1; i <= laps; i++) {
+				header.append(" Varv" + i + ";");
+			}
+			header.append(" Start;");
+			for (int i = 1; i < laps; i++) {
+				header.append(" Varvning" + i + ";");
+			}
+			header.append(" Mål");
+			return header.toString();
 		}
-		StringBuilder header = new StringBuilder("StartNr; Namn; #Varv; TotalTid;");
-		for (int i = 1; i <= laps; i++) {
-			header.append(" Varv" + i + ";");
-		}
-		header.append(" Start;");
-		for (int i = 1; i < laps; i++) {
-			header.append(" Varvning" + i + ";");
-		}
-		header.append(" Mål");
-		return header.toString();
 	}
 
 	public void setColumnHeaders(String[] columnHeaders) {

@@ -9,17 +9,18 @@ public class Racer {
 	private String racerClass;
 	private int startNumber;
 	private List<String> optionalData = new LinkedList<>();
-	
+
 	private RaceType rt;
 
-	//kept so previous tests works. tests should be refactored.
-	//creates a racer for OneLapRace.
+	// kept so previous tests works. tests should be refactored.
+	// creates a racer for OneLapRace.
 	public Racer(int startNumber) {
 		this(startNumber, false);
 	}
+
 	public Racer(int startNumber, boolean multiLap) {
 		this.startNumber = startNumber;
-		rt = multiLap ? new MultiLapRace(): new OneLapRace();
+		rt = multiLap ? new MultiLapRace() : new OneLapRace();
 	}
 
 	public void setName(String name) {
@@ -33,31 +34,35 @@ public class Racer {
 	public void addFinish(String finishTime) {
 		rt.addFinish(finishTime);
 	}
-	
-	//DUMMY
+
+	// DUMMY
 	public void setRacerClass(String raceClass) {
 		this.racerClass = raceClass;
 	}
-	
-	//DUMMY
+
+	// DUMMY
 	public String getRacerClass() {
 		return racerClass;
 	}
 
 	public String toString() {
-		return startNumber + "; " + name + "; " + rt.genResult();
+		StringBuilder sb = new StringBuilder();
+		for (String s : optionalData) {
+			sb.append(s + "; ");
+		}
+		return startNumber + "; " + name + "; " + sb.toString() + rt.genResult();
 	}
-	
+
 	public String getFirstStartTime() {
 		return rt.getStart();
-	}	
-	
+	}
+
 	public int getLaps() {
 		return rt.getLaps();
 	}
-	
+
 	public void addOptionalData(String data) {
-		
+
 		optionalData.add(data);
 	}
 }
