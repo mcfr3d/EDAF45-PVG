@@ -52,16 +52,20 @@ public class IOReader {
 
 		String currentClass = "";
 
-		String[] columnHeaders = lines.get(0).split("\\;\\ ");
-
+		String[] columnHeaders = lines.get(0).split(";");
 		if (columnHeaders.length < 2)
 			throw new Exception("Syntax error");
+		for(int i = 0; i<columnHeaders.length; i++)
+			columnHeaders[i] = columnHeaders[i].trim();
 
 		db.setColumnHeaders(columnHeaders);
 
 		for (int i = 1; i < lines.size(); i++) {
 
-			String[] words = lines.get(i).split("\\;\\ ");
+			String[] words = lines.get(i).split(";");
+			for(int j = 0; i<words.length; i++)
+				words[j] = words[j].trim();
+				
 
 			if (words.length == 1) {
 
