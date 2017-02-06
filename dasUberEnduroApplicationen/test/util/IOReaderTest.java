@@ -49,25 +49,26 @@ public class IOReaderTest {
 	@Test
 	public void testReaderWith5Entries() throws Exception {
 		String start = "12.00.00";
-		String[] finish = { "13.00.00", "12.21.00", "12.43.00", "12.23.00", "12.24.00" , "13.00.01"};
+		String[] finish = { "13.00.00", "12.21.00", "12.43.00", "12.23.00", "12.24.00", "13.00.01" };
 		String[] names = { "Anders Asson", "Bengt Bsson", "Chris Csson", "David Dsson", "Erik Esson", "Fredrik Fsson" };
 		String[] classes = { "SENIOR", "SENIOR", "JUNIOR", "JUNIOR", "JUNIOR", "JUNIOR" };
 		Database db = new Database();
+		IOReader.readNames("namnfil.txt", db);
 		IOReader.readStart("starttider.txt", db);
 		IOReader.readFinish("maltider.txt", db);
-		IOReader.readNames("namnfil.txt", db);
 		IOReader.readStart("starttider2.txt", db);
 		HashMap<Integer, Racer> map = db.getRacers();
 		assertEquals(map.size(), 6);
 		for (int i : map.keySet()) {
 			Racer r = map.get(i);
 			String s[] = r.toString().split("; ");
-			assertEquals(s[0], Integer.toString(i)); //s[0] borde returnera startnummer
-			assertEquals(s[1], names[i - 1]); //s[1] borde returnera namn
-			System.out.println( s[3] + ", " + start);
-			assertEquals(s[3], start); //s[3] borde returnera starttid
-			assertEquals(s[4], finish[i - 1]); //s[4] borde returnera sluttid
-			assertEquals(r.getRacerClass(), classes[i - 1]); //kollar racerklass
+			assertEquals(s[0], Integer.toString(i)); // s[0] borde returnera
+														// startnummer
+			assertEquals(s[1], names[i - 1]); // s[1] borde returnera namn
+			assertEquals(s[3], start); // s[3] borde returnera starttid
+			assertEquals(s[4], finish[i - 1]); // s[4] borde returnera sluttid
+			assertEquals(r.getRacerClass(), classes[i - 1]); // kollar
+																// racerklass
 		}
 	}
 
