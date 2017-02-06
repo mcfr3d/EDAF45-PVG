@@ -6,3 +6,4 @@
 *.jar
 *.txt
 **/.gradle
+*.zip
