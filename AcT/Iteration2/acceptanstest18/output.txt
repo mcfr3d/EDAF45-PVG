@@ -1,0 +1,9 @@
+JUNIOR
+StartNr; Namn; Klubb; MC; Totaltid; Starttid; Måltid
+102; David Dsson; Dstad MCK; DTM; 00.23.00; 12.00.00; 12.23.00; Flera måltider? 12.43.00 13.12.07
+103; Erik Esson; Estad MCK; ETM; 00.24.00; 12.00.00; 12.24.00; Flera måltider? 12.44.00
+101; Chris Csson; Cstad MCK; CTM; 01.05.06; 12.00.00; 13.05.06; Flera måltider? 12.22.00 12.42.00
+SENIOR
+StartNr; Namn; Klubb; MC; Totaltid; Starttid; Måltid
+2; Bengt Bsson; FMCK Bstad; BTM; 00.21.00; 12.00.00; 12.21.00; Flera måltider? 12.41.00 12.59.16
+1; Anders Asson; FMCK Astad; ATM; 00.55.00; 12.00.00; 12.55.00; Flera måltider? 12.30.00 13.23.34
