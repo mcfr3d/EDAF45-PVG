@@ -1,10 +1,10 @@
 {
-	"race type" : "varvlopp",
+	"race type" : "maraton",
 	"outputs" : [
 		{
-			"file" : "dasUberEnduroApplicationen/mapp_med_shit/resultat_unsorted.txt",
+			"file" : "dasUberEnduroApplicationen/mapp_med_shit/resultat.html",
 			"sort" : false,
-			"html" : false
+			"html" : true
 		},
 		{
 			"file" : "dasUberEnduroApplicationen/mapp_med_shit/resultat_sorted.txt",

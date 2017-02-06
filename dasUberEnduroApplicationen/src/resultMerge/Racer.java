@@ -43,6 +43,10 @@ public class Racer implements Comparable<Racer>{
 	public String getRacerClass() {
 		return racerClass;
 	}
+	
+	public int getStartNumber() {
+		return startNumber;
+	}
 
 	public String toString() {
 		StringBuilder sb = new StringBuilder();

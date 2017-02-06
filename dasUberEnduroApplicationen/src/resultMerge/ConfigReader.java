@@ -31,15 +31,11 @@ public class ConfigReader {
 
 			JSONObject root = new JSONObject(new JSONTokener(reader));
 
-
 			JSONArray jsonOutputs = root.getJSONArray("outputs");
 			
-
             for(int i = 0; i < jsonOutputs.length(); ++i)
             	outputs.add(new Output(jsonOutputs.getJSONObject(i)));
 			
-			
-			//outputFilePath = root.getString("output");
 			type = root.optString("race type", "maraton");
 			massStartTime = root.optString("group start", null);
 			nameFilePath = root.getString("name file");
@@ -78,8 +74,6 @@ public class ConfigReader {
 
 		for (Output output : outputs)
 			output.write(db);
-		
-	//	ResultWriter.write(outputFilePath, db);
 
 	}
 

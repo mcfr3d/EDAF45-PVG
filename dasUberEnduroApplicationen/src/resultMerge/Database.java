@@ -165,9 +165,7 @@ public class Database {
 			writeSortedResult(sb, maxLaps, racersInClass);
 		} else {
 			sb.append(genHeader(maxLaps)).append('\n');
-			for (Racer r : racersInClass) {
-				sb.append(r.toString()).append('\n');
-			}
+			writeUnsortedResult(sb, racersInClass);
 		}
 
 		return sb.toString();
@@ -199,6 +197,24 @@ public class Database {
 		}
 		for(int i = 0; i < invalidStipulatedTime.size(); i++) {
 			sb.append(invalidStipulatedTime.get(i).toString()).append('\n');
+		}
+	}
+	
+	private void writeUnsortedResult(StringBuilder sb, HashSet<Racer> racers) {
+		ArrayList<Racer> sortedByStartNumberlist = new ArrayList<>();
+		for (Racer r : racers) {
+			
+			if (sortedByStartNumberlist.isEmpty()) {
+				sortedByStartNumberlist.add(r);
+			} else {
+				int index = 0;
+				while (index < sortedByStartNumberlist.size() && r.getStartNumber() > sortedByStartNumberlist.get(index).getStartNumber())
+					index++;
+				sortedByStartNumberlist.add(index, r);
+			}
+		}
+		for (Racer r : sortedByStartNumberlist) {
+			sb.append(r.toString()).append("\n");
 		}
 	}
 
