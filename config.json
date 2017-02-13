@@ -1,0 +1,19 @@
+{
+	"race type" : "varvlopp",
+	"outputs" : [
+		{
+			"file" : "dasUberEnduroApplicationen/mapp_med_shit/resultat.html",
+			"sort" : false,
+			"html" : true
+		},
+		{
+			"file" : "dasUberEnduroApplicationen/mapp_med_shit/resultat_sorted.txt",
+			"sort" : true
+		}
+	],
+	"name file" : "dasUberEnduroApplicationen/mapp_med_shit/namnfil.txt",
+	"start files" : [],
+	"finish files" : ["dasUberEnduroApplicationen/mapp_med_shit/maltider.txt"],
+	"group start" : "03.00.00",
+	"stipulated time" : "01.00.00"
+}
