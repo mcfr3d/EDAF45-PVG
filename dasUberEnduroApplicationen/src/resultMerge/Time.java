@@ -76,6 +76,10 @@ public class Time {
 		return etapp;
 	}
 
+	public int getTimeAsInt() {
+		return time;
+	}
+	
 	public Time add(Time etappTime)  {
 		return new Time(this.time + etappTime.time);
 	}
