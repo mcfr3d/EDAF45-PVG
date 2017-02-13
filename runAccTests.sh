@@ -1,32 +1,22 @@
 #!/bin/bash
-cd dasUberEnduroApplicationen && ./mkjars.sh && cd ..
+home=$(pwd)
+cd dasUberEnduroApplicationen && ./gradlew build && cd ..
 for d in AcT/*/*/ ; do
-	args="-o "${d}"output.txt"
-	
-	for f in ${d}namnfil* ; do
-	    args="$args -n $f"
-	done
-	
-	for f in ${d}starttider* ; do
-	    args="$args -s $f"
-	done
-	
-	for f in ${d}maltider* ; do
-	    args="$args -f $f"
-	done
-	
+	cd $d
 	echo $d
-	java -jar dasUberEnduroApplicationen/jar/resultMerge.jar $args
+	java -jar ${home}/dasUberEnduroApplicationen/resultMerge/build/libs/resultMerge.jar
 	
-	diff ${d}output.txt ${d}resultat.txt
-
-	if diff ${d}output.txt ${d}resultat.txt >/dev/null; then
+	diff output.txt resultat.txt
+	
+	if diff output.txt resultat.txt >/dev/null; then
     	echo "Passed";
 	else
     	echo "Failed";
 	fi
+	
+	# rm -f output.txt
+	# rm -f output_sorterad.txt
     echo "";
     echo "";
-	
-	
+    cd $home
 done

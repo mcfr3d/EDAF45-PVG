@@ -1,0 +1,16 @@
+{
+	"race type" : "marathon",
+	"outputs" : [
+		{
+			"file" : "output.txt",
+			"sort" : false
+		},
+		{
+			"file" : "output_sorterad.txt",
+			"sort" : true
+		}
+	],
+	"name file" : "namnfil.txt",
+	"start files" : ["starttider.txt"],
+	"finish files" : ["maltider.txt"]
+}

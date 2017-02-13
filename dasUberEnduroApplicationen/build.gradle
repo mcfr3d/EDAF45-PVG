@@ -1,24 +1,57 @@
-apply plugin: 'java'
+subprojects {
+    apply plugin: 'java'
+    
+	repositories {
+		mavenCentral()
+	}
 
-repositories {
-   mavenCentral()
+	dependencies {
+		compile files('../jar/json-20160810.jar')
+		testCompile 'junit:junit:4.12'
+	}
 }
 
-dependencies {
-   compile files('jar/json-20160810.jar')
-   testCompile 'junit:junit:4.12'
-}
-
-sourceSets {
-   main {
-      java {
-         srcDir 'src'
-      }
-   }
+project(':registration') {
+    sourceSets {
+        main {
+            java {
+                srcDir '../src'
+            }
+        }
 	
-   test {
-      java {
-         srcDir 'test'
-      }
-   }
+		test {
+			java {
+				srcDir '../test'
+			}
+		}
+    }
+    
+    jar {
+    	manifest {
+    		attributes 'Main-Class': 'registration.Main'
+    	}
+    }
+}
+
+project(':resultMerge') {
+    sourceSets {
+        main {
+            java {
+                srcDir '../src'
+            }
+        }
+	
+		test {
+			java {
+				srcDir '../test'
+			}
+		}
+    }
+    
+    jar {
+    	from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    	manifest {
+    		attributes 'Main-Class': 'resultMerge.Main'
+    	}
+    }
 }
