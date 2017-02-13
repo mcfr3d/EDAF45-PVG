@@ -15,6 +15,7 @@ for d in AcT/*/*/ ; do
 	fi
 	
 	if [ -f sortresultat.txt ]; then
+		echo "";
 		diff output.txt sortresultat.txt
 	
 		if diff output.txt sortresultat.txt >/dev/null; then
