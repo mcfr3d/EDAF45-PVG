@@ -47,14 +47,15 @@ public class Database {
 		return isCorrectFormat;
 	}
 
-	public void addRacer(int startNo, String name, String raceClass) {
+	public boolean addRacer(int startNo, String name, String raceClass) {
 		Racer r = new Racer(startNo, multiLap);
 		r.setName(name);
 		r.setRacerClass(raceClass);
 		if (racers.containsKey(startNo)) {
-			System.err.println("A racer with the startNo" + startNo + " was already in database");
+			return false;
 		} else {
 			racers.put(startNo, r);
+			return true;
 		}
 	}
 
@@ -74,7 +75,7 @@ public class Database {
 	public void addFinish(int driver, String time) {
 
 		Racer r = getRacer(driver);
-		if (massStart)
+		if (massStart && r.getFirstStartTime().equals(""))
 			r.addStart(massStartTime);
 		r.addFinish(time);
 	}
@@ -97,11 +98,7 @@ public class Database {
 	public boolean isMultiLapRace() {
 		return multiLap;
 	}
-
-	public List<String> getRaceClasses() {
-		return raceClasses;
-	}
-
+	
 	public HashMap<Integer, Racer> getRacers() {
 		return racers;
 	}

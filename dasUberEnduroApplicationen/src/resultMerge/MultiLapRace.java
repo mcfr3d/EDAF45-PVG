@@ -26,6 +26,10 @@ public class MultiLapRace implements RaceType {
 	public void addTime(Time t) {
 		// TODO Auto-generated method stub
 	}
+
+	private String totalTime() {
+		return TotalTimeCalculator.computeDifference(getStart(), getFinish());
+	}
 	
 	@Override
 	public String genResult() {
@@ -45,7 +49,7 @@ public class MultiLapRace implements RaceType {
 			res[0] = finishTimes.size() + "";
 		}
 
-		res[1] = TotalTimeCalculator.computeDifference(getStart(), getFinish());
+		res[1] = totalTime();
 		boolean impossibleLapTime = false;
 
 		if (finishTimes.size() > 0) {
@@ -117,33 +121,30 @@ public class MultiLapRace implements RaceType {
 
 	@Override
 	public int compareTo(RaceType o) {
-		MultiLapRace other = (MultiLapRace)o;
+		MultiLapRace other = (MultiLapRace) o;
 		boolean thisValid = isValid();
 		boolean otherValid = other.isValid();
 		if (thisValid && otherValid) {
 			int diff = this.finishTimes.size() - other.finishTimes.size();
-			if(diff == 0) {
-				String thisTotal = TotalTimeCalculator.computeDifference(getStart(), getFinish());
-				String otherTotal = TotalTimeCalculator.computeDifference(other.getStart(), other.getFinish());
-				return thisTotal.compareTo(otherTotal);
-			} else {
-				return diff > 0 ? -1 : 1;
-			}
+			if (diff != 0)
+				return -diff;
+			return totalTime().compareTo(other.totalTime());
 		}
+		
 		return thisValid ? -1 : (otherValid ? 1 : 0);
 	}
 
 	/*
-	 * True if:
-	 * one start time
-	 * atleast one finish time
-	 * all laps longer than minimum laptime
+	 * True if: one start time atleast one finish time all laps longer than
+	 * minimum laptime
 	 */
 	private boolean isValid() {
-		if(startTimes.size() != 1 || finishTimes.size() < 1) return false;
+		if (startTimes.size() != 1 || finishTimes.size() < 1)
+			return false;
 		String prev = startTimes.getFirst();
-		for(String finish : finishTimes) {
-			if(!TotalTimeCalculator.possibleTotalTime(prev, finish)) return false;
+		for (String finish : finishTimes) {
+			if (!TotalTimeCalculator.possibleTotalTime(prev, finish))
+				return false;
 			prev = finish;
 		}
 		return true;

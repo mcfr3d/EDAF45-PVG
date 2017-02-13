@@ -18,7 +18,7 @@ public class ConfigReader {
 	public static void readConfig(String configFilePath) throws Exception {
 
 		
-		List<Output> outputs = new LinkedList<>();
+		String outputFolder = null;
 		String type = "maraton";
 		String massStartTime = null;
 		String nameFilePath = null;
@@ -32,22 +32,21 @@ public class ConfigReader {
 
 			JSONObject root = new JSONObject(new JSONTokener(reader));
 
-			JSONArray jsonOutputs = root.getJSONArray("outputs");
-			
-            for(int i = 0; i < jsonOutputs.length(); ++i)
-            	outputs.add(new Output(jsonOutputs.getJSONObject(i)));
+			outputFolder = root.optString("output folder", "");
 			
 			type = root.optString("race type", "maraton");
 			massStartTime = root.optString("group start", null);
 			nameFilePath = root.getString("name file");
 			stipulatedTime = root.optString("stipulated time", null);
 
-			JSONArray jsonStartFiles = root.getJSONArray("start files");
+
+            if (massStartTime == null) {
+    			JSONArray jsonStartFiles = root.getJSONArray("start files");
+            	for(int i = 0; i < jsonStartFiles.length(); ++i)
+            		startFiles.add(jsonStartFiles.getString(i));
+            }
+            
 			JSONArray jsonFinishFiles = root.getJSONArray("finish files");
-
-            for(int i = 0; i < jsonStartFiles.length(); ++i)
-            	startFiles.add(jsonStartFiles.getString(i));
-
             for(int i = 0; i < jsonFinishFiles.length(); ++i)
             	finishFiles.add(jsonFinishFiles.getString(i));
 			
@@ -79,8 +78,7 @@ public class ConfigReader {
 		for (String finishFile : finishFiles)
 			IOReader.readFinish(finishFile, db);
 
-		for (Output output : outputs)
-			output.write(db);
+		ResultWriter.write(outputFolder, db);
 
 	}
 

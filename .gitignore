@@ -8,3 +8,7 @@
 **/.gradle
 *.zip
 .DS_Store
+dasUberEnduroApplicationen/registration/
+dasUberEnduroApplicationen/resultMerge/
+.Rhistory
+**/.Rhistory
