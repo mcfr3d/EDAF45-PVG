@@ -18,7 +18,11 @@ public class OneLapRace implements RaceType {
 	public void addFinish(String finish) {
 		finishTimes.add(finish);
 	}
-
+	
+	public void addTime(Time t) {
+		// TODO Auto-generated method stub
+	}
+	
 	@Override
 	public String genResult() {
 		StringBuilder sb = new StringBuilder();
