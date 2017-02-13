@@ -75,7 +75,7 @@ public class Database {
 	public void addFinish(int driver, String time) {
 
 		Racer r = getRacer(driver);
-		if (massStart)
+		if (massStart && r.getFirstStartTime().equals(""))
 			r.addStart(massStartTime);
 		r.addFinish(time);
 	}
