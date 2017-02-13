@@ -1,6 +1,8 @@
 package resultMerge;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -167,18 +169,12 @@ public class Database {
 			
 			String rTime = TotalTimeCalculator.computeDifference(r.getFirstStartTime(), r.getFinishTime());
 			if(rTime.compareTo(stipulatedTime) > 0) {
-				if (sortedRacerList.isEmpty()) {
-					sortedRacerList.add(r);
-				} else {
-					int index = 0;
-					while (index < sortedRacerList.size() && r.compareTo(sortedRacerList.get(index)) > 0)
-						index++;
-					sortedRacerList.add(index, r);
-				}				
+				sortedRacerList.add(r);
 			} else {
 				invalidStipulatedTime.add(r);
 			}
 		}
+		Collections.sort(sortedRacerList);
 		
 		for(int i = 1; i <= sortedRacerList.size(); i++) {
 			sb.append(i + "; " + sortedRacerList.get(i-1).toString()).append('\n');
@@ -188,22 +184,26 @@ public class Database {
 		}
 	}
 	
+	/*
+	 * Sort racers based on only start number
+	 */
 	private void writeUnsortedResult(StringBuilder sb, HashSet<Racer> racers) {
-		ArrayList<Racer> sortedByStartNumberlist = new ArrayList<>();
-		for (Racer r : racers) {
+		
+		ArrayList<Racer> list = new ArrayList<>();
+		
+		for (Racer r : racers)
+			list.add(r);
+		
+		list.sort(new Comparator<Racer>(){
 			
-			if (sortedByStartNumberlist.isEmpty()) {
-				sortedByStartNumberlist.add(r);
-			} else {
-				int index = 0;
-				while (index < sortedByStartNumberlist.size() && r.getStartNumber() > sortedByStartNumberlist.get(index).getStartNumber())
-					index++;
-				sortedByStartNumberlist.add(index, r);
+			@Override
+			public int compare(Racer a, Racer b) {
+				return a.getStartNumber() - b.getStartNumber();
 			}
-		}
-		for (Racer r : sortedByStartNumberlist) {
+		});
+		
+		for (Racer r : list)
 			sb.append(r.toString()).append("\n");
-		}
 	}
 
 	private String genHeader(int laps) {
