@@ -24,7 +24,7 @@ public class Main {
 			try {
 
 				int c;
-				String outputFile = null;
+				String outputFolder = "";
 				String type = "maraton";
 				String massStartTime = null;
 				String nameFile = null;
@@ -43,7 +43,7 @@ public class Main {
 						break;
 
 					case 'o':
-						outputFile = g.getOptarg();
+						outputFolder = g.getOptarg();
 						break;
 
 					case 'm':
@@ -76,7 +76,7 @@ public class Main {
 				}
 				if (configFilePath != null) {
 					ConfigReader.readConfig(configFilePath);
-				} else if (outputFile != null && nameFile != null) {
+				} else if (nameFile != null) {
 
 					System.out.println(type.equals("varvlopp"));
 					Database db = new Database(massStartTime, type.equals("varvlopp"));
@@ -95,7 +95,7 @@ public class Main {
 					for (String finishFile : finishFiles)
 						IOReader.readFinish(finishFile, db);
 
-					ResultWriter.write(outputFile, db);
+					ResultWriter.write(outputFolder, db);
 
 				} else {
 
