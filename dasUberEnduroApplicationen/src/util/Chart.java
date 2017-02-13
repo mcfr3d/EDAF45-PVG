@@ -1,9 +1,5 @@
 package util;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,14 +44,4 @@ public class Chart {
 		
 		return rows;
 	}
-	
-	public String get(int row, int col) {
-
-		return "";
-	}
-
-	public void set(int row, int col, String s) {
-
-	}
-
 }
