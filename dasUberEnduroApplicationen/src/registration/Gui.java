@@ -96,7 +96,6 @@ public class Gui extends JFrame implements Subscriber {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			time = TotalTimeCalculator.getCurrentTime();
-			//TODO: check for wrong input
 			LinkedList<String> startNumbers = getStartnumbers();
 			for (String s : startNumbers) {
 				String outputText = s + "; " + time + "\n" + textOutput.getText();
@@ -104,10 +103,7 @@ public class Gui extends JFrame implements Subscriber {
 				textOutput.setCaretPosition(0);		
 				writeToFile();
 			}	
-//			else {
-//				JOptionPane.showMessageDialog(null, "Felaktig input. Använd endast siffror.", "Felmeddelande",
-//					JOptionPane.ERROR_MESSAGE);
-//			}
+
 			textEntry.setText("");
 		}
 
@@ -121,7 +117,6 @@ public class Gui extends JFrame implements Subscriber {
 		private LinkedList<String> getStartnumbers() {
 			String[] startNumbers = textEntry.getText().split(" ");
 			LinkedList<String> correctStartNumbers = new LinkedList<>();
-			//correctStartNumbers.add(textEntry.getText().split(" "));
 			for (String s : startNumbers) {
 				if (correctInput(s)) {
 					correctStartNumbers.add(s);
