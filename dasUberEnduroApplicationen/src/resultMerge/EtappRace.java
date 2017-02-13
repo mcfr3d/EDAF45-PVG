@@ -123,6 +123,11 @@ public class EtappRace implements RaceType {
 		if(t.isStart()) etapper[etappNbr].addStart(t);
 		else etapper[etappNbr].addFinish(t);
 	}
+	@Override
+	public int compareTo(RaceType o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 }
 
