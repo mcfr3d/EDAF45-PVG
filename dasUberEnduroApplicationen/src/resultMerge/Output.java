@@ -19,7 +19,7 @@ public class Output {
 	public Output(JSONObject root) throws JSONException {
 
 		html = root.optBoolean("html", false);
-		sorted = root.optBoolean("sorted", false);
+		sorted = root.optBoolean("sort", false);
 		path = root.getString("file");
 	}
 
