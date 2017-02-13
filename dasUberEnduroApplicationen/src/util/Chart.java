@@ -58,16 +58,4 @@ public class Chart {
 
 	}
 
-	private static List<String> read(String path) throws FileNotFoundException, IOException {
-		BufferedReader br = new BufferedReader(new FileReader(path));
-		List<String> info = new ArrayList<String>();
-		String line = br.readLine();
-		while (line != null) {
-			info.add(line);
-			line = br.readLine();
-		}
-		br.close();
-		return info;
-	}
-
 }
