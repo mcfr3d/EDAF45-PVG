@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="util.ResultWriterTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2017-02-06T10:32:56" hostname="falk-12" time="0.018">
+  <properties/>
+  <testcase name="testRaceClasses" classname="util.ResultWriterTest" time="0.011"/>
+  <testcase name="testMultiLapRace" classname="util.ResultWriterTest" time="0.004"/>
+  <testcase name="testDatabaseMultipleEntry" classname="util.ResultWriterTest" time="0.003"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

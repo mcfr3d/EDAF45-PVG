@@ -80,4 +80,88 @@ public class MultiLapRaceTest {
 		assertEquals("3; 00.49.07; 00.20.00; 00.20.00; 00.09.07; 12.03.00; 12.23.00; 12.43.00; 12.52.07; Omöjlig varvtid?", temp.genResult());
 	}
 
+	@Test
+	public void testSortedDifferentLaps() {
+		MultiLapRace a = new MultiLapRace();
+		a.addStart("12.00.00");
+		a.addFinish("12.20.00");
+		a.addFinish("12.40.00");
+		MultiLapRace b = new MultiLapRace();
+		b.addStart("12.00.00");
+		b.addFinish("12.17.00");
+		b.addFinish("12.38.00");
+		b.addFinish("12.59.00");
+		assertEquals(1,a.compareTo(b));
+	}
+
+	@Test
+	public void testSortedDifferentLapsOneInvalid() {
+		MultiLapRace a = new MultiLapRace();
+		a.addStart("12.00.00");
+		a.addFinish("12.20.00");
+		a.addFinish("12.40.00");
+		MultiLapRace b = new MultiLapRace();
+		b.addFinish("12.17.00");
+		b.addFinish("12.38.00");
+		b.addFinish("12.59.00");
+		assertEquals(-1,a.compareTo(b));
+	}
+
+	@Test
+	public void testSortedDifferentLapsInvalidLap() {
+		MultiLapRace a = new MultiLapRace();
+		a.addStart("12.00.00");
+		a.addFinish("12.10.00");// Less than minimum lap time -> invalid
+		a.addFinish("12.40.00");
+		MultiLapRace b = new MultiLapRace();
+		b.addStart("12.00.00");
+		b.addFinish("12.17.00");
+		b.addFinish("12.38.00");
+		b.addFinish("12.59.00");
+		assertEquals(1,a.compareTo(b));
+	}
+	@Test
+	public void testSortedAllInvalid() {
+		MultiLapRace a = new MultiLapRace();
+		a.addFinish("12.10.00");
+		a.addFinish("12.40.00");
+		MultiLapRace b = new MultiLapRace();
+		b.addStart("12.00.00");
+		b.addFinish("12.1.00");
+		b.addFinish("12.2.00");
+		b.addFinish("12.3.00");
+		assertEquals(0,a.compareTo(b));
+	}
+	
+	@Test
+	public void testSortedSameLaps() {
+		MultiLapRace a = new MultiLapRace();
+		a.addStart("12.00.00");
+		a.addFinish("12.20.00");
+		a.addFinish("12.40.00");
+		a.addFinish("13.00.00");
+		MultiLapRace b = new MultiLapRace();
+		b.addStart("12.00.00");
+		b.addFinish("12.17.00");
+		b.addFinish("12.38.00");
+		b.addFinish("12.59.00");
+		assertEquals(1,a.compareTo(b));
+	}
+	@Test
+	public void testSortedSameLapsSameTotalTime() {
+		MultiLapRace a = new MultiLapRace();
+		a.addStart("12.00.00");
+		a.addFinish("12.20.00");
+		a.addFinish("12.40.00");
+		a.addFinish("13.00.00");
+		MultiLapRace b = new MultiLapRace();
+		b.addStart("12.00.00");
+		b.addFinish("12.17.00");
+		b.addFinish("12.38.00");
+		b.addFinish("13.00.00");
+		assertEquals(0,a.compareTo(b));
+	}
+	
+	
+
 }
