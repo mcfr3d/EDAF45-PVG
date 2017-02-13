@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="resultMerge.MultiLapRaceTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2017-02-06T10:32:56" hostname="falk-12" time="0.005">
+  <properties/>
+  <testcase name="testImpossibleLapTime" classname="resultMerge.MultiLapRaceTest" time="0.001"/>
+  <testcase name="testMultipleStartTimes" classname="resultMerge.MultiLapRaceTest" time="0.0"/>
+  <testcase name="testNoFinish" classname="resultMerge.MultiLapRaceTest" time="0.0"/>
+  <testcase name="testTwoDrivers" classname="resultMerge.MultiLapRaceTest" time="0.0"/>
+  <testcase name="testOneLap" classname="resultMerge.MultiLapRaceTest" time="0.001"/>
+  <testcase name="testNoStart" classname="resultMerge.MultiLapRaceTest" time="0.0"/>
+  <testcase name="testTwoLap" classname="resultMerge.MultiLapRaceTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

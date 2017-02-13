@@ -144,7 +144,7 @@ public class Database {
 		// should be done dependent on what race we have
 		MultiLapRace.setMaxLaps(maxLaps); 
 
-		if(sort) {			
+		if(sort) {		
 			// Adding placement to header
 			sb.append("Plac; ");
 			sb.append(genHeader(maxLaps)).append('\n');

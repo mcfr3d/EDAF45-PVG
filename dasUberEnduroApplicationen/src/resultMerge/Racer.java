@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import util.TotalTimeCalculator;
 
-public class Racer implements Comparable<Racer>{
+public class Racer implements Comparable<Racer> {
 
 	private String name;
 	private String racerClass;
@@ -43,7 +43,7 @@ public class Racer implements Comparable<Racer>{
 	public String getRacerClass() {
 		return racerClass;
 	}
-	
+
 	public int getStartNumber() {
 		return startNumber;
 	}
@@ -59,10 +59,11 @@ public class Racer implements Comparable<Racer>{
 	public String getFirstStartTime() {
 		return rt.getStart();
 	}
-	
+
 	public String getFinishTime() {
 		return rt.getFinish();
 	}
+
 	public int getLaps() {
 		return rt.getLaps();
 	}
@@ -71,25 +72,9 @@ public class Racer implements Comparable<Racer>{
 
 		optionalData.add(data);
 	}
-	public int compareTo(Racer racer) {
-		
-		// Compare nbr of laps
-		if(racer.getLaps() != this.getLaps()){
-			return racer.getLaps() - this.getLaps(); 
-		}
-		
-		// Compare total time
-		String resThis = TotalTimeCalculator.computeDifference(rt.getStart(), rt.getFinish());
-		String resInput = TotalTimeCalculator.computeDifference(racer.rt.getStart(), racer.rt.getFinish());
-		int timeDiff = resThis.compareTo(resInput);
-		if(timeDiff != 0){
-			return timeDiff;
-		}
-		
-		// Compare start nbr
-		if(this.startNumber != racer.startNumber) {
-			return this.startNumber - racer.startNumber;
-		}
-		return 0;
+
+	public int compareTo(Racer other) {
+		int i = rt.compareTo(other.rt);
+		return i == 0 ? (this.startNumber - other.startNumber) : i;
 	}
 }
