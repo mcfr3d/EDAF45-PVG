@@ -1,5 +1,6 @@
 {
-	"race type" : "marathon",
+	"race type" : "varvlopp",
+	"stipulated time" : "01:00:01",
 	"name file" : "namnfil.txt",
 	"start files" : ["starttider.txt"],
 	"finish files" : ["maltider.txt"]

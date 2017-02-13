@@ -1,5 +1,5 @@
 Gemensamklass
-Startnr; Namn; #Varv; Totaltid; Varv1; Varv2; Varv3; Varv4; Varv5; Varv6; Varv7; Varv8; Varv9; Start; Varvning1; Varvning2; Varvning3; Varvning4; Varvning5; Varvning6; Varvning7; Varvning8; Mål
+Startnr; Namn; #Varv; TotalTid; Varv1; Varv2; Varv3; Varv4; Varv5; Varv6; Varv7; Varv8; Varv9; Start; Varvning1; Varvning2; Varvning3; Varvning4; Varvning5; Varvning6; Varvning7; Varvning8; Mål
 1; 1 Jonas Engdahl; 5; 01.52.50; 00.22.34; 00.21.30; 00.28.46; 00.15.07; 00.24.53; ; ; ; ; 12.05.30; 12.28.04; 12.49.34; 13.18.20; 13.33.27; 13.58.20; ; ;
 12; 12 Boris Magnusson; 7; 03.09.39; 00.26.17; 00.27.35; 00.24.13; 00.28.54; 00.27.34; 00.26.36; 00.28.30; ; ; 12.05.30; 12.31.47; 12.59.22; 13.23.35; 13.52.29; 14.20.03; 14.46.39; 15.15.09;
 13; 13 Hans Hjertsäll; 7; 03.03.20; 00.25.18; 00.24.21; 00.24.21; 00.26.23; 00.24.59; 00.28.06; 00.29.52; ; ; 12.05.30; 12.30.48; 12.55.09; 13.19.30; 13.45.53; 14.10.52; 14.38.58; 15.08.50;
