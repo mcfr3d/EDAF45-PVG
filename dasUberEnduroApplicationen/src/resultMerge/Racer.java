@@ -74,27 +74,7 @@ public class Racer implements Comparable<Racer> {
 	}
 
 	public int compareTo(Racer other) {
-		
-		//return rt.compareTo(other.rt);
-		
-		// Compare nbr of laps
-		if (other.getLaps() != this.getLaps()) {
-			return other.getLaps() - this.getLaps();
-		}
-
-		// Compare total time
-		String resThis = TotalTimeCalculator.computeDifference(rt.getStart(), rt.getFinish());
-		String resInput = TotalTimeCalculator.computeDifference(other.rt.getStart(), other.rt.getFinish());
-		int timeDiff = resThis.compareTo(resInput);
-		if (timeDiff != 0) {
-			return timeDiff;
-		}
-
-		// Compare start nbr
-		if (this.startNumber != other.startNumber) {
-			return this.startNumber - other.startNumber;
-		}
-		return 0;
-		
+		int i = rt.compareTo(other.rt);
+		return i == 0 ? (this.startNumber - other.startNumber) : i;
 	}
 }

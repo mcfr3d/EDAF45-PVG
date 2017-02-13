@@ -121,7 +121,7 @@ public class DatabaseTest {
 		String racer3 = "3; 3; Oleg Osson; 00.00.05; 00.00.05; 00.00.10; Omöjlig Totaltid?\n";
 		String racer4 = "4; 4; Sten Ssson; 00.00.05; 00.00.05; 00.00.10; Omöjlig Totaltid?\n";
 		String result = raceClass + header + racer1 + racer2 + racer3 + racer4;
-		assertEquals("Sort not working with one racer, one lap: ", result, db.getResult(true));		
+		assertEquals("Sort not working with one racer, one lap: ", result, db.getResult(true));
 	}
 	
 	@Test
@@ -189,8 +189,8 @@ public class DatabaseTest {
 		String header = "Plac; StartNr; Namn; #Varv; TotalTid; Varv1; Varv2; Varv3; Start; Varvning1; Varvning2; Mål\n";
 		String racer1 = "1; 1; Test Tsson; 3; 01.00.01; 00.00.01; 00.59.59; 00.00.01; 00.00.00; 00.00.01; 01.00.00; 01.00.01; Omöjlig varvtid?\n";
 		String racer2 = "2; 2; Per Psson; 2; 01.00.00; 00.00.02; 00.59.58; ; 00.00.00; 00.00.02; 01.00.00; ; Omöjlig varvtid?\n";
-		String racer3 = "3; 4; Sten Ssson; 2; 01.00.00; 00.00.05; 00.59.55; ; 00.00.05; 00.00.10; 01.00.05; ; Omöjlig varvtid?\n";
-		String racer4 = "4; 3; Oleg Osson; 1; 00.00.05; 00.00.05; ; ; 00.00.05; 00.00.10; ; ; Omöjlig varvtid?\n";
+		String racer3 = "3; 3; Oleg Osson; 1; 00.00.05; 00.00.05; ; ; 00.00.05; 00.00.10; ; ; Omöjlig varvtid?\n";
+		String racer4 = "4; 4; Sten Ssson; 2; 01.00.00; 00.00.05; 00.59.55; ; 00.00.05; 00.00.10; 01.00.05; ; Omöjlig varvtid?\n";
 		String result = raceClass + header + racer1 + racer2 + racer3 + racer4;
 		assertEquals("Sort not working with one racer, one lap: ", result, db.getResult(true));			
 	}
