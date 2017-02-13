@@ -2,18 +2,18 @@
 	"race type" : "varvlopp",
 	"outputs" : [
 		{
-			"file" : "mapp_med_shit/resultat.html",
+			"file" : "",
 			"sort" : false,
 			"html" : true
 		},
 		{
-			"file" : "mapp_med_shit/resultat_sorted.txt",
+			"file" : "",
 			"sort" : true
 		}
 	],
-	"name file" : "mapp_med_shit/namnfil.txt",
+	"name file" : "",
 	"start files" : [],
-	"finish files" : ["mapp_med_shit/maltider.txt"],
+	"finish files" : [""],
 	"group start" : "03.00.00",
 	"stipulated time" : "01.00.00"
 }
