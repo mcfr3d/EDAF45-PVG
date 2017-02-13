@@ -1,5 +1,6 @@
 package registration;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -18,15 +19,20 @@ public class ListItem extends JPanel {
 	private String time;
 	private HashMap<ListItem, String> map;
 	private Subscriber sub;
+	private String faultyStartNumber;
 	
-	public ListItem(String time, HashMap<ListItem, String> map, Subscriber sub) {
+	public ListItem(String time, HashMap<ListItem, String> map, Subscriber sub, String faultyStartNumber) {
 		this.time = time;
+		this.faultyStartNumber = faultyStartNumber;
 		this.map = map;
 		this.sub = sub;
 		this.setLayout(new BoxLayout(this,BoxLayout.X_AXIS));
 		JLabel timeLabel = new JLabel("Tid: " + time);
 		timeLabel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 		timeLabel.setFont(new Font("Arial", Font.PLAIN, 34));
+		if(faultyStartNumber.length() != 0){
+		timeLabel.setForeground(Color.RED);}
+	
 		
 		JButton editButton = new JButton("Edit");
 		editButton.addActionListener(new EditButtonListener());
@@ -46,7 +52,12 @@ public class ListItem extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			Optional<String> s = Optional.ofNullable((String)JOptionPane.showInputDialog("Skriv startnummer: "));		
+			String message = "skriv startnumret: ";
+			if(faultyStartNumber.length() != 0){
+				message =  "Felaktig input! Du skrev: " + faultyStartNumber + "\nskriv startnumret: "; 
+			}
+			Optional<String> s = Optional.ofNullable((String)JOptionPane.showInputDialog(message));		
+
 			if(s.isPresent()){
 				if(correctInput(s.get())){
 					map.put(ListItem.this, s.get()+"; " + time);
