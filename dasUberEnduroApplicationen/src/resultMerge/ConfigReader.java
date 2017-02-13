@@ -39,12 +39,14 @@ public class ConfigReader {
 			nameFilePath = root.getString("name file");
 			stipulatedTime = root.optString("stipulated time", null);
 
-			JSONArray jsonStartFiles = root.getJSONArray("start files");
+
+            if (massStartTime == null) {
+    			JSONArray jsonStartFiles = root.getJSONArray("start files");
+            	for(int i = 0; i < jsonStartFiles.length(); ++i)
+            		startFiles.add(jsonStartFiles.getString(i));
+            }
+            
 			JSONArray jsonFinishFiles = root.getJSONArray("finish files");
-
-            for(int i = 0; i < jsonStartFiles.length(); ++i)
-            	startFiles.add(jsonStartFiles.getString(i));
-
             for(int i = 0; i < jsonFinishFiles.length(); ++i)
             	finishFiles.add(jsonFinishFiles.getString(i));
 			
