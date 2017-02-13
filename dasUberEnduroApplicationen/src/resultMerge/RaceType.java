@@ -1,6 +1,6 @@
 package resultMerge;
 
-public interface RaceType {
+public interface RaceType extends Comparable<RaceType> {
 	public void addTime(Time t);
 	public void addStart(String start); //should be removed
 	public void addFinish(String finish); //should be removed

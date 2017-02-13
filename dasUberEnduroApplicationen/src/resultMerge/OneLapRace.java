@@ -5,20 +5,17 @@ import java.util.LinkedList;
 import util.TotalTimeCalculator;
 
 public class OneLapRace implements RaceType {
+
 	private LinkedList<String> startTimes = new LinkedList<>();
 	private LinkedList<String> finishTimes = new LinkedList<>();
-	private String start = "";
-	private String finish = "";
+
 	@Override
 	public void addStart(String start) {
-		if(startTimes.isEmpty()) this.start = start;
 		startTimes.add(start);
-
 	}
 
 	@Override
 	public void addFinish(String finish) {
-		if(finishTimes.isEmpty()) this.finish = finish;
 		finishTimes.add(finish);
 	}
 	
@@ -34,46 +31,58 @@ public class OneLapRace implements RaceType {
 		sb.append(finishT()).append("; ");
 		sb.append(errors());
 		String out = sb.toString();
-		if(out.charAt(out.length() - 2) != ';') return out;
+		if (out.charAt(out.length() - 2) != ';')
+			return out;
 		return out.substring(0, out.length() - 2);
 	}
+
 	private String startT() {
-		if(startTimes.size() > 0) return start;
-		else return "Start?";
+		if (startTimes.size() > 0)
+			return getStart();
+		else
+			return "Start?";
 	}
-	
+
 	private String finishT() {
-		if(finishTimes.size() > 0) return finish;
-		else return "Slut?";
-		
+		if (finishTimes.size() > 0)
+			return getFinish();
+		else
+			return "Slut?";
+
 	}
+
 	private String totalT() {
-		if(finishTimes.size() > 0 && startTimes.size() > 0) {
-			return TotalTimeCalculator.computeDifference(start, finish);
+		if (finishTimes.size() > 0 && startTimes.size() > 0) {
+			return TotalTimeCalculator.computeDifference(getStart(), getFinish());
 		}
 		return "--.--.--";
 	}
+
 	private String errors() {
 		StringBuilder sb = new StringBuilder();
-		if(startTimes.size() > 1) {
+		if (startTimes.size() > 1) {
 			sb.append("Flera starttider?");
 			boolean skipped = false;
-			for(String s: startTimes) {
-				if(!skipped) skipped = true;
-				else sb.append(" " + s);
+			for (String s : startTimes) {
+				if (!skipped)
+					skipped = true;
+				else
+					sb.append(" " + s);
 			}
 			sb.append("; ");
 		}
-		if(finishTimes.size() > 1) {
+		if (finishTimes.size() > 1) {
 			sb.append("Flera måltider?");
 			boolean skipped = false;
-			for(String s: finishTimes) {
-				if(!skipped) skipped = true;
-				else sb.append(" " + s);
+			for (String s : finishTimes) {
+				if (!skipped)
+					skipped = true;
+				else
+					sb.append(" " + s);
 			}
 			sb.append("; ");
 		}
-		if(!TotalTimeCalculator.possibleTotalTime(start, finish)) {
+		if (!TotalTimeCalculator.possibleTotalTime(getStart(), getFinish())) {
 			sb.append("Omöjlig Totaltid?; ");
 		}
 		return sb.toString();
@@ -81,17 +90,37 @@ public class OneLapRace implements RaceType {
 
 	@Override
 	public String getStart() {
-		return start;
+		return startTimes.isEmpty() ? "" : startTimes.getFirst();
 	}
 
 	@Override
 	public String getFinish() {
-		return finish;
+		return finishTimes.isEmpty() ? "" : finishTimes.getFirst();
 	}
-	
+
 	@Override
 	public int getLaps() {
 		return Math.min(1, Math.min(startTimes.size(), finishTimes.size()));
+	}
+
+	@Override
+	public int compareTo(RaceType o) {
+		OneLapRace other = (OneLapRace) o;
+		boolean thisValid = haveOneStartAndOneFinish();
+		boolean otherValid = other.haveOneStartAndOneFinish();
+		if (thisValid && otherValid) {
+			String thisDelta = TotalTimeCalculator.computeDifference(getStart(), getFinish());
+			String otherDelta = TotalTimeCalculator.computeDifference(other.getStart(), other.getFinish());
+			return thisDelta.compareTo(otherDelta);
+		}
+		return thisValid ? -1 : (otherValid ? 1 : 0);
+	}
+
+	/*
+	 * Checks if there only exists one start time and one finish time.
+	 */
+	private boolean haveOneStartAndOneFinish() {
+		return startTimes.size() == 1 && finishTimes.size() == 1;
 	}
 
 }
