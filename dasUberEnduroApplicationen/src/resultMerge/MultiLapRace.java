@@ -29,6 +29,10 @@ public class MultiLapRace implements RaceType {
 		maxLaps = Math.max(maxLaps, finishTimes.size());
 	}
 
+	public void addTime(Time t) {
+		// TODO Auto-generated method stub
+	}
+	
 	@Override
 	public String genResult() {
 		String[] res = new String[maxLaps * 2 + 3];
