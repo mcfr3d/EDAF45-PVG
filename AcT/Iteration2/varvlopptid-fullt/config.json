@@ -3,5 +3,5 @@
 	"race type" : "varvlopp",
 	"stipulated time" : "03:00:00",
 	"name file" : "namnfil.txt",
-	"finish files" : ["maltider1.txt","maltider2.txt"]
+	"finish files" : ["maltider.txt"]
 }
