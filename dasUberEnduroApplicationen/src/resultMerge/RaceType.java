@@ -1,6 +1,6 @@
 package resultMerge;
 
-public interface RaceType {
+public interface RaceType extends Comparable<RaceType> {
 	public void addStart(String start);
 	public void addFinish(String finish);
 	public String genResult();
