@@ -12,18 +12,18 @@ public class TimeTest {
 	
 	@Before
 	public void init() throws Exception {
-		t1 = new Time("12.00.00",false);
-		t2 = new Time("13.00.00",false);
+		t1 = new Time("12.00.00");
+		t2 = new Time("13.00.00");
 		
 	}
 	
 	@Test
 	public void testRegularTime() {
-		assertEquals(Time.diff(t1, t2), "01.00.00");
+		assertEquals(Time.diffAsString(t1, t2), "01.00.00");
 	}
 
 	@Test
 	public void testNegativeTime() {
-		assertEquals(Time.diff(t2, t1), "--.--.--");
+		assertEquals(Time.diffAsString(t2, t1), "--.--.--");
 	}
 }
