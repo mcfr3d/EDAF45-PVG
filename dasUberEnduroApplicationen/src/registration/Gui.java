@@ -8,6 +8,8 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -90,26 +92,44 @@ public class Gui extends JFrame implements Subscriber {
 	}
 
 	private class RegistrationListener implements ActionListener {
+		private String time;
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			String time = TotalTimeCalculator.getCurrentTime();
-			String startNumber = textEntry.getText().trim();
-			if (correctInput(startNumber)) {
-				String outputText = startNumber + "; " + time + "\n" + textOutput.getText();
+			time = TotalTimeCalculator.getCurrentTime();
+			//TODO: check for wrong input
+			LinkedList<String> startNumbers = getStartnumbers();
+			for (String s : startNumbers) {
+				String outputText = s + "; " + time + "\n" + textOutput.getText();
 				textOutput.setText(outputText);
-				textOutput.setCaretPosition(0);
+				textOutput.setCaretPosition(0);		
 				writeToFile();
-
-			} else if (startNumber.length() == 0) {
-				ListItem li = new ListItem(time, map, Gui.this);
-				map.put(li, time);
-				faultyRegistrationPanel.add(li);
-				faultyRegistrationPanel.revalidate();
-			} else {
-				JOptionPane.showMessageDialog(null, "Felaktig input. Använd endast siffror.", "Felmeddelande",
-						JOptionPane.ERROR_MESSAGE);
-			}
+			}	
+//			else {
+//				JOptionPane.showMessageDialog(null, "Felaktig input. Använd endast siffror.", "Felmeddelande",
+//					JOptionPane.ERROR_MESSAGE);
+//			}
 			textEntry.setText("");
+		}
+
+		private void addFaultyRegistration(String time, String faultyStartNumber) {
+			ListItem li = new ListItem(time, map, Gui.this, faultyStartNumber);
+			map.put(li, time);
+			faultyRegistrationPanel.add(li);
+			faultyRegistrationPanel.revalidate();
+		}
+
+		private LinkedList<String> getStartnumbers() {
+			String[] startNumbers = textEntry.getText().split(" ");
+			LinkedList<String> correctStartNumbers = new LinkedList<>();
+			//correctStartNumbers.add(textEntry.getText().split(" "));
+			for (String s : startNumbers) {
+				if (correctInput(s)) {
+					correctStartNumbers.add(s);
+				} else {
+					addFaultyRegistration(time, s);
+				}
+			}
+			return correctStartNumbers;
 		}
 
 		private boolean correctInput(String input) {
