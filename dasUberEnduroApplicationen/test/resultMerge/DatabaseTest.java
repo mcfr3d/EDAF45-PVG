@@ -42,13 +42,14 @@ public class DatabaseTest {
 		db.addFinish(1, "01.00.00");
 		db.addFinish(2, "01.00.02");
 		db.addFinish(3, "00.59.00");
-
+		
 		String s = db.getResult(false);
 		String header = "StartNr; Namn; TotalTid; Starttid; Måltid\n";
 		assertEquals(
-				"Senior\n" + header + "1; Gunther; 01.00.00; 00.00.00; 01.00.00\n" + "Icke existerande startnummer\n"
-						+ header + "2; ; --.--.--; Start?; 01.00.02\n" + "3; ; --.--.--; Start?; 00.59.00\n"
-
+				"Senior\n" + header + "1; Gunther; 01.00.00; 00.00.00; 01.00.00\n" +
+				"Icke existerande startnummer\n" + header + 
+				"2; ; --.--.--; Start?; 01.00.02\n" + "3; ; --.--.--; Start?; 00.59.00\n"
+				
 				, s);
 	}
 

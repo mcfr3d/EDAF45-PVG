@@ -255,14 +255,4 @@ public class MultiLapRace implements RaceType {
 		stipulatedTime = time.getTimeAsInt();
 	}
 
-	/*
-	 * True if: one start time atleast one finish time all laps longer than
-	 * minimum laptime
-	 * 
-	 * private boolean isValid() { if (startTimes.size() != 1 ||
-	 * finishTimes.size() < 1) return false; String prev =
-	 * startTimes.getFirst(); for (String finish : finishTimes) { if
-	 * (!TotalTimeCalculator.possibleTotalTime(prev, finish)) return false; prev
-	 * = finish; } return true; }
-	 */
 }

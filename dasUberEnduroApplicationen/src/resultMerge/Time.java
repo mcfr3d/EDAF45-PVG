@@ -49,7 +49,6 @@ public class Time {
 		}
 
 	}
-	
 	public String toString() {
 		int[] hhmmss = new int[3];
 		hhmmss[2] = time % 60;
