@@ -15,6 +15,12 @@ public class EtappRaceTest {
 	}
 	
 	@Test
+	public void testMissingStartAndFinish(){
+		String res = "0; --.--.--; ; Start?; Slut?";
+		assertEquals(res, tmp.genResultWithErrors());
+	}
+	
+	@Test
 	public void test1Etapp() {
 		tmp.addTime(new Time("12.00.00",true,1));
 		tmp.addTime(new Time("13.00.00",false,1));
