@@ -24,33 +24,45 @@ public class IOReader {
 		br.close();
 		return s;
 	}
-
+	
 	public static void readStart(String path, Database db) throws Exception, FileNotFoundException, IOException {
+		readStart(path, db, -1);
+	}
+	
+	public static void readStart(String path, Database db, int etapp) throws Exception, FileNotFoundException, IOException {
 		Chart c = new Chart(readStringFromFile(path));
 		for (List<String> row : c.getRows()) {
 			if (row.size() != 2)
 				throw new Exception("invalid start time row");
+
 			String time = row.get(1);
 			String numberOrClass = row.get(0);
 			try{
-			   db.addStart(Integer.parseInt(numberOrClass), time);
+			   db.addStart(Integer.parseInt(numberOrClass), time, etapp);
 			}
 			catch(NumberFormatException e) {
 				for(int startNumber : db.getRacersInClass(numberOrClass))
-					db.addStart(startNumber, time);
+					db.addStart(startNumber, time, etapp);
 			}
 			
 		}
 	}
-
+	
+	
+	
 	public static void readFinish(String path, Database db) throws Exception, FileNotFoundException, IOException {
+		readFinish(path, db, -1);
+	}
+	
+	public static void readFinish(String path, Database db, int etapp) throws Exception, FileNotFoundException, IOException {
 		Chart c = new Chart(readStringFromFile(path));
 		for (List<String> row : c.getRows()) {
 			if (row.size() != 2)
-				throw new Exception("invalid  finish time row");
+				throw new Exception("invalid finish time row");
 			db.addFinish(Integer.parseInt(row.get(0)), row.get(1));
 		}
 	}
+
 
 	public static void readNames(String path, Database db) throws Exception {
 		Chart c = new Chart(readStringFromFile(path));

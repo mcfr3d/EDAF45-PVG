@@ -24,7 +24,11 @@ public class MultiLapRace implements RaceType {
 	}
 
 	public void addTime(Time t) {
-		// TODO Auto-generated method stub
+		 if (t.isStart()) {
+			 startTimes.add(t.toString());
+		 } else {
+			 finishTimes.add(t.toString());
+		 }
 	}
 
 	private String totalTime() {
@@ -148,6 +152,12 @@ public class MultiLapRace implements RaceType {
 			prev = finish;
 		}
 		return true;
+	}
+
+	@Override
+	public String genResultWithErrors() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

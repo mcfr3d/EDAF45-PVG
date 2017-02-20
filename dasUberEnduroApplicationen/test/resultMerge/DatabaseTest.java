@@ -36,30 +36,39 @@ public class DatabaseTest {
 	
 	@Test
 	public void testUnsortedMassStart() {
-		db = new Database("00.00.00", false);
+		db = new Database("00.00.00", Database.ONE_LAP_RACE);
 		db.setColumnHeaders(new String[] { "StartNr", "Namn" });
+		db.addRacer(1, "Gunther", "Senior");
 		db.addFinish(1, "01.00.00");
 		db.addFinish(2, "01.00.02");
 		db.addFinish(3, "00.59.00");
-		db.setName(1, "Gunther");
+		
 		String s = db.getResult(false);
-		assertEquals(s,
-				"Icke existerande startnummer\n" + "StartNr; Namn; Totaltid; Starttid; Måltid\n" + "1; Gunther; 01.00.00; 00.00.00; 01.00.00\n"
-						+ "2; ; 01.00.02; 00.00.00; 01.00.02\n" + "3; ; 00.59.00; 00.00.00; 00.59.00\n");
+		String header = "StartNr; Namn; TotalTid; Starttid; Måltid\n";
+		assertEquals(
+				"Senior\n" + header + "1; Gunther; 01.00.00; 00.00.00; 01.00.00\n" +
+				"Icke existerande startnummer\n" + header + 
+				"2; ; --.--.--; Start?; 01.00.02\n" + "3; ; --.--.--; Start?; 00.59.00\n"
+				
+				, s);
 	}
 
 	@Test
 	public void testSortedMassStart() {
-		db = new Database("00.00.00", false);
+		db = new Database("00.00.00", Database.ONE_LAP_RACE);
 		db.setColumnHeaders(new String[] { "StartNr", "Namn" });
+		db.addRacer(1, "", "Senior");
+		db.addRacer(2, "", "Senior");
+		db.addRacer(3, "", "Senior");
 		db.addFinish(1, "01.00.00");
 		db.addFinish(2, "01.00.02");
 		db.addFinish(3, "00.59.00");
 		String s = db.getResult(true);
-		assertEquals(s,
-				"Icke existerande startnummer\n" + "Plac; StartNr; Namn; Totaltid; Starttid; Måltid\n"
+		assertEquals(
+				"Senior\n" + "Plac; StartNr; Namn; TotalTid; Starttid; Måltid\n"
+
 						+ "1; 3; ; 00.59.00; 00.00.00; 00.59.00\n" + "2; 1; ; 01.00.00; 00.00.00; 01.00.00\n"
-						+ "3; 2; ; 01.00.02; 00.00.00; 01.00.02\n");
+						+ "3; 2; ; 01.00.02; 00.00.00; 01.00.02\n", s);
 	}
 
 	@Test
@@ -109,17 +118,17 @@ public class DatabaseTest {
 	}
 
 	@Test
-	public void testOneRacerOneLapSort() {
+	public void testOneRacerOneLapUnsorted() {
 		db.addRacer(1, "Test Tsson", "Tester");
 		db.addStart(1, "00.00.00");
 		db.addFinish(1, "00.00.01");
-		String result = "Tester\nPlac; StartNr; Namn; Totaltid; Starttid; Måltid\n1; 1; Test Tsson; 00.00.01; 00.00.00; 00.00.01; Omöjlig Totaltid?\n";
-		assertEquals("Sort not working with one racer, one lap: ", result, db.getResult(true));
+		String result = "Tester\nStartNr; Namn; TotalTid; Starttid; Måltid\n1; Test Tsson; 00.00.01; 00.00.00; 00.00.01; Omöjlig Totaltid?\n";
+		assertEquals("Sort not working with one racer, one lap: ", result, db.getResult(false));
 	}
 
 	@Test
 	public void testOneRacerMultipleLapsSort() {
-		db = new Database(null, true);
+		db = new Database(null, Database.MULTI_LAP_RACE);
 		db.setColumnHeaders(new String[] { "StartNr", "Namn" });
 		db.addRacer(1, "Test Tsson", "Tester");
 		db.addStart(1, "00.00.00");
@@ -132,7 +141,7 @@ public class DatabaseTest {
 	}
 
 	@Test
-	public void testOneLapRaceSort() {
+	public void testOneLapRaceUnsorted() {
 		db.addRacer(1, "Test Tsson", "Tester");
 		db.addStart(1, "00.00.00");
 		db.addFinish(1, "00.00.01");
@@ -150,18 +159,18 @@ public class DatabaseTest {
 		db.addFinish(2, "00.00.02");
 
 		String raceClass = "Tester\n";
-		String header = "Plac; StartNr; Namn; Totaltid; Starttid; Måltid\n";
-		String racer1 = "1; 1; Test Tsson; 00.00.01; 00.00.00; 00.00.01; Omöjlig Totaltid?\n";
-		String racer2 = "2; 2; Per Psson; 00.00.02; 00.00.00; 00.00.02; Omöjlig Totaltid?\n";
-		String racer3 = "3; 3; Oleg Osson; 00.00.05; 00.00.05; 00.00.10; Omöjlig Totaltid?\n";
-		String racer4 = "4; 4; Sten Ssson; 00.00.05; 00.00.05; 00.00.10; Omöjlig Totaltid?\n";
+		String header = "StartNr; Namn; TotalTid; Starttid; Måltid\n";
+		String racer1 = "1; Test Tsson; 00.00.01; 00.00.00; 00.00.01; Omöjlig Totaltid?\n";
+		String racer2 = "2; Per Psson; 00.00.02; 00.00.00; 00.00.02; Omöjlig Totaltid?\n";
+		String racer3 = "3; Oleg Osson; 00.00.05; 00.00.05; 00.00.10; Omöjlig Totaltid?\n";
+		String racer4 = "4; Sten Ssson; 00.00.05; 00.00.05; 00.00.10; Omöjlig Totaltid?\n";
 		String result = raceClass + header + racer1 + racer2 + racer3 + racer4;
-		assertEquals("Sort not working with one racer, one lap: ", result, db.getResult(true));
+		assertEquals("Sort not working with one racer, one lap: ", result, db.getResult(false));
 	}
 
 	@Test
 	public void testMultipleLapRaceSort() {
-		db = new Database(null, true);
+		db = new Database(null, Database.MULTI_LAP_RACE);
 		db.setColumnHeaders(new String[] { "StartNr", "Namn" });
 		db.addRacer(1, "Test Tsson", "Tester");
 		db.addStart(1, "00.00.00");
@@ -199,7 +208,7 @@ public class DatabaseTest {
 
 	@Test
 	public void testMultipleDifferentLapsRaceSort() {
-		db = new Database(null, true);
+		db = new Database(null, Database.MULTI_LAP_RACE);
 		db.setColumnHeaders(new String[] { "StartNr", "Namn" });
 		db.addRacer(1, "Test Tsson", "Tester");
 		db.addStart(1, "00.00.00");
