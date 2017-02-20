@@ -57,7 +57,8 @@ public class EtappRace implements RaceType {
 	public String genResult() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(getLaps()).append("; ");
-		String totTimeStr = totalTime().getTimeAsInt() == 0 ? "--.--.--" : totalTime().toString();
+		Time totalTime = totalTime();
+		String totTimeStr = totalTime.getTimeAsInt() == 0 ? "--.--.--" : totalTime.toString();
 		sb.append(totTimeStr.toString()).append("; ");
 		
 		for (int i = 0; i < etapper.length; i++) {

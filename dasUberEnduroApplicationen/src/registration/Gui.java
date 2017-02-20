@@ -127,10 +127,11 @@ public class Gui extends JFrame implements Subscriber {
 			repaintGui();
 		}
 		private void addCorrectRegistration(String numberOrClass) {
-			addCorrectLine(numberOrClass, TotalTimeCalculator.getCurrentTime());
+			String outputText = numberOrClass + "; " + TotalTimeCalculator.getCurrentTime() + "\n" + textOutput.getText();
+			textOutput.setText(outputText);
 			repaintGui();
+			writeToFile();
 		}
-		
 	}
 
 	@Override
@@ -188,6 +189,4 @@ public class Gui extends JFrame implements Subscriber {
 		textOutput.setText(textOutput.getText());
 		textOutput.setCaretPosition(0);
 	}
-	
-	
 }
