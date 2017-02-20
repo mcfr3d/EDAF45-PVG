@@ -30,7 +30,16 @@ public class IOReader {
 		for (List<String> row : c.getRows()) {
 			if (row.size() != 2)
 				throw new Exception("invalid start time row");
-			db.addStart(Integer.parseInt(row.get(0)), row.get(1));
+			String time = row.get(1);
+			String numberOrClass = row.get(0);
+			try{
+			   db.addStart(Integer.parseInt(numberOrClass), time);
+			}
+			catch(NumberFormatException e) {
+				for(int startNumber : db.getRacersInClass(numberOrClass))
+					db.addStart(startNumber, time);
+			}
+			
 		}
 	}
 
@@ -61,7 +70,7 @@ public class IOReader {
 				String racerName = row.get(1);
 				db.addRacer(racerIndex, racerName, currentClass);
 				for (int j = 2; j < rows.get(0).size(); ++j) {
-					db.addOptionalData(racerIndex, row.get(i));
+					db.addOptionalData(racerIndex, row.get(j));
 				}
 			}
 		}

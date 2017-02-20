@@ -1,9 +1,9 @@
 package util;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 
 public class RegistrationExpression {
-	//TODO: Skriv tester
 	public static EvaluatedExpression eval(String input) {
 		EvaluatedExpression e = new EvaluatedExpression();
 		for(String text: formatInputString(input)) {
@@ -27,7 +27,14 @@ public class RegistrationExpression {
 					}
 				}
 			}
-		}		
+		}
+		for(Iterator<String> it = e.errorList.iterator(); it.hasNext(); ) {
+			String s = it.next();
+			if(isAlpha(s) && !s.isEmpty()) {
+			    it.remove();
+				e.evaluatedClasses.add(s);
+			}
+		}
 		return e;
 	}
 	
@@ -51,4 +58,15 @@ public class RegistrationExpression {
 		}
 		return input.length() != 0;
 	}
+	
+	private static boolean isAlpha(String name) {
+	    char[] chars = name.toCharArray();
+	    for (char c : chars) {
+	        if(!Character.isLetter(c)) {
+	            return false;
+	        }
+	    }
+	    return true;
+	}
+	
 }
