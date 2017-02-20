@@ -17,6 +17,7 @@ public class RegistrationExpressionTest {
 	private String t10 = "1 3- 6 12";
 	private String t11 = "1, 3-c10 14";
 	private String t12 = "1 c 3-c10, 14";
+	private String t13 = "seniorer juniorer 1-3";
 
 	@Test
 	public void testWithOneInput() {
@@ -132,8 +133,9 @@ public class RegistrationExpressionTest {
 	
 	@Test
 	public void testWithMixedInputWithError2() {
-		String[] correctStartNbrs = new String[]{"1", "14"};
-		String[] wrongStartNbrs = new String[]{"c","3-c10"};
+		String[] correctClasses = new String[]{"c"};
+		String[] correctStartNbrs = new String[]{"1","14"};
+		String[] wrongStartNbrs = new String[]{"3-c10"};
 		EvaluatedExpression evaled = RegistrationExpression.eval(t12);
 		for(int i = 0; i < wrongStartNbrs.length; i++) {
 			assertEquals(wrongStartNbrs[i], evaled.errorList.get(i));
@@ -141,5 +143,21 @@ public class RegistrationExpressionTest {
 		for(int i = 0; i < correctStartNbrs.length; i++) {
 			assertEquals(correctStartNbrs[i], evaled.evaluatedNbrs.get(i));
 		}
+		for(int i = 0; i < correctClasses.length; i++) {
+			assertEquals(correctClasses[i], evaled.evaluatedClasses.get(i));
+		}
 	}
+	@Test
+	public void testWithMixedInput3() {
+		String[] correctClasses = new String[]{"seniorer","juniorer"};
+		String[] correctStartNbrs = new String[]{"1","2","3"};
+		EvaluatedExpression evaled = RegistrationExpression.eval(t13);
+		for(int i = 0; i < correctStartNbrs.length; i++) {
+			assertEquals(correctStartNbrs[i], evaled.evaluatedNbrs.get(i));
+		}
+		for(int i = 0; i < correctClasses.length; i++) {
+			assertEquals(correctClasses[i], evaled.evaluatedClasses.get(i));
+		}
+	}
+	
 }
