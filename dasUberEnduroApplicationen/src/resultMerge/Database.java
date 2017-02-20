@@ -18,6 +18,7 @@ public class Database {
 	private String massStartTime;
 	private String stipulatedTime = "00.00.00";
 	private int nbrOfEtapps = 0;
+	private EtappInfo etappInfo;
 	private String[] columnHeaders;
 	public final static int ONE_LAP_RACE = 0;
 	public final static int MULTI_LAP_RACE = 1;
@@ -138,6 +139,10 @@ public class Database {
 	
 	public void setNumberEtapps(int nbrOfEtapps) {
 		this.nbrOfEtapps = nbrOfEtapps;		
+	}
+	
+	public void setEtappInfo(EtappInfo info) {
+		etappInfo = info;
 	}
 
 	public String getResult(boolean sort) {

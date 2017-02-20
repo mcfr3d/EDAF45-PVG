@@ -75,12 +75,17 @@ public class EtappRace implements RaceType {
 	public String genResultWithErrors() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(genResult()).append("; ");
-		
+		String comments = "";
+		int i = 1;
 		for (Etapp e : etapper) { // adds start and finish for each etapp
 			sb.append(e.getStart()).append("; ");
 			sb.append(e.getFinish()).append("; ");
+			if (Time.diff(new Time(e.getFinish()), new Time(e.getStart())).getTimeAsInt() < new Time("00.15.00").getTimeAsInt()) {
+				comments += " etapp " + i + " omöjlig tid";
+			}
 		}
 		//TODO: add errors (mutiple start/finish times and so on.)
+		sb.append(comments + "; ");
 		String out = sb.toString();
 		return out.substring(0, out.length() - 2);
 		
