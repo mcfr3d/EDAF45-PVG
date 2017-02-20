@@ -1,5 +1,7 @@
 package resultMerge;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.TreeSet;
 
@@ -66,6 +68,13 @@ public class MultiLapRace implements RaceType {
 	 */
 	@Override
 	public String genResult() {
+		Collections.sort(meanTimes, new Comparator<Time>() {
+
+			@Override
+			public int compare(Time a, Time b) {
+				return a.toString().compareTo(b.toString());
+			}
+		});
 		StringBuilder sb = new StringBuilder();
 		sb.append(getLaps()).append("; ");
 		sb.append(totalTime()).append("; ");
