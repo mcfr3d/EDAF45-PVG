@@ -8,106 +8,211 @@ import util.TotalTimeCalculator;
 public class MultiLapRace implements RaceType {
 	private static int maxLaps = 0;
 	// public static String raceTime = ""; should be used for errorhandling.
-	private LinkedList<String> startTimes = new LinkedList<>();
-	private TreeSet<String> finishTimes = new TreeSet<>();
+	private LinkedList<Time> startTimes = new LinkedList<>();
+	private LinkedList<Time> finishTimes = new LinkedList<>();
+	private LinkedList<Time> meanTimes = new LinkedList<>();
+	private static int stipulatedTime = 60 * 60;
 
 	@Override
 	public void addStart(String start) {
-		startTimes.add(start);
-		maxLaps = Math.max(maxLaps, finishTimes.size());
+		Time t = new Time(start, true);
+		addTime(t);
 	}
 
 	@Override
 	public void addFinish(String finish) {
-		finishTimes.add(finish);
-		maxLaps = Math.max(maxLaps, finishTimes.size());
+		Time t = new Time(finish);
+		addTime(t);
 	}
 
+	/**
+	 * Adds a time object to the correct list If a starttime is added after
+	 * finish times it moves time objects from meanTime to finishTimes if
+	 * stipulated Time is exceeded.
+	 */
 	public void addTime(Time t) {
-		 if (t.isStart()) {
-			 startTimes.add(t.toString());
-		 } else {
-			 finishTimes.add(t.toString());
-		 }
+		if (t.isStart()) {
+			if (startTimes.isEmpty()) {
+				for (Time m : meanTimes) {
+					if (Time.diff(m, t).getTimeAsInt() > stipulatedTime) {
+						finishTimes.add(m);
+					}
+				}
+				for (Time f : finishTimes) {
+					meanTimes.remove(f);
+				}
+			}
+			startTimes.add(t);
+		} else {
+			if (!startTimes.isEmpty() && Time.diff(t, startTimes.getFirst()).getTimeAsInt() > stipulatedTime) {
+				finishTimes.add(t);
+			} else {
+				meanTimes.add(t);
+			}
+		}
 	}
 
 	private String totalTime() {
-		return TotalTimeCalculator.computeDifference(getStart(), getFinish());
+		if (startTimes.isEmpty() || finishTimes.isEmpty())
+			return "--.--.--";
+		String tmp = Time.diff(finishTimes.getFirst(), startTimes.getFirst()).toString();
+		return tmp;
 	}
-	
+
+	/**
+	 * Generates the results in the order: nbrOfLaps; totalTime; LapTimes
+	 * 
+	 * @return A string in the format nbrOfLaps; totalTime; LapTimes
+	 */
 	@Override
 	public String genResult() {
-		String[] res = new String[maxLaps * 2 + 3];
-		for (int i = 0; i < res.length; i++)
-			res[i] = "";
-
-		res[maxLaps + 2] = startT();
-		int i = maxLaps + 3;
-
-		for (String s : finishTimes)
-			res[i++] = s;
-
-		if (startTimes.isEmpty()) {
-			res[0] = Math.max(0, finishTimes.size() - 1) + "";
-		} else {
-			res[0] = finishTimes.size() + "";
-		}
-
-		res[1] = totalTime();
-		boolean impossibleLapTime = false;
-
-		if (finishTimes.size() > 0) {
-			for (i = 0; i < finishTimes.size(); i++) {
-				String currentTime = TotalTimeCalculator.computeDifference(res[2 + maxLaps + i], res[3 + maxLaps + i]);
-				res[2 + i] = Character.isDigit(currentTime.charAt(0)) ? currentTime : "";
-				// Checks if impossible laptime
-				if (!TotalTimeCalculator.possibleTotalTime(res[2 + maxLaps + i], res[3 + maxLaps + i])
-						&& Character.isDigit(currentTime.charAt(0)))
-					impossibleLapTime = true;
-			}
-		} else {
-			// Missing finish time
-			res[maxLaps + 3] = "Slut?";
-		}
-
 		StringBuilder sb = new StringBuilder();
-
-		for (i = 0; i < res.length; i++)
-			sb.append(res[i]).append("; ");
-
-		if (startTimes.size() > 1)
-			multipleStartTimesGen(sb);
-
-		if (impossibleLapTime)
-			sb.append("Omöjlig varvtid?");
-
+		sb.append(getLaps()).append("; ");
+		sb.append(totalTime()).append("; ");
+		LinkedList<Time> times = new LinkedList<>();
+		if(!startTimes.isEmpty()) times.add(startTimes.getFirst());
+		for(Time t: meanTimes) times.addLast(t);
+		if(!finishTimes.isEmpty()) times.addLast(finishTimes.getFirst());
+		for (int i = 0; i < maxLaps; i++) {
+			if (times.size() > 1) {
+				Time t = times.removeFirst();
+				sb.append(Time.diff(times.getFirst(), t).toString());
+			}
+			sb.append("; ");
+		}
 		String out = sb.toString();
-		if (out.charAt(out.length() - 2) != ';')
-			return out;
+		return out.substring(0, out.length() - 2);
 
-		return out.substring(0, out.length() - 2).trim();
 	}
 
-	private void multipleStartTimesGen(StringBuilder sb) {
-		sb.append("Flera starttider? ");
-		for (int i = 1; i < startTimes.size(); i++) {
-			sb.append(startTimes.get(i) + " ");
+	/**
+	 * Generates the result + lapTimes; finishTime; errors.
+	 * 
+	 * @return the result + lapTimes; finishTime; errors.
+	 */
+	public String genResultWithErrors() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(genResult()).append("; ");
+		sb.append(startT()).append("; ");
+		for (int i = 0; i < maxLaps - 1; i++) {
+			sb.append(getMeanTime(i)).append("; ");
 		}
+		sb.append(finishT()).append("; ");
+		sb.append(errors());
+		String out = sb.toString();
+		return (out.length() == 0) ? "" : out.substring(0, out.length() - 2);
+	}
 
+	private String getMeanTime(int index) {
+		if (index >= meanTimes.size())
+			return "";
+		return meanTimes.get(index).toString();
+	}
+
+	private Time getLapTime(int index) {
+		int laps = getLaps();
+		if(laps <= index) return null;
+		if(index == 0) {
+			if(startTimes.isEmpty()) return null;
+			if(meanTimes.isEmpty()) return Time.diff(finishTimes.getFirst(), startTimes.getFirst());
+			else return Time.diff(meanTimes.getFirst(), startTimes.getFirst());
+		} else if(laps < index -1) {
+			return Time.diff(meanTimes.get(index), meanTimes.get(index-1));
+		} else {
+			if(finishTimes.isEmpty()) {
+				System.out.println(laps + " " + meanTimes.size() + " " + index);
+				return Time.diff(meanTimes.get(index), meanTimes.get(index-1));
+			} else {
+				return Time.diff(finishTimes.getFirst(), meanTimes.getLast());
+			}
+		}
+		
+		/*
+		if (index >= laps && finishTimes.size() != 0) {
+			return null;
+		} else if (index == laps - 1) {
+			if (finishTimes.isEmpty()) {
+				return null;
+			} else if (laps != 1) {
+				return Time.diff(finishTimes.getFirst(), meanTimes.get(index - 1));
+			} else {
+				return Time.diff(finishTimes.getFirst(), startTimes.getFirst());
+			}
+		} else if (index < meanTimes.size() && startTimes.size() > 0 && meanTimes.size() > 0) {
+			if (index == 0) {
+				return Time.diff(meanTimes.getFirst(), startTimes.getFirst());
+			} else {
+				return Time.diff(meanTimes.get(index), meanTimes.get(index - 1));
+			}
+		} else {
+			return null;
+		}*/
+	}
+
+	/**
+	 * returns the errors in the order: impossibleLapTime, multipleStartTimes
+	 * 
+	 * @return the errors impossibleLapTime + "; " + multipleStartTimes
+	 */
+	private String errors() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(impossibleLapTime());
+		sb.append(multipleStartTimes());
+		return sb.toString();
+	}
+
+	/**
+	 * Returns "Omöjlig vartid?" if at least one lap time is less than 15
+	 * minutes.
+	 * 
+	 * @return "Omöjlig vartid?" if at least one lap time is less than 15
+	 *         minutes else an empty string
+	 */
+	private String impossibleLapTime() {
+		for (int i = 0; i < getLaps(); i++) {
+			Time t = getLapTime(i);
+			if (t != null && t.getTimeAsInt() < 15 * 60) {
+				return "Omöjlig varvtid?; ";
+			}
+		}
+		return "";
+	}
+
+	/**
+	 * Returns "Flera starttider?" followed by the extra start times if there
+	 * are multiple start times.
+	 * 
+	 * @return "Flera starttider?" with the extra start times with a " " as
+	 *         seperator
+	 */
+	private String multipleStartTimes() {
+		StringBuilder sb = new StringBuilder();
+		if (startTimes.size() > 1) {
+			sb.append("Flera starttider? ");
+			for (int i = 1; i < startTimes.size(); i++) {
+				sb.append(startTimes.get(i) + " ");
+			}
+			sb.append("; ");
+		}
+		return sb.toString();
 	}
 
 	@Override
 	public String getStart() {
-		return startTimes.isEmpty() ? "" : startTimes.getFirst();
+		return startTimes.isEmpty() ? "" : startTimes.getFirst().toString();
 	}
 
 	@Override
 	public String getFinish() {
-		return finishTimes.isEmpty() ? "" : finishTimes.last();
+		return finishTimes.isEmpty() ? "" : finishTimes.getFirst().toString();
 	}
 
 	private String startT() {
 		return startTimes.isEmpty() ? "Start?" : getStart();
+	}
+
+	private String finishT() {
+		return finishTimes.isEmpty() ? "Slut?" : getFinish();
 	}
 
 	// Should only be used during testing
@@ -116,48 +221,38 @@ public class MultiLapRace implements RaceType {
 	}
 
 	public int getLaps() {
-		return startTimes.isEmpty() ? 0 : finishTimes.size();
+		int laps = meanTimes.size();
+		if(!finishTimes.isEmpty()) laps++;
+		return laps;
 	}
 
 	public static void setMaxLaps(int laps) {
 		maxLaps = laps;
 	}
 
+	/**
+	 * Sorts first on laps in descending order, then time in ascending order.
+	 */
 	@Override
 	public int compareTo(RaceType o) {
 		MultiLapRace other = (MultiLapRace) o;
-		boolean thisValid = isValid();
-		boolean otherValid = other.isValid();
-		if (thisValid && otherValid) {
-			int diff = this.finishTimes.size() - other.finishTimes.size();
-			if (diff != 0)
-				return -diff;
-			return totalTime().compareTo(other.totalTime());
+		if (this.genResultWithErrors().contains("?")) {
+			if (other.genResultWithErrors().contains("?")) {
+				return 0;
+			} else {
+				return 1;
+			}
+		} else if (other.genResultWithErrors().contains("?")) {
+			return -1;
 		}
-		
-		return thisValid ? -1 : (otherValid ? 1 : 0);
+		int diff = getLaps() - o.getLaps();
+		if (diff != 0)
+			return -diff; // sort on descending order of laps
+		return totalTime().compareTo(other.totalTime());
 	}
 
-	/*
-	 * True if: one start time atleast one finish time all laps longer than
-	 * minimum laptime
-	 */
-	private boolean isValid() {
-		if (startTimes.size() != 1 || finishTimes.size() < 1)
-			return false;
-		String prev = startTimes.getFirst();
-		for (String finish : finishTimes) {
-			if (!TotalTimeCalculator.possibleTotalTime(prev, finish))
-				return false;
-			prev = finish;
-		}
-		return true;
-	}
-
-	@Override
-	public String genResultWithErrors() {
-		// TODO Auto-generated method stub
-		return null;
+	public static void setStipulatedTime(Time time) {
+		stipulatedTime = time.getTimeAsInt();
 	}
 
 }
