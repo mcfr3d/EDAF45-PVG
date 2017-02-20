@@ -53,6 +53,7 @@ public class EtappRace implements RaceType {
 		// TODO Auto-generated method stub
 
 	}
+
 	@Override
 	public String genResult() {
 		StringBuilder sb = new StringBuilder();
@@ -60,7 +61,7 @@ public class EtappRace implements RaceType {
 		Time totalTime = totalTime();
 		String totTimeStr = totalTime.getTimeAsInt() == 0 ? "--.--.--" : totalTime.toString();
 		sb.append(totTimeStr.toString()).append("; ");
-		
+
 		for (int i = 0; i < etapper.length; i++) {
 			Time etappTime = etapper[i].getEtappTime();
 			if (etappTime != null) {
@@ -76,22 +77,29 @@ public class EtappRace implements RaceType {
 	public String genResultWithErrors() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(genResult()).append("; ");
-		String comments = "";
+		String errors = "";
 		int i = 1;
 		for (Etapp e : etapper) { // adds start and finish for each etapp
 			sb.append(e.getStart()).append("; ");
 			sb.append(e.getFinish()).append("; ");
-			if (Time.diff(new Time(e.getFinish()), new Time(e.getStart())).getTimeAsInt() < new Time("00.15.00").getTimeAsInt()) {
-				comments += " etapp " + i + " omöjlig tid";
+			try {
+				// TODO gain access to EtappInfo from the data base instead of using 00.15.00 as minimum time
+				if (Time.diff(new Time(e.getFinish()), new Time(e.getStart())).getTimeAsInt() < new Time("00.15.00")
+						.getTimeAsInt()) {
+					errors += " etapp " + i + " omöjlig tid";
+				}
+			} catch (Exception ee) {
 			}
 		}
-		//TODO: add errors (mutiple start/finish times and so on.)
-		sb.append(comments + "; ");
+		// TODO: add errors (mutiple start/finish times and so on.)
+		errors = errors.trim();
+		if (!errors.equals(""))
+			sb.append(errors + "; ");
 		String out = sb.toString();
 		return out.substring(0, out.length() - 2);
-		
+
 	}
-	
+
 	@Override
 	public int getLaps() {
 		int counter = 0;
@@ -141,11 +149,10 @@ public class EtappRace implements RaceType {
 	public int compareTo(RaceType o) {
 		EtappRace er = (EtappRace) o;
 		int etappdiff = er.getLaps() - getLaps();
-		if(etappdiff != 0) return etappdiff;
+		if (etappdiff != 0)
+			return etappdiff;
 		int timediff = totalTime().getTimeAsInt() - er.totalTime().getTimeAsInt();
 		return timediff;
 	}
-
-	
 
 }

@@ -17,11 +17,16 @@ public class EtappInfo {
 			multiplier = o.optInt("multiplier", 1);
 		}
 	}
-	
 	public EtappInfo(JSONArray array) {
 		etapper = new LinkedList<>();
 		for (int i = 0; i < array.length(); i++) {
 			etapper.add(new Etapp(array.getJSONObject(i), i));
 		}
+	}
+	public Time getMinimumTime(int index) {
+		return etapper.get(index).minTime;
+	}
+	public int getMultiplier(int index) {
+		return etapper.get(index).multiplier;
 	}
 }
