@@ -16,12 +16,24 @@ public class Racer implements Comparable<Racer> {
 	// kept so previous tests works. tests should be refactored.
 	// creates a racer for OneLapRace.
 	public Racer(int startNumber) {
-		this(startNumber, false);
+		this(startNumber, Database.ONE_LAP_RACE);
 	}
 
-	public Racer(int startNumber, boolean multiLap) {
+	public Racer(int startNumber, int raceType) {
 		this.startNumber = startNumber;
-		rt = multiLap ? new MultiLapRace() : new OneLapRace();
+		switch (raceType) {
+		case Database.ONE_LAP_RACE :
+			rt = new OneLapRace();
+			break;
+		case Database.MULTI_LAP_RACE :
+			rt = new MultiLapRace();
+			break;
+		}
+	}
+	
+	public Racer(int startNumber, int raceType, int nbrOfEtapps) {
+		this.startNumber = startNumber;
+		rt = new EtappRace(nbrOfEtapps);
 	}
 
 	public void setName(String name) {
@@ -34,6 +46,10 @@ public class Racer implements Comparable<Racer> {
 
 	public void addFinish(String finishTime) {
 		rt.addFinish(finishTime);
+	}
+	
+	public void addTime(Time t) {
+		rt.addTime(t);
 	}
 
 	public void setRacerClass(String raceClass) {
@@ -53,7 +69,14 @@ public class Racer implements Comparable<Racer> {
 		for (String s : optionalData) {
 			sb.append(s + "; ");
 		}
-		return startNumber + "; " + name + "; " + sb.toString() + rt.genResult();
+		return startNumber + "; " + name + "; " + sb.toString();
+	}
+	
+	public String result() {
+		return toString() + rt.genResult();
+	}
+	public String resultWithErrors() {
+		return toString() + rt.genResultWithErrors();
 	}
 
 	public String getFirstStartTime() {

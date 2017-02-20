@@ -34,7 +34,7 @@ public class MultiLapRace implements RaceType {
 		if (t.isStart()) {
 			if (startTimes.isEmpty()) {
 				for (Time m : meanTimes) {
-					if (Time.diff(t, m).getTimeAsInt() > stipulatedTime) {
+					if (Time.diff(m, t).getTimeAsInt() > stipulatedTime) {
 						finishTimes.add(m);
 					}
 				}
@@ -44,7 +44,7 @@ public class MultiLapRace implements RaceType {
 			}
 			startTimes.add(t);
 		} else {
-			if (!startTimes.isEmpty() && Time.diff(startTimes.getFirst(), t).getTimeAsInt() > stipulatedTime) {
+			if (!startTimes.isEmpty() && Time.diff(t, startTimes.getFirst()).getTimeAsInt() > stipulatedTime) {
 				finishTimes.add(t);
 			} else {
 				meanTimes.add(t);
@@ -55,7 +55,7 @@ public class MultiLapRace implements RaceType {
 	private String totalTime() {
 		if (startTimes.isEmpty() || finishTimes.isEmpty())
 			return "--.--.--";
-		String tmp = Time.diffAsString(startTimes.getFirst(), finishTimes.getFirst());
+		String tmp = Time.diff(finishTimes.getFirst(), startTimes.getFirst()).toString();
 		return tmp;
 	}
 
@@ -69,9 +69,14 @@ public class MultiLapRace implements RaceType {
 		StringBuilder sb = new StringBuilder();
 		sb.append(getLaps()).append("; ");
 		sb.append(totalTime()).append("; ");
+		LinkedList<Time> times = new LinkedList<>();
+		if(!startTimes.isEmpty()) times.add(startTimes.getFirst());
+		for(Time t: meanTimes) times.addLast(t);
+		if(!finishTimes.isEmpty()) times.addLast(finishTimes.getFirst());
 		for (int i = 0; i < maxLaps; i++) {
-			if (getLapTime(i) != null) {
-				sb.append(getLapTime(i));
+			if (times.size() > 1) {
+				Time t = times.removeFirst();
+				sb.append(Time.diff(times.getFirst(), t).toString());
 			}
 			sb.append("; ");
 		}
@@ -106,25 +111,42 @@ public class MultiLapRace implements RaceType {
 
 	private Time getLapTime(int index) {
 		int laps = getLaps();
+		if(laps <= index) return null;
+		if(index == 0) {
+			if(startTimes.isEmpty()) return null;
+			if(meanTimes.isEmpty()) return Time.diff(finishTimes.getFirst(), startTimes.getFirst());
+			else return Time.diff(meanTimes.getFirst(), startTimes.getFirst());
+		} else if(laps < index -1) {
+			return Time.diff(meanTimes.get(index), meanTimes.get(index-1));
+		} else {
+			if(finishTimes.isEmpty()) {
+				System.out.println(laps + " " + meanTimes.size() + " " + index);
+				return Time.diff(meanTimes.get(index), meanTimes.get(index-1));
+			} else {
+				return Time.diff(finishTimes.getFirst(), meanTimes.getLast());
+			}
+		}
+		
+		/*
 		if (index >= laps && finishTimes.size() != 0) {
 			return null;
 		} else if (index == laps - 1) {
 			if (finishTimes.isEmpty()) {
 				return null;
 			} else if (laps != 1) {
-				return Time.diff(meanTimes.get(index - 1), finishTimes.getFirst());
+				return Time.diff(finishTimes.getFirst(), meanTimes.get(index - 1));
 			} else {
-				return Time.diff(startTimes.getFirst(), finishTimes.getFirst());
+				return Time.diff(finishTimes.getFirst(), startTimes.getFirst());
 			}
-		} else if (startTimes.size() > 0 && meanTimes.size() > 0) {
-			if(index == 0) {
-				return Time.diff(startTimes.getFirst(), meanTimes.getFirst());
+		} else if (index < meanTimes.size() && startTimes.size() > 0 && meanTimes.size() > 0) {
+			if (index == 0) {
+				return Time.diff(meanTimes.getFirst(), startTimes.getFirst());
 			} else {
-				return Time.diff(meanTimes.get(index - 1), meanTimes.get(index));
+				return Time.diff(meanTimes.get(index), meanTimes.get(index - 1));
 			}
 		} else {
 			return null;
-		}
+		}*/
 	}
 
 	/**
@@ -199,12 +221,9 @@ public class MultiLapRace implements RaceType {
 	}
 
 	public int getLaps() {
-		if (startTimes.isEmpty())
-			return 0;
-		if (finishTimes.isEmpty())
-			return meanTimes.size();
-		else
-			return meanTimes.size() + 1;
+		int laps = meanTimes.size();
+		if(!finishTimes.isEmpty()) laps++;
+		return laps;
 	}
 
 	public static void setMaxLaps(int laps) {
@@ -246,5 +265,4 @@ public class MultiLapRace implements RaceType {
 	 * (!TotalTimeCalculator.possibleTotalTime(prev, finish)) return false; prev
 	 * = finish; } return true; }
 	 */
-
 }
