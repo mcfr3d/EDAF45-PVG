@@ -4,6 +4,7 @@ public class Time {
 	private int time;
 	private boolean isStart;
 	private int etapp;
+	public static final int SECONDS_OF_A_DAY = 24*60*60;
 
 	public Time(int time, boolean start) throws Exception {
 		this(time, start, -1);
@@ -25,9 +26,15 @@ public class Time {
 		time = toSeconds(t);
 	}
 	
-	public static String diff(Time t1, Time t2) {
+	public static String diff(Time finishTime, Time startTime) {
+		
 		try{
-			return new Time(t2.time-t1.time, false).toString();
+			int finishTimeInSecs = toSeconds(finishTime.toString())+SECONDS_OF_A_DAY;
+			int startTimeInSecs = toSeconds(startTime.toString());
+			int diff = finishTimeInSecs - startTimeInSecs;
+			if(diff > SECONDS_OF_A_DAY) diff-=SECONDS_OF_A_DAY;
+				
+			return new Time(diff, false).toString();
 		}catch(Exception e) {
 			return "--.--.--";
 		}
@@ -41,7 +48,7 @@ public class Time {
 		return String.format("%02d.%02d.%02d", hhmmss[0], hhmmss[1], hhmmss[2]);
 	}
 	
-	private int toSeconds(String time) throws Exception {
+	private static int toSeconds(String time) throws Exception {
 		String[] s = time.split("\\.");
 		if (s.length != 3)
 			throw new Exception("Syntax error!");
