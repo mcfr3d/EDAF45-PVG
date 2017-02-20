@@ -62,7 +62,7 @@ public class Database {
 		}
 		r.setName(name);
 		r.setRacerClass(raceClass);
-		if(massStart && !raceClass.equals("Ej Anmäld")) {
+		if(massStart && !raceClass.equals("Icke existerande startnummer")) {
 			r.addTime(new Time(massStartTime, true, -1));
 		}
 		

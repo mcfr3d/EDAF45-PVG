@@ -45,11 +45,12 @@ public class DatabaseTest {
 		
 		String s = db.getResult(false);
 		String header = "StartNr; Namn; TotalTid; Starttid; Måltid\n";
-		assertEquals(s,
-				"Ej Anmäld\n" + header + 
-				"2; ; --.--.--; Start?; 01.00.02\n" + "3; ; --.--.--; Start?; 00.59.00\n" +
-				"Senior\n" + header + "1; Gunther; 01.00.00; 00.00.00; 01.00.00\n"
-				);
+		assertEquals(
+				"Senior\n" + header + "1; Gunther; 01.00.00; 00.00.00; 01.00.00\n" +
+				"Icke existerande startnummer\n" + header + 
+				"2; ; --.--.--; Start?; 01.00.02\n" + "3; ; --.--.--; Start?; 00.59.00\n"
+				
+				, s);
 	}
 
 	@Test
@@ -65,6 +66,7 @@ public class DatabaseTest {
 		String s = db.getResult(true);
 		assertEquals(
 				"Senior\n" + "Plac; StartNr; Namn; TotalTid; Starttid; Måltid\n"
+
 						+ "1; 3; ; 00.59.00; 00.00.00; 00.59.00\n" + "2; 1; ; 01.00.00; 00.00.00; 01.00.00\n"
 						+ "3; 2; ; 01.00.02; 00.00.00; 01.00.02\n", s);
 	}
