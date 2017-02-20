@@ -14,11 +14,19 @@ public class Main {
 		int userSelection = fc.showSaveDialog(null);
 		
 		if (userSelection == JFileChooser.APPROVE_OPTION) {
-			
 			File fileToSave = fc.getSelectedFile();
 			
-			new Gui(fileToSave.getAbsolutePath());
+			ClientConnection cc = ServerSetupDialog.initConnect();
 			
+			Runtime.getRuntime().addShutdownHook(new Thread()
+			{
+			    @Override
+			    public void run()
+			    {
+			    	cc.disconnect();
+			    }
+			});
+			new Gui(fileToSave.getAbsolutePath(), cc);
 		} else {
 			
 			JOptionPane.showMessageDialog(null, "Du måste välja en fil!", "Felmeddelande",JOptionPane.ERROR_MESSAGE);

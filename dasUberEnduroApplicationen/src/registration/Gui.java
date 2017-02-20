@@ -30,8 +30,9 @@ public class Gui extends JFrame implements Subscriber {
 	private final Font font = new Font("Arial", Font.PLAIN, 34);
 	private JPanel faultyRegistrationPanel;
 	private HashMap<ListItem, String> map = new HashMap<>();
+	private ClientConnection cc;
 
-	public Gui(String path) {
+	public Gui(String path, ClientConnection cc) {
 		super();
 		this.setTitle("dasUberEnduroApplicationen");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -40,7 +41,7 @@ public class Gui extends JFrame implements Subscriber {
 		this.pack();
 		this.setMinimumSize(new Dimension(900, 400));
 		this.setVisible(true);
-
+		this.cc = cc;
 	}
 
 	private JPanel makeMainPanel() {
@@ -118,10 +119,8 @@ public class Gui extends JFrame implements Subscriber {
 			repaintGui();
 		}
 		private void addCorrectRegistration(String numberOrClass) {
-			String outputText = numberOrClass + "; " + TotalTimeCalculator.getCurrentTime() + "\n" + textOutput.getText();
-			textOutput.setText(outputText);
+			addCorrectLine(numberOrClass, TotalTimeCalculator.getCurrentTime());
 			repaintGui();
-			writeToFile();
 		}
 		
 	}
@@ -138,15 +137,22 @@ public class Gui extends JFrame implements Subscriber {
 		for (ListItem item : map.keySet()) {
 			if (map.get(item).contains(";")) {
 				String[] temp = map.get(item).split(";");
-				String outputText = temp[0].trim() + "; " + temp[1].trim() + "\n" + textOutput.getText();
-				textOutput.setText(outputText);
-				writeToFile();
+				addCorrectLine(temp[0], temp[1]);
 				faultyRegistrationPanel.remove(item);
 				map.remove(item);
 				break;
 			}
 		}
 
+	}
+	
+	private void addCorrectLine(String input, String time) {
+		String outputLine = input.trim() + "; " + time.trim();
+		textOutput.setText(outputLine + "\n" + textOutput.getText());
+		writeToFile();
+		if(cc.isConnected()) {
+			cc.sendData(outputLine);			
+		}
 	}
 
 	private boolean checkIfRemoved() {
@@ -174,4 +180,6 @@ public class Gui extends JFrame implements Subscriber {
 		textOutput.setText(textOutput.getText());
 		textOutput.setCaretPosition(0);
 	}
+	
+	
 }
