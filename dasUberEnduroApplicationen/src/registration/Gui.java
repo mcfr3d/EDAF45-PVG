@@ -8,19 +8,18 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 
+import util.EvaluatedExpression;
+import util.RegistrationExpression;
 import util.RegistrationIO;
 import util.TotalTimeCalculator;
 
@@ -96,13 +95,17 @@ public class Gui extends JFrame implements Subscriber {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			time = TotalTimeCalculator.getCurrentTime();
-			LinkedList<String> startNumbers = getStartnumbers();
-			for (String s : startNumbers) {
-				String outputText = s + "; " + time + "\n" + textOutput.getText();
+			
+			EvaluatedExpression evalTuple = RegistrationExpression.eval(textEntry.getText().trim());
+			for(String correct : evalTuple.evaluatedNbrs) {
+				String outputText = correct + "; " + time + "\n" + textOutput.getText();
 				textOutput.setText(outputText);
 				textOutput.setCaretPosition(0);		
 				writeToFile();
-			}	
+			}
+			for(String error : evalTuple.errorList) {
+				addFaultyRegistration(time, error);
+			}
 
 			textEntry.setText("");
 		}
@@ -112,28 +115,9 @@ public class Gui extends JFrame implements Subscriber {
 			map.put(li, time);
 			faultyRegistrationPanel.add(li);
 			faultyRegistrationPanel.revalidate();
-		}
-
-		private LinkedList<String> getStartnumbers() {
-			String[] startNumbers = textEntry.getText().split(" ");
-			LinkedList<String> correctStartNumbers = new LinkedList<>();
-			for (String s : startNumbers) {
-				if (correctInput(s)) {
-					correctStartNumbers.add(s);
-				} else {
-					addFaultyRegistration(time, s);
-				}
-			}
-			return correctStartNumbers;
-		}
-
-		private boolean correctInput(String input) {
-			for (char c : input.toCharArray()) {
-				if (!Character.isDigit(c)) {
-					return false;
-				}
-			}
-			return input.length() != 0;
+			// Imba code here
+			textOutput.setText(textOutput.getText());
+			textOutput.setCaretPosition(0);		
 		}
 	}
 
@@ -144,6 +128,7 @@ public class Gui extends JFrame implements Subscriber {
 		}
 		faultyRegistrationPanel.repaint();
 		faultyRegistrationPanel.revalidate();
+		textOutput.setCaretPosition(0);
 	}
 
 	private void checkEdit() {

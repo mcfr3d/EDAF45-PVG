@@ -15,6 +15,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import util.EvaluatedExpression;
+import util.RegistrationExpression;
+
 public class ListItem extends JPanel {
 	private String time;
 	private HashMap<ListItem, String> map;
@@ -54,28 +57,25 @@ public class ListItem extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			String message = "skriv startnumret: ";
 			if(faultyStartNumber.length() != 0){
-				message =  "Felaktig input! Du skrev: " + faultyStartNumber + "\nskriv startnumret: "; 
+				message =  "Felaktig input! Du skrev: " + faultyStartNumber + "\nskriv startnumret/intervallet: "; 
 			}
 			Optional<String> s = Optional.ofNullable((String)JOptionPane.showInputDialog(message));		
 
 			if(s.isPresent()){
-				if(correctInput(s.get())){
-					map.put(ListItem.this, s.get()+"; " + time);
-					sub.update();
-				}
-			}
-		}
-		
-		private boolean correctInput(String input) {
-			for (char c : input.toCharArray()) {
-				if (!Character.isDigit(c)) {
-					return false;
+				EvaluatedExpression evalTuple = RegistrationExpression.eval(s.get().trim());
+				if(evalTuple.errorList.isEmpty()) {
+					for(String correct : evalTuple.evaluatedNbrs) {
+						map.put(ListItem.this, correct+"; " + time);
+						sub.update();
+					}
+					return;
 				} 
+				JOptionPane.showMessageDialog(ListItem.this.getParent(),
+				    "Felaktig input.",
+				    "Error",
+				    JOptionPane.ERROR_MESSAGE);
 			}
-			return input.length() != 0;
 		}
-
-		
 	}
 	
 	private class RemoveButtonListener implements ActionListener {

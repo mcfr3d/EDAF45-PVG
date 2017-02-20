@@ -1,0 +1,6 @@
+{
+	"race type" : "marathon",
+	"name file" : "namnfil.txt",
+	"start files" : ["starttider.txt"],
+	"finish files" : ["maltider.txt"]
+}

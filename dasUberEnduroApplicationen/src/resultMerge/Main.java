@@ -11,84 +11,100 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		try {
-
-			int c;
-			String outputFile = null;
-			String type = "maraton";
-			String massStartTime = null;
-			String nameFile = null;
-			String stipulatedTime = null;
-			List<String> startFiles = new LinkedList<>();
-			List<String> finishFiles = new LinkedList<>();
-
-			Getopt g = new Getopt(args, "o:t:n:s:f:m:l:", true);
-
-			while ((c = g.getOption()) != -1) {
-
-				switch (c) {
+		if (args.length == 0) {
+			try {
+				String configFilePath = "config.json";
+				ConfigReader.readConfig(configFilePath);
 				
-				case 'l':
-					stipulatedTime = g.getOptarg();
-					break;
+			} catch (Exception e) {
 				
-				case 'o':
-					outputFile = g.getOptarg();
-					break;
-
-				case 'm':
-					massStartTime = g.getOptarg();
-					break;
-
-				case 's':
-					startFiles.add(g.getOptarg());
-					break;
-
-				case 'f':
-					finishFiles.add(g.getOptarg());
-					break;
-
-				case 't':
-					type = g.getOptarg();
-					break;
-
-				case 'n':
-					nameFile = g.getOptarg();
-					break;
-
-				default:
-					System.out.print("getopt() returned " + c + "\n");
-				}
+				e.printStackTrace();
 			}
+		} else {
+			try {
 
-			if (outputFile != null && nameFile != null) {
+				int c;
+				String outputFolder = "";
+				String type = "maraton";
+				String massStartTime = null;
+				String nameFile = null;
+				String stipulatedTime = null;
+				String configFilePath = null;
+				List<String> startFiles = new LinkedList<>();
+				List<String> finishFiles = new LinkedList<>();
 
-				System.out.println(type.equals("varvlopp"));
-				Database db = new Database(massStartTime, type.equals("varvlopp"));
+				Getopt g = new Getopt(args, "o:t:n:s:f:m:l:c:", true);
+				while ((c = g.getOption()) != -1) {
 
-				IOReader.readNames(nameFile, db);
-				if (type.equals("varvlopp")) {
-					if (stipulatedTime != null) {
-						db.setStipulatedTime(stipulatedTime);
-					} else {
-						System.out.println("Otillräcklig indata");
+					switch (c) {
+
+					case 'l':
+						stipulatedTime = g.getOptarg();
+						break;
+
+					case 'o':
+						outputFolder = g.getOptarg();
+						break;
+
+					case 'm':
+						massStartTime = g.getOptarg();
+						break;
+
+					case 's':
+						startFiles.add(g.getOptarg());
+						break;
+
+					case 'f':
+						finishFiles.add(g.getOptarg());
+						break;
+
+					case 't':
+						type = g.getOptarg();
+						break;
+
+					case 'n':
+						nameFile = g.getOptarg();
+						break;
+
+					case 'c':
+						configFilePath = g.getOptarg();
+						break;
+						
+					default:
+						System.out.print("getopt() returned " + c + "\n");
 					}
 				}
-				
-				for (String startFile : startFiles)
-					IOReader.readStart(startFile, db);
-				for (String finishFile : finishFiles)
-					IOReader.readFinish(finishFile, db);
+				if (configFilePath != null) {
+					ConfigReader.readConfig(configFilePath);
+				} else if (nameFile != null) {
 
-				ResultWriter.write(outputFile,db);
-				
-			} else {
-				
-				System.out.println("Otillräcklig indata");
+					System.out.println(type.equals("varvlopp"));
+					Database db = new Database(massStartTime, type.equals("varvlopp"));
+
+					IOReader.readNames(nameFile, db);
+					if (type.equals("varvlopp")) {
+						if (stipulatedTime != null) {
+							db.setStipulatedTime(stipulatedTime);
+						} else {
+							System.out.println("Otillräcklig indata");
+						}
+					}
+
+					for (String startFile : startFiles)
+						IOReader.readStart(startFile, db);
+					for (String finishFile : finishFiles)
+						IOReader.readFinish(finishFile, db);
+
+					ResultWriter.write(outputFolder, db);
+
+				} else {
+
+					System.out.println("Otillräcklig indata");
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 
 	}

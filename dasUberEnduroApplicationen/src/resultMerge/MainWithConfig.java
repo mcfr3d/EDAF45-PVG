@@ -1,12 +1,6 @@
 package resultMerge;
 
-import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
-
 import util.Getopt;
-import util.IOReader;
-import util.ResultWriter;
 
 public class MainWithConfig {
 

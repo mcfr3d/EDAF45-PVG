@@ -26,7 +26,7 @@ public class OneLapRace implements RaceType {
 	@Override
 	public String genResult() {
 		StringBuilder sb = new StringBuilder();
-		sb.append(totalT()).append("; ");
+		sb.append(totalTime()).append("; ");
 		sb.append(startT()).append("; ");
 		sb.append(finishT()).append("; ");
 		sb.append(errors());
@@ -51,7 +51,7 @@ public class OneLapRace implements RaceType {
 
 	}
 
-	private String totalT() {
+	private String totalTime() {
 		if (finishTimes.size() > 0 && startTimes.size() > 0) {
 			return TotalTimeCalculator.computeDifference(getStart(), getFinish());
 		}
@@ -109,9 +109,7 @@ public class OneLapRace implements RaceType {
 		boolean thisValid = haveOneStartAndOneFinish();
 		boolean otherValid = other.haveOneStartAndOneFinish();
 		if (thisValid && otherValid) {
-			String thisDelta = TotalTimeCalculator.computeDifference(getStart(), getFinish());
-			String otherDelta = TotalTimeCalculator.computeDifference(other.getStart(), other.getFinish());
-			return thisDelta.compareTo(otherDelta);
+			return totalTime().compareTo(other.totalTime());
 		}
 		return thisValid ? -1 : (otherValid ? 1 : 0);
 	}

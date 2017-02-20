@@ -11,3 +11,5 @@ pipelines:
         script: # Modify the commands below to build your repository.
           - cd dasUberEnduroApplicationen
           - ./gradlew build
+          - cd ..
+          - ./runAcT.sh

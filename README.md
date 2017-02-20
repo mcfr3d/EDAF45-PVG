@@ -1,29 +1,71 @@
-# README #
+# README
 
-This README would normally document whatever steps are necessary to get your application up and running.
+Denna README fil är till för att underlätta för en ny programmerare att sätta sig in i programmet. I vår tekniska dokumentation på Wikin finns en beskrivning av programmets helhet samt UML-diagram på de olika paketen och en bild som beskriver ett programflöde. Vi har även en manual där vi beskriver hur man bygger programmet och hur konfigurationsfilen hanteras vid start av de olika loppen etc. 
 
-### What is this repository for? ###
+# Teknisk Dokumentation
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+Den tekniska dokumentationen kan hittas överst i arkitekturen. Där finns beskrivning av hur projektet är uppbyggt, hur det används samt befintliga verktyg för att utveckla detta.
 
-### How do I get set up? ###
+# Paket och Klasser
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+## registration
 
-### Contribution guidelines ###
+Gui - Huvudfönstret för registrering av Racers. Uppdelad i tre paneler: översta för att skriva in startnummer och registrera, vänstra för att se alla nuvarande registreringar, och högra för att se alla nuvarande registreringar som ej gått igenom på grund av oläsbar nummerplåt. Det går att ta bort och editera registreringar i höger panel.
 
-* Writing tests
-* Code review
-* Other guidelines
+ListItem - Ett ListItem-objekt består av Racer med sin registerade tid, samt Edit och Remove button om den befinner sig i höger panel
 
-### Who do I talk to? ###
+Main - main för registreringsprogrammet
 
-* Repo owner or admin
-* Other community or team contact
+Subscriber - Enbart till för att notifiera Gui:t då en racer har blivit editerad eller borttagen. Implementeras av Gui.
+
+
+
+## resultMerge
+
+ConfigReader - Läser config-filen som innehåller alla väsentliga filer. Beskrivs mer i vår manual. Här skapas en database beroende på vilken Race-typ som väljs.
+
+Database - Central klass för resultathantering. Här hanteras exempelvis racers, tider, racetyp, resultat, m.m.
+
+RaceType - Interface med metoder gemensamma för alla olika RaceTypes.
+
+EtappRace - Funktionalitet för etapprace. Implementerar RaceType. Stöds ej för tillfället (se Teknisk doumentation).
+
+MultiLapRace - Funktionalitet för varvlopp, med eller utan masstart. Implemeterar RaceType.
+
+OneLapRace - Funktionalitet för ett varvs lopp, med eller utan masstart. Implementerar RaceType. 
+
+RaceGui - Gui för resultMerge-programmet.
+
+MaratonRaceGui - Gui för maratonlopp.
+
+MassStartRaceGui - Gui för masstart.
+
+NormalRaceGui - Gui för ett varvs lopp.
+
+Main - main för resultMerge utan stöd för konfiguration.
+
+MainWithConfig - main för resultMerge med stöd för konfiguration.
+
+Racer - Skapar en racer med namn, klass, startnummer och optional data. Kan jämföra sig med andra racers för att kunna sorteras samt skriva ut sig själv som en sträng.
+
+Time - Stöds ej för tillfället. Är tänkt att representera tider generellt sätt för hela programmet och implementeras i samband med etapplopp.
+
+
+
+## util
+
+Chart - Stöds ej för tillfället. Är tänkt att göra regex enklare och smidigare att hantera vid hantering av strängar.
+
+IOReader - Klass som sköter inläsning av filer
+
+RegistrationIO - Läser från och skriver till en fil för registration Gui-klassen.
+
+ResultWriter - Generera tre olika resultatfiler; en sorterad .txt, en osorterad .txt samt en sorterad .html fil.
+
+TotalTimeCalculator - Kan användas för att utföra beräkningar hos tidssträngar.
+
+Getopt - Parsar argument från kommandoraden.
+
+EvaluatedExpression - Wrapper för två länkade listor, en som ger korrekt angivna startnummer samt felaktigt angivna startnummer.
+
+RegistrationExpression - Parsar en sträng från registration's Gui och ger tillbaka en EvaluatedExpression.

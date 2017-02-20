@@ -1,0 +1,19 @@
+{
+	"race type" : "varvlopp",
+	"outputs" : [
+		{
+			"file" : "",
+			"sort" : false,
+			"html" : true
+		},
+		{
+			"file" : "",
+			"sort" : true
+		}
+	],
+	"name file" : "",
+	"start files" : [],
+	"finish files" : [""],
+	"group start" : "03.00.00",
+	"stipulated time" : "01.00.00"
+}
