@@ -1,6 +1,14 @@
-Denna README fil är till för att underlätta för en ny programmerare att sätta sig in i programmet. I vår tekniska dokumentation på Wikin finns en beskrivning av programmets helhet samt UML-diagram på de olika paketen och en bild som beskriver ett programflöde. Vi har även en manual där vi beskriver hur man bygger programmet och hur konfigurationsfilen hanteras vid start av de olika loppen etc. Nedan följer en kort beskrivning av alla klasser
+# README
 
-—— registration
+Denna README fil är till för att underlätta för en ny programmerare att sätta sig in i programmet. I vår tekniska dokumentation på Wikin finns en beskrivning av programmets helhet samt UML-diagram på de olika paketen och en bild som beskriver ett programflöde. Vi har även en manual där vi beskriver hur man bygger programmet och hur konfigurationsfilen hanteras vid start av de olika loppen etc. 
+
+# Teknisk Dokumentation
+
+Den tekniska dokumentationen kan hittas överst i arkitekturen. Där finns beskrivning av hur projektet är uppbyggt, hur det används samt befintliga verktyg för att utveckla detta.
+
+# Paket och Klasser
+
+## registration
 
 Gui - Huvudfönstret för registrering av Racers. Uppdelad i tre paneler: översta för att skriva in startnummer och registrera, vänstra för att se alla nuvarande registreringar, och högra för att se alla nuvarande registreringar som ej gått igenom på grund av oläsbar nummerplåt. Det går att ta bort och editera registreringar i höger panel.
 
@@ -12,7 +20,7 @@ Subscriber - Enbart till för att notifiera Gui:t då en racer har blivit editer
 
 
 
-—— resultMerge
+## resultMerge
 
 ConfigReader - Läser config-filen som innehåller alla väsentliga filer. Beskrivs mer i vår manual. Här skapas en database beroende på vilken Race-typ som väljs.
 
@@ -44,20 +52,20 @@ Time - Stöds ej för tillfället. Är tänkt att representera tider generellt s
 
 
 
-—— util
+## util
 
 Chart - Stöds ej för tillfället. Är tänkt att göra regex enklare och smidigare att hantera vid hantering av strängar.
 
 IOReader - Klass som sköter inläsning av filer
 
-RegistrationIO - 
+RegistrationIO - Läser från och skriver till en fil för registration Gui-klassen.
 
-ResultWriter - 
+ResultWriter - Generera tre olika resultatfiler; en sorterad .txt, en osorterad .txt samt en sorterad .html fil.
 
-TotalTimeCalculator - 
+TotalTimeCalculator - Kan användas för att utföra beräkningar hos tidssträngar.
 
-Getopt - 
+Getopt - Parsar argument från kommandoraden.
 
-EvaluatedExpression - 
+EvaluatedExpression - Wrapper för två länkade listor, en som ger korrekt angivna startnummer samt felaktigt angivna startnummer.
 
-RegistrationExpression -
+RegistrationExpression - Parsar en sträng från registration's Gui och ger tillbaka en EvaluatedExpression.
