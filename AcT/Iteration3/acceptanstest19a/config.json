@@ -1,0 +1,10 @@
+{
+	"race type" : "etapplopp",
+	"name file" : "namnfil.txt",
+	"number of etapps": 1,
+	"start files" : [{
+		"etapp": 1, "file": "starttider1.txt"}],
+	"finish files" : [{
+		"etapp": 1, "file": "maltider1.txt"}]
+	
+}
