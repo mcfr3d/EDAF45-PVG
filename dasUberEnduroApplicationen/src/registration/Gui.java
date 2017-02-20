@@ -30,6 +30,7 @@ public class Gui extends JFrame implements Subscriber {
 	private final Font font = new Font("Arial", Font.PLAIN, 34);
 	private JPanel faultyRegistrationPanel;
 	private HashMap<ListItem, String> map = new HashMap<>();
+	private int listItemCounter;
 
 	public Gui(String path) {
 		super();
@@ -40,7 +41,7 @@ public class Gui extends JFrame implements Subscriber {
 		this.pack();
 		this.setMinimumSize(new Dimension(900, 400));
 		this.setVisible(true);
-
+		listItemCounter = 0;
 	}
 
 	private JPanel makeMainPanel() {
@@ -60,12 +61,14 @@ public class Gui extends JFrame implements Subscriber {
 		panel.setLayout(new GridLayout(1, 2));
 		String s = RegistrationIO.read(path);
 		textOutput = new JTextArea(10, 10);
+		textOutput.setName("textOutput");
 		textOutput.setFont(font);
 		textOutput.setEditable(false);
 		textEntry.setMaximumSize(new Dimension(8000, 50));
 		textOutput.setText(s);
 		panel.add(textOutput);
 		faultyRegistrationPanel = new JPanel();
+		faultyRegistrationPanel.setName("faultyRegistrationPanel");
 		faultyRegistrationPanel.setLayout(new BoxLayout(faultyRegistrationPanel, BoxLayout.Y_AXIS));
 		panel.add(faultyRegistrationPanel);
 
@@ -78,9 +81,11 @@ public class Gui extends JFrame implements Subscriber {
 		ActionListener listener = new RegistrationListener();
 		// Components
 		textEntry = new JTextField(10);
+		textEntry.setName("textEntry");
 		textEntry.addActionListener(listener);
 		textEntry.setFont(font);
 		JButton button = new JButton("Registrera");
+		button.setName("button");
 		button.addActionListener(listener);
 		button.setFont(font);
 		button.setBackground(new Color(83, 156, 52));
@@ -113,8 +118,10 @@ public class Gui extends JFrame implements Subscriber {
 		private void addFaultyRegistration( String faultyStartNumber) {
 			String time = TotalTimeCalculator.getCurrentTime();
 			ListItem li = new ListItem(time, map, Gui.this, faultyStartNumber);
+			li.setName("listItem" + listItemCounter);
 			map.put(li,time);
 			faultyRegistrationPanel.add(li);
+			listItemCounter++;
 			repaintGui();
 		}
 		private void addCorrectRegistration(String numberOrClass) {

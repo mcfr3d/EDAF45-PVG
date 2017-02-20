@@ -41,6 +41,7 @@ public class ListItem extends JPanel {
 		editButton.addActionListener(new EditButtonListener());
 		
 		JButton removeButton = new JButton("Remove");
+		removeButton.setName("removeButton");
 		removeButton.addActionListener(new RemoveButtonListener());
 		this.add(timeLabel);
 		JPanel componentSeparator = new JPanel();
@@ -49,6 +50,10 @@ public class ListItem extends JPanel {
 		this.add(editButton);
 		this.add(componentSeparator);
 		this.add(removeButton);
+	}
+
+	public String getText() {
+		return time;
 	}
 	
 	private class EditButtonListener implements ActionListener {
