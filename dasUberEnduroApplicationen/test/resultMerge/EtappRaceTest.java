@@ -47,7 +47,7 @@ public class EtappRaceTest {
 		tmp.addTime(new Time("13.00.00",false,1));
 		tmp.addTime(new Time("13.15.00",true,2));
 		tmp.addTime(new Time("13.20.00",false,2));
-		String res = "2; 01.05.00; 01.00.00; 00.05.00; 12.00.00; 13.00.00; 13.15.00; 13.20.00";
+		String res = "2; 01.05.00; 01.00.00; 00.05.00; 12.00.00; 13.00.00; 13.15.00; 13.20.00; etapp 1 omöjlig tid";
 		assertEquals(res, tmp.genResultWithErrors());
 	}
 

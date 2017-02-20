@@ -28,6 +28,8 @@ public class ConfigReader {
 		Map<Integer,LinkedList<String>> startFiles = new HashMap<>();
 		Map<Integer,LinkedList<String>> finishFiles = new HashMap<>();
 		boolean isLapRace = false, isEtappRace = false;
+		EtappInfo info = null;
+		
 		try {
 
 			FileReader reader = new FileReader(configFilePath);
@@ -67,6 +69,10 @@ public class ConfigReader {
 					}	
 				}
 			}
+			
+			if (isEtappRace) {
+				info = new EtappInfo(root.getJSONArray("etapper"));
+			}
 
 			JSONArray jsonFinishFiles = root.getJSONArray("finish files");
 			for (int i = 0; i < jsonFinishFiles.length(); ++i) {
@@ -105,6 +111,7 @@ public class ConfigReader {
 		Database db;
 		if (isEtappRace) {
 			db = new Database(massStartTime, Database.ETAPP_RACE);
+			db.setEtappInfo(info);
 			if (nbrOfEtapps != 0) {
 				db.setNumberEtapps(nbrOfEtapps);
 			} else {
