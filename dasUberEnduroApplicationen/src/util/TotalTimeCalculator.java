@@ -66,7 +66,7 @@ public class TotalTimeCalculator {
 	}
 
 	public static boolean possibleTotalTime(String start, String finish) {
-
+		if (start.length() == 0 || finish.length() == 0) return true;
 		try {
 			int s = toSeconds(start);
 			int f = toSeconds(finish);

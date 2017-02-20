@@ -42,7 +42,7 @@ public class ConfigReader {
 			massStartTime = root.optString("group start", null);
 			nameFilePath = root.getString("name file");
 			stipulatedTime = root.optString("stipulated time", null);
-			nbrOfEtapps = root.getInt("number of etapps");
+			nbrOfEtapps = root.optInt("number of etapps", 1);
 
 			if (massStartTime == null) {
 				JSONArray jsonStartFiles = root.getJSONArray("start files");

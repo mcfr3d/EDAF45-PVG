@@ -59,7 +59,7 @@ public class IOReader {
 		for (List<String> row : c.getRows()) {
 			if (row.size() != 2)
 				throw new Exception("invalid finish time row");
-			db.addFinish(Integer.parseInt(row.get(0)), row.get(1));
+			db.addFinish(Integer.parseInt(row.get(0)), row.get(1), etapp);
 		}
 	}
 
