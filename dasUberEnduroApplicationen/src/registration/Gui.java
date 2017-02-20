@@ -114,10 +114,7 @@ public class Gui extends JFrame implements Subscriber {
 			ListItem li = new ListItem(time, map, Gui.this, faultyStartNumber);
 			map.put(li, time);
 			faultyRegistrationPanel.add(li);
-			faultyRegistrationPanel.revalidate();
-			// Imba code here
-			textOutput.setText(textOutput.getText());
-			textOutput.setCaretPosition(0);		
+			repaintGui();		
 		}
 	}
 
@@ -126,9 +123,7 @@ public class Gui extends JFrame implements Subscriber {
 		if (!checkIfRemoved()) {
 			checkEdit();
 		}
-		faultyRegistrationPanel.repaint();
-		faultyRegistrationPanel.revalidate();
-		textOutput.setCaretPosition(0);
+		repaint();
 	}
 
 	private void checkEdit() {
@@ -162,5 +157,13 @@ public class Gui extends JFrame implements Subscriber {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void repaintGui() {
+		faultyRegistrationPanel.repaint();
+		faultyRegistrationPanel.revalidate();
+		// Imba code here
+		textOutput.setText(textOutput.getText());
+		textOutput.setCaretPosition(0);
 	}
 }
