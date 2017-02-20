@@ -75,8 +75,8 @@ public class Racer implements Comparable<Racer> {
 	public String result() {
 		return toString() + rt.genResult();
 	}
-	public String resultWithErrors() {
-		return toString() + rt.genResultWithErrors();
+	public String resultWithErrors(Database db) {
+		return toString() + rt.genResultWithErrors(db);
 	}
 
 	public String getFirstStartTime() {

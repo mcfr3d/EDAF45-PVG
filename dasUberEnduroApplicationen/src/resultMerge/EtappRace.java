@@ -74,21 +74,23 @@ public class EtappRace implements RaceType {
 	}
 
 	@Override
-	public String genResultWithErrors() {
+	public String genResultWithErrors(Database db) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(genResult()).append("; ");
 		String errors = "";
-		int i = 1;
+		int i = 0;
 		for (Etapp e : etapper) { // adds start and finish for each etapp
 			sb.append(e.getStart()).append("; ");
 			sb.append(e.getFinish()).append("; ");
-			try {
-				// TODO gain access to EtappInfo from the data base instead of using 00.15.00 as minimum time
-				if (Time.diff(new Time(e.getFinish()), new Time(e.getStart())).getTimeAsInt() < new Time("00.15.00")
-						.getTimeAsInt()) {
-					errors += " etapp " + i + " omöjlig tid";
+			if (db != null) {
+				try {
+					Time minimumTime = db.getEtappInfo().getMinimumTime(i);
+					Time diff = Time.diff(new Time(e.getFinish()), new Time(e.getStart()));
+					if (diff.getTimeAsInt() < minimumTime.getTimeAsInt()) {
+						errors += " etapp " + (i + 1) + " omöjlig tid";
+					}
+				} catch (Exception ee) {
 				}
-			} catch (Exception ee) {
 			}
 		}
 		// TODO: add errors (mutiple start/finish times and so on.)

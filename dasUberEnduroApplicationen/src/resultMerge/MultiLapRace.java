@@ -99,7 +99,7 @@ public class MultiLapRace implements RaceType {
 	 * 
 	 * @return the result + lapTimes; finishTime; errors.
 	 */
-	public String genResultWithErrors() {
+	public String genResultWithErrors(Database db) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(genResult()).append("; ");
 		sb.append(startT()).append("; ");
@@ -245,13 +245,13 @@ public class MultiLapRace implements RaceType {
 	@Override
 	public int compareTo(RaceType o) {
 		MultiLapRace other = (MultiLapRace) o;
-		if (this.genResultWithErrors().contains("?")) {
-			if (other.genResultWithErrors().contains("?")) {
+		if (this.genResultWithErrors(null).contains("?")) {
+			if (other.genResultWithErrors(null).contains("?")) {
 				return 0;
 			} else {
 				return 1;
 			}
-		} else if (other.genResultWithErrors().contains("?")) {
+		} else if (other.genResultWithErrors(null).contains("?")) {
 			return -1;
 		}
 		int diff = getLaps() - o.getLaps();

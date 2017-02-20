@@ -34,7 +34,7 @@ public class OneLapRace implements RaceType {
 		
 	}
 	
-	public String genResultWithErrors() {
+	public String genResultWithErrors(Database db) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(genResult()).append("; ");
 		sb.append(errors());

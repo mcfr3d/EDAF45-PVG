@@ -22,7 +22,7 @@ public class MultiLapRaceTest {
 		MultiLapRace.setStipulatedTime(new Time("00.11.00"));
 		temp.addStart("00.00.00");
 		temp.addFinish("01.00.00");
-		assertEquals("1; 01.00.00; 01.00.00; 00.00.00; 01.00.00", temp.genResultWithErrors());
+		assertEquals("1; 01.00.00; 01.00.00; 00.00.00; 01.00.00", temp.genResultWithErrors(null));
 	}
 	@Test
 	public void testTwoLap() {
@@ -31,7 +31,7 @@ public class MultiLapRaceTest {
 		temp.addStart("00.00.00");
 		temp.addFinish("01.00.01");
 		temp.addFinish("02.00.03");
-		assertEquals("2; 02.00.03; 01.00.01; 01.00.02; 00.00.00; 01.00.01; 02.00.03", temp.genResultWithErrors());
+		assertEquals("2; 02.00.03; 01.00.01; 01.00.02; 00.00.00; 01.00.01; 02.00.03", temp.genResultWithErrors(null));
 	}
 	@Test
 	public void testTwoDrivers() {
@@ -44,8 +44,8 @@ public class MultiLapRaceTest {
 		
 		temp2.addStart("00.00.00");
 		temp2.addFinish("02.00.00");
-		assertEquals("1; 02.00.00; 02.00.00; ; 00.00.00; ; 02.00.00", temp2.genResultWithErrors());
-		assertEquals("2; 02.00.00; 01.00.00; 01.00.00; 00.00.00; 01.00.00; 02.00.00", temp.genResultWithErrors());
+		assertEquals("1; 02.00.00; 02.00.00; ; 00.00.00; ; 02.00.00", temp2.genResultWithErrors(null));
+		assertEquals("2; 02.00.00; 01.00.00; 01.00.00; 00.00.00; 01.00.00; 02.00.00", temp.genResultWithErrors(null));
 	}
 	
 	/*
@@ -64,7 +64,7 @@ public class MultiLapRaceTest {
 		MultiLapRace.setMaxLaps(3);
 		MultiLapRace.setStipulatedTime(new Time("03.39.00"));
 		temp.addStart("12.01.00");
-		assertEquals("0; --.--.--; ; ; ; 12.01.00; ; ; Slut?", temp.genResultWithErrors());
+		assertEquals("0; --.--.--; ; ; ; 12.01.00; ; ; Slut?", temp.genResultWithErrors(null));
 	}
 	
 	@Test
@@ -76,7 +76,7 @@ public class MultiLapRaceTest {
 		temp.addFinish("12.22.00");
 		temp.addFinish("12.42.00");
 		temp.addFinish("13.05.06");
-		assertEquals("3; 01.03.06; 00.20.00; 00.20.00; 00.23.06; 12.02.00; 12.22.00; 12.42.00; 13.05.06; Flera starttider? 12.05.00 ", temp.genResultWithErrors());
+		assertEquals("3; 01.03.06; 00.20.00; 00.20.00; 00.23.06; 12.02.00; 12.22.00; 12.42.00; 13.05.06; Flera starttider? 12.05.00 ", temp.genResultWithErrors(null));
 	}
 	
 	@Test
@@ -87,8 +87,8 @@ public class MultiLapRaceTest {
 		temp.addFinish("12.23.00");
 		temp.addFinish("12.43.00");
 		temp.addFinish("12.52.07");
-		System.out.println(temp.genResultWithErrors());
-		assertEquals("3; 00.49.07; 00.20.00; 00.20.00; 00.09.07; 12.03.00; 12.23.00; 12.43.00; 12.52.07; Omöjlig varvtid?", temp.genResultWithErrors());
+		System.out.println(temp.genResultWithErrors(null));
+		assertEquals("3; 00.49.07; 00.20.00; 00.20.00; 00.09.07; 12.03.00; 12.23.00; 12.43.00; 12.52.07; Omöjlig varvtid?", temp.genResultWithErrors(null));
 	}
 
 	@Test

@@ -241,7 +241,7 @@ public class Database {
 		});
 
 		for (Racer r : list)
-			sb.append(r.resultWithErrors()).append("\n");
+			sb.append(r.resultWithErrors(this)).append("\n");
 	}
 
 	private String genHeader(int laps) {
@@ -296,6 +296,10 @@ public class Database {
 			if (r.getClass().equals(className))
 				list.add(r.getStartNumber());
 		return list;
+	}
+
+	public EtappInfo getEtappInfo() {
+		return etappInfo;
 	}
 
 }
