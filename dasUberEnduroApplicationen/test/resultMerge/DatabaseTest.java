@@ -44,7 +44,7 @@ public class DatabaseTest {
 		db.setName(1, "Gunther");
 		String s = db.getResult(false);
 		assertEquals(s,
-				"Ej Anmäld\n" + "StartNr; Namn; Totaltid; Starttid; Måltid\n" + "1; Gunther; 01.00.00; 00.00.00; 01.00.00\n"
+				"Icke existerande startnummer\n" + "StartNr; Namn; Totaltid; Starttid; Måltid\n" + "1; Gunther; 01.00.00; 00.00.00; 01.00.00\n"
 						+ "2; ; 01.00.02; 00.00.00; 01.00.02\n" + "3; ; 00.59.00; 00.00.00; 00.59.00\n");
 	}
 
@@ -57,7 +57,7 @@ public class DatabaseTest {
 		db.addFinish(3, "00.59.00");
 		String s = db.getResult(true);
 		assertEquals(s,
-				"Ej Anmäld\n" + "Plac; StartNr; Namn; Totaltid; Starttid; Måltid\n"
+				"Icke existerande startnummer\n" + "Plac; StartNr; Namn; Totaltid; Starttid; Måltid\n"
 						+ "1; 3; ; 00.59.00; 00.00.00; 00.59.00\n" + "2; 1; ; 01.00.00; 00.00.00; 01.00.00\n"
 						+ "3; 2; ; 01.00.02; 00.00.00; 01.00.02\n");
 	}
