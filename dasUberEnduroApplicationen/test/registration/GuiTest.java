@@ -28,7 +28,7 @@ public class GuiTest {
 	
 	@Before
 	public void before() throws AWTException {
-	    gui = new Gui(file);
+	    gui = new Gui(file, new ClientConnection());
 	    button = (JButton) getComponent(gui, "button");
 	    textOutput = (JTextArea) getComponent(gui, "textOutput");
 	    textEntry = (JTextField) getComponent(gui, "textEntry");
