@@ -24,17 +24,20 @@ public class ServerSetupDialog {
 		int result = JOptionPane.showConfirmDialog(null, myPanel, "Konfigurera serverkoppling (Valfritt)",
 				JOptionPane.OK_CANCEL_OPTION);
 		if (result == JOptionPane.OK_OPTION) {
-			System.out.println("IP: " + ipAddressField.getText());
-			System.out.println("Port: " + portField.getText());
-			if(cc.tryToConnect(ipAddressField.getText(), Integer.parseInt(portField.getText()), 3000)) {
-				JOptionPane.showMessageDialog(null,
-					    "Successfully Connected to server :)");
-			} else {
+			try {
+				if(cc.tryToConnect(ipAddressField.getText(), Integer.parseInt(portField.getText()), 3000)) {
+					JOptionPane.showMessageDialog(null,
+						    "Successfully Connected to server :)");
+				} else {
+					throw new Exception("Connection Failed");
+				}
+			} catch(Exception e) {
 				JOptionPane.showMessageDialog(null,
 					    "Failed to connect to server :(",
-					    "Connection Failed",
+					    e.getMessage(),
 					    JOptionPane.ERROR_MESSAGE);
 			}
+			
 		}
 		return cc;
 	}
