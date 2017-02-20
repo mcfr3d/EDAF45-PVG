@@ -2,6 +2,36 @@
 
 Denna README fil är till för att underlätta för en ny programmerare att sätta sig in i programmet. I vår tekniska dokumentation på Wikin finns en beskrivning av programmets helhet samt UML-diagram på de olika paketen och en bild som beskriver ett programflöde. Vi har även en manual där vi beskriver hur man bygger programmet och hur konfigurationsfilen hanteras vid start av de olika loppen etc. 
 
+# Avklarade stories 
+
+* Story 3: Enkel Resultatlista
+* Story 4: Personuppgifter
+* Story 5: Totaltid
+* Story 6: Felaktiga registreringar
+* Story 7: GUI för registrering
+* Story 8: Registrering av tider
+* Story 9: Varvlopp
+* Story 10: Flera skall kunna registrera måltider
+* Story 11: Enkel masstart
+* Story 12: Målgång där nummerplåten inte kan läsas i förväg
+* Story 13: Hantera klasser
+* Story 14: Manualer/instruktioner
+* Story 15: Hantera felaktiga tidsdata
+* Story 16: Hantera registreringar med otillåtna startnummer
+* Story 17: Variabelt antal uppgifter om förarna
+* Story 18: Sorterad resultatlista
+* Story 19: Etapplopp
+* Story 24: Masstart
+* Story 25: Stöd för konfiguration
+* Story 26: Teknisk dokumentation
+* Story 27: Serverlösning
+* Story 28: HTML-resultat
+* Story 29: Integrera HTML-baserad resultatlista
+* Story 31: Teknisk dokumentation
+* Story 32: Källkodsrelease 2
+* Story 35: Nattetapp
+* Story 36: Kö vid målgång 
+
 # Teknisk Dokumentation
 
 Den tekniska dokumentationen kan hittas överst i arkitekturen. Där finns beskrivning av hur projektet är uppbyggt, hur det används samt befintliga verktyg för att utveckla detta.
@@ -69,3 +99,8 @@ Getopt - Parsar argument från kommandoraden.
 EvaluatedExpression - Wrapper för två länkade listor, en som ger korrekt angivna startnummer samt felaktigt angivna startnummer.
 
 RegistrationExpression - Parsar en sträng från registration's Gui och ger tillbaka en EvaluatedExpression.
+
+## Acceptanstester:
+
+Just nu har vi lite problem med felaktigt format på configfiler, vilket gör att ganska många acceptanstester från iteration2 inte är körbara.
+
