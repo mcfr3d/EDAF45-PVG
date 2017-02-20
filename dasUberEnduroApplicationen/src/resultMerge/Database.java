@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 
 import util.TotalTimeCalculator;
@@ -35,8 +36,8 @@ public class Database {
 	}
 
 	public boolean setMassStart(String time) {
-		boolean isCorrectFormat =TotalTimeCalculator.isCorrectFormat(time);
-		
+		boolean isCorrectFormat = TotalTimeCalculator.isCorrectFormat(time);
+
 		if (isCorrectFormat) {
 			massStart = true;
 			massStartTime = time;
@@ -61,7 +62,7 @@ public class Database {
 
 	private Racer getRacer(int driver) {
 		if (!racers.containsKey(driver))
-			addRacer(driver, "", "Ej Anmäld");
+			addRacer(driver, "", "Icke existerande startnummer");
 		return racers.get(driver);
 	}
 
@@ -98,7 +99,7 @@ public class Database {
 	public boolean isMultiLapRace() {
 		return multiLap;
 	}
-	
+
 	public HashMap<Integer, Racer> getRacers() {
 		return racers;
 	}
@@ -110,6 +111,7 @@ public class Database {
 	public int size() {
 		return racers.size();
 	}
+
 	public void setStipulatedTime(String stipulatedTime) {
 		this.stipulatedTime = stipulatedTime;
 	}
@@ -123,10 +125,18 @@ public class Database {
 				raceClasses.put(raceC, new HashSet<>());
 			}
 			raceClasses.get(raceC).add(r);
-		}		
-		for (String s : raceClasses.keySet()) {
-			sb.append(genResultForClass(s, raceClasses.get(s), sort));
 		}
+		String ss = "";
+
+		for (String s : raceClasses.keySet()) {
+
+			if (s == "Icke existerande startnummer") {
+				ss = genResultForClass(s, raceClasses.get(s), sort);
+			} else {
+				sb.append(genResultForClass(s, raceClasses.get(s), sort));
+			}
+		}
+		sb.append(ss);
 
 		return sb.toString();
 	}
@@ -141,13 +151,13 @@ public class Database {
 		if (!raceClass.equals(""))
 			sb.append(raceClass).append('\n');
 		// should be done dependent on what race we have
-		MultiLapRace.setMaxLaps(maxLaps); 
+		MultiLapRace.setMaxLaps(maxLaps);
 
-		if(sort) {		
+		if (sort) {
 			// Adding placement to header
 			sb.append("Plac; ");
 			sb.append(genHeader(maxLaps)).append('\n');
-			
+
 			// Sorting and writing
 			writeSortedResult(sb, maxLaps, racersInClass);
 		} else {
@@ -161,44 +171,44 @@ public class Database {
 	private void writeSortedResult(StringBuilder sb, int maxLaps, HashSet<Racer> racers) {
 		ArrayList<Racer> sortedRacerList = new ArrayList<>();
 		ArrayList<Racer> invalidStipulatedTime = new ArrayList<>();
-		
+
 		for (Racer r : racers) {
-			
+
 			String rTime = TotalTimeCalculator.computeDifference(r.getFirstStartTime(), r.getFinishTime());
-			if(rTime.compareTo(stipulatedTime) > 0) {
+			if (rTime.compareTo(stipulatedTime) > 0) {
 				sortedRacerList.add(r);
 			} else {
 				invalidStipulatedTime.add(r);
 			}
 		}
 		Collections.sort(sortedRacerList);
-		
-		for(int i = 1; i <= sortedRacerList.size(); i++) {
-			sb.append(i + "; " + sortedRacerList.get(i-1).toString()).append('\n');
+
+		for (int i = 1; i <= sortedRacerList.size(); i++) {
+			sb.append(i + "; " + sortedRacerList.get(i - 1).toString()).append('\n');
 		}
-		for(int i = 0; i < invalidStipulatedTime.size(); i++) {
+		for (int i = 0; i < invalidStipulatedTime.size(); i++) {
 			sb.append("; " + invalidStipulatedTime.get(i).toString()).append('\n');
 		}
 	}
-	
+
 	/*
 	 * Sort racers based on only start number
 	 */
 	private void writeUnsortedResult(StringBuilder sb, HashSet<Racer> racers) {
-		
+
 		ArrayList<Racer> list = new ArrayList<>();
-		
+
 		for (Racer r : racers)
 			list.add(r);
-		
-		list.sort(new Comparator<Racer>(){
-			
+
+		list.sort(new Comparator<Racer>() {
+
 			@Override
 			public int compare(Racer a, Racer b) {
 				return a.getStartNumber() - b.getStartNumber();
 			}
 		});
-		
+
 		for (Racer r : list)
 			sb.append(r.toString()).append("\n");
 	}
@@ -237,6 +247,14 @@ public class Database {
 
 	public void setColumnHeaders(String[] columnHeaders) {
 		this.columnHeaders = columnHeaders;
+	}
+
+	public List<Integer> getRacersInClass(String className) {
+		List<Integer> list = new LinkedList<>();
+		for (Racer r : racers.values())
+			if (r.getClass().equals(className))
+				list.add(r.getStartNumber());
+		return list;
 	}
 
 }

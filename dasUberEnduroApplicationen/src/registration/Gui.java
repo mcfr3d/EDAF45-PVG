@@ -91,34 +91,42 @@ public class Gui extends JFrame implements Subscriber {
 	}
 
 	private class RegistrationListener implements ActionListener {
-		private String time;
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			time = TotalTimeCalculator.getCurrentTime();
 			
-			EvaluatedExpression evalTuple = RegistrationExpression.eval(textEntry.getText().trim());
-			for(String correct : evalTuple.evaluatedNbrs) {
-				String outputText = correct + "; " + time + "\n" + textOutput.getText();
-				textOutput.setText(outputText);
-				textOutput.setCaretPosition(0);		
-				writeToFile();
-			}
-			for(String error : evalTuple.errorList) {
-				addFaultyRegistration(time, error);
-			}
+			String userInput = textEntry.getText().trim();
+			EvaluatedExpression evalTuple = RegistrationExpression.eval(userInput);
+			
+			for (String correctNumbers : evalTuple.evaluatedNbrs)
+				addCorrectRegistration(correctNumbers);
 
+			for (String correctClasses : evalTuple.evaluatedClasses)
+				addCorrectRegistration(correctClasses);
+			
+			for (String error : evalTuple.errorList)
+					addFaultyRegistration(error);
+			
 			textEntry.setText("");
 		}
 
-		private void addFaultyRegistration(String time, String faultyStartNumber) {
+		private void addFaultyRegistration( String faultyStartNumber) {
+			String time = TotalTimeCalculator.getCurrentTime();
 			ListItem li = new ListItem(time, map, Gui.this, faultyStartNumber);
-			map.put(li, time);
+			map.put(li,time);
 			faultyRegistrationPanel.add(li);
 			faultyRegistrationPanel.revalidate();
 			// Imba code here
 			textOutput.setText(textOutput.getText());
-			textOutput.setCaretPosition(0);		
+			textOutput.setCaretPosition(0);
 		}
+		private void addCorrectRegistration(String numberOrClass) {
+			String outputText = numberOrClass + "; " + TotalTimeCalculator.getCurrentTime() + "\n" + textOutput.getText();
+			textOutput.setText(outputText);
+			textOutput.setCaretPosition(0);
+			writeToFile();
+		}
+		
 	}
 
 	@Override

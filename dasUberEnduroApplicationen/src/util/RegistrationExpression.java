@@ -1,5 +1,6 @@
 package util;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 
 public class RegistrationExpression {
@@ -27,7 +28,14 @@ public class RegistrationExpression {
 					}
 				}
 			}
-		}		
+		}
+		for(Iterator<String> it = e.errorList.iterator(); it.hasNext(); ) {
+			String s = it.next();
+			if(isAlpha(s)) {
+			    it.remove();
+				e.evaluatedClasses.add(s);
+			}
+		}
 		return e;
 	}
 	
@@ -51,4 +59,15 @@ public class RegistrationExpression {
 		}
 		return input.length() != 0;
 	}
+	
+	private static boolean isAlpha(String name) {
+	    char[] chars = name.toCharArray();
+	    for (char c : chars) {
+	        if(!Character.isLetter(c)) {
+	            return false;
+	        }
+	    }
+	    return true;
+	}
+	
 }
