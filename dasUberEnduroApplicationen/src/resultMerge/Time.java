@@ -44,7 +44,7 @@ public class Time {
 		}
 	}
 	
-	public static Time diff(Time start, Time finish) {		
+	public static Time diff(Time start, Time finish) {	
 		return new Time(finish.time - start.time);
 	}
 	

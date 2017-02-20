@@ -142,6 +142,7 @@ public class Database {
 			sb.append(raceClass).append('\n');
 		// should be done dependent on what race we have
 		MultiLapRace.setMaxLaps(maxLaps); 
+		MultiLapRace.setStipulatedTime(new Time(stipulatedTime));
 
 		if(sort) {		
 			// Adding placement to header

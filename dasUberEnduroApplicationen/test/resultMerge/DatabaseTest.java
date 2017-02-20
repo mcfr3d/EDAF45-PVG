@@ -121,6 +121,8 @@ public class DatabaseTest {
 	public void testOneRacerMultipleLapsSort() {
 		db = new Database(null, true);
 		db.setColumnHeaders(new String[] { "StartNr", "Namn" });
+		MultiLapRace.setMaxLaps(3);
+		MultiLapRace.setStipulatedTime(new Time("01.01.00"));
 		db.addRacer(1, "Test Tsson", "Tester");
 		db.addStart(1, "00.00.00");
 		db.addFinish(1, "00.00.01");
