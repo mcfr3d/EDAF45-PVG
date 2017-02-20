@@ -189,9 +189,4 @@ public class Gui extends JFrame implements Subscriber {
 		textOutput.setText(textOutput.getText());
 		textOutput.setCaretPosition(0);
 	}
-<<<<<<< HEAD
-=======
-	
-	
->>>>>>> ec3801db5a835d79a31669b460fb1caf8c4c2bb2
 }
