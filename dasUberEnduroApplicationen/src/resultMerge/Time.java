@@ -41,7 +41,7 @@ public class Time {
 
 		try {
 			int diff = finishTime.time - startTime.time + SECONDS_OF_A_DAY;
-			if (diff > SECONDS_OF_A_DAY)
+			if (diff >= SECONDS_OF_A_DAY)
 				diff -= SECONDS_OF_A_DAY;
 			return new Time(diff);
 		} catch (Exception e) {
