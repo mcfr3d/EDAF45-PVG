@@ -79,7 +79,7 @@ public class Main {
 				} else if (nameFile != null) {
 
 					System.out.println(type.equals("varvlopp"));
-					Database db = new Database(massStartTime, type.equals("varvlopp"));
+					Database db = new Database(massStartTime, Database.ONE_LAP_RACE);
 
 					IOReader.readNames(nameFile, db);
 					if (type.equals("varvlopp")) {

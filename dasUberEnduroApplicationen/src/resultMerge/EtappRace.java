@@ -26,7 +26,7 @@ public class EtappRace implements RaceType {
 		public Time getEtappTime() {
 			if (!(start.isEmpty() || finish.isEmpty())) {
 				try {
-					return Time.diff(start.getFirst(), finish.getFirst());
+					return Time.diff(finish.getFirst(), start.getFirst());
 				} catch (Exception e) {
 				}
 			}
@@ -53,57 +53,41 @@ public class EtappRace implements RaceType {
 		// TODO Auto-generated method stub
 
 	}
-
 	@Override
 	public String genResult() {
-		int completedEtapps = 0;
-		Time[] timeArray = new Time[etapper.length];
-		Time totalTime = null;
-		try {
-			totalTime = new Time(0);
-		} catch (Exception e) {
-
-		}
-
+		StringBuilder sb = new StringBuilder();
+		String totTimeStr = totalTime().getTimeAsInt() == 0 ? "--.--.--" : totalTime().toString();
+		sb.append(totTimeStr.toString()).append("; ");
+		sb.append(getLaps()).append("; ");
+		
 		for (int i = 0; i < etapper.length; i++) {
 			Time etappTime = etapper[i].getEtappTime();
 			if (etappTime != null) {
-				completedEtapps++;
-				totalTime = totalTime.add(etappTime);
+				sb.append(etappTime.toString());
 			}
-			timeArray[i] = etappTime;
-		}
-
-		return buildResultString(completedEtapps, timeArray, totalTime);
-	}
-
-	private String buildResultString(int completedEtapps, Time[] timeArray, Time totalTime) {
-		StringBuilder sb = new StringBuilder();
-
-		String totTimeStr = totalTime.getTimeAsInt() == 0 ? "--.--.--" : totalTime.toString();
-		sb.append(totTimeStr).append("; "); // add total time
-
-		sb.append(completedEtapps).append("; "); // add nbr of completed etapps
-
-		for (Time t : timeArray) { // adds each etapp-time that was finished (or
-									// empty if not completed).
-			if (t != null)
-				sb.append(t.toString());
 			sb.append("; ");
 		}
+		String out = sb.toString();
+		return out.substring(0, out.length() - 2);
+	}
 
+	@Override
+	public String genResultWithErrors() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(genResult()).append("; ");
+		
 		for (Etapp e : etapper) { // adds start and finish for each etapp
 			sb.append(e.getStart()).append("; ");
 			sb.append(e.getFinish()).append("; ");
 		}
-
-		// TODO: add errors.
-
-		String tooLong = sb.toString();
-		return tooLong.substring(0, tooLong.length() - 2); // removes last "; "
+		//TODO: add errors (mutiple start/finish times and so on.)
+		String out = sb.toString();
+		return out.substring(0, out.length() - 2);
+		
 	}
-
-	private int nbrFinishedEtapps() {
+	
+	@Override
+	public int getLaps() {
 		int counter = 0;
 		for (int i = 0; i < etapper.length; i++) {
 			Time etappTime = etapper[i].getEtappTime();
@@ -138,12 +122,6 @@ public class EtappRace implements RaceType {
 	}
 
 	@Override
-	public int getLaps() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public void addTime(Time t) throws ArrayIndexOutOfBoundsException {
 		int etappNbr = t.getEtappNbr() - 1;
 
@@ -156,10 +134,12 @@ public class EtappRace implements RaceType {
 	@Override
 	public int compareTo(RaceType o) {
 		EtappRace er = (EtappRace) o;
-		int etappdiff = er.nbrFinishedEtapps() - nbrFinishedEtapps();
+		int etappdiff = er.getLaps() - getLaps();
 		if(etappdiff != 0) return etappdiff;
 		int timediff = totalTime().getTimeAsInt() - er.totalTime().getTimeAsInt();
 		return timediff;
 	}
+
+	
 
 }
