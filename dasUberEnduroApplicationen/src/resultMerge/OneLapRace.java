@@ -20,7 +20,8 @@ public class OneLapRace implements RaceType {
 	}
 	
 	public void addTime(Time t) {
-		// TODO Auto-generated method stub
+		if(t.isStart()) addStart(t.toString());
+		else addFinish(t.toString());
 	}
 	
 	@Override
@@ -28,12 +29,20 @@ public class OneLapRace implements RaceType {
 		StringBuilder sb = new StringBuilder();
 		sb.append(totalTime()).append("; ");
 		sb.append(startT()).append("; ");
-		sb.append(finishT()).append("; ");
+		sb.append(finishT());
+		return sb.toString();
+		
+	}
+	
+	public String genResultWithErrors() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(genResult()).append("; ");
 		sb.append(errors());
 		String out = sb.toString();
 		if (out.charAt(out.length() - 2) != ';')
 			return out;
 		return out.substring(0, out.length() - 2);
+		
 	}
 
 	private String startT() {
@@ -82,8 +91,10 @@ public class OneLapRace implements RaceType {
 			}
 			sb.append("; ");
 		}
-		if (!TotalTimeCalculator.possibleTotalTime(getStart(), getFinish())) {
-			sb.append("Omöjlig Totaltid?; ");
+		if(!startTimes.isEmpty() && !finishTimes.isEmpty()){
+			if(!TotalTimeCalculator.possibleTotalTime(getStart(), getFinish())) {
+				sb.append("Omöjlig Totaltid?; ");
+			}
 		}
 		return sb.toString();
 	}

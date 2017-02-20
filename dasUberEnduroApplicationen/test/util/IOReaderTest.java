@@ -61,7 +61,7 @@ public class IOReaderTest {
 		assertEquals(map.size(), 6);
 		for (int i : map.keySet()) {
 			Racer r = map.get(i);
-			String tostr = r.toString();
+			String tostr = r.result();
 			String s[] = tostr.split("; ");
 			assertEquals(Integer.toString(i), s[0]); // s[0] borde returnera
 														// startnummer

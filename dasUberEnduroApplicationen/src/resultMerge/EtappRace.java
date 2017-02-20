@@ -102,8 +102,9 @@ public class EtappRace implements RaceType {
 		String tooLong = sb.toString();
 		return tooLong.substring(0, tooLong.length() - 2); // removes last "; "
 	}
-
-	private int nbrFinishedEtapps() {
+	
+	@Override
+	public int getLaps() {
 		int counter = 0;
 		for (int i = 0; i < etapper.length; i++) {
 			Time etappTime = etapper[i].getEtappTime();
@@ -138,12 +139,6 @@ public class EtappRace implements RaceType {
 	}
 
 	@Override
-	public int getLaps() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public void addTime(Time t) throws ArrayIndexOutOfBoundsException {
 		int etappNbr = t.getEtappNbr() - 1;
 
@@ -156,10 +151,16 @@ public class EtappRace implements RaceType {
 	@Override
 	public int compareTo(RaceType o) {
 		EtappRace er = (EtappRace) o;
-		int etappdiff = er.nbrFinishedEtapps() - nbrFinishedEtapps();
+		int etappdiff = er.getLaps() - getLaps();
 		if(etappdiff != 0) return etappdiff;
 		int timediff = totalTime().getTimeAsInt() - er.totalTime().getTimeAsInt();
 		return timediff;
+	}
+
+	@Override
+	public String genResultWithErrors() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
