@@ -26,7 +26,7 @@ public class EtappRace implements RaceType {
 		public Time getEtappTime() {
 			if (!(start.isEmpty() || finish.isEmpty())) {
 				try {
-					return Time.diff(start.getFirst(), finish.getFirst());
+					return Time.diff(finish.getFirst(), start.getFirst());
 				} catch (Exception e) {
 				}
 			}

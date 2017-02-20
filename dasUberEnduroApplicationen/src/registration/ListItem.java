@@ -68,6 +68,10 @@ public class ListItem extends JPanel {
 						map.put(ListItem.this, correct+"; " + time);
 						sub.update();
 					}
+					for(String correct : evalTuple.evaluatedClasses) {
+						map.put(ListItem.this, correct+"; " + time);
+						sub.update();
+					}
 					return;
 				} 
 				JOptionPane.showMessageDialog(ListItem.this.getParent(),
