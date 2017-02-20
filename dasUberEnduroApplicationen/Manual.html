@@ -8,27 +8,32 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   </head>
   <body style="background-color: #F280A1">
-  	<h1>Handbuch fÃ¼r Ãœber Enduro Applikationen </h1> 
-  	<h1>By DrachentÃ¶ter Inc.</h1>
+  	<h1>Handbuch für Über Enduro Applikationen </h1> 
+  	<h1>By Drachentöter Inc.</h1>
   	<h2>How to Run&Install </h2>
   	unzip release1g6.zip and go into the folder with a terminal.
   	<h3>Subapplications </h3>
   	<h4>Registration</h4>
   	Name: registration.jar
-  	<div>Run in the terminal with: java -jar registration.jar</div>
- 	<div>Pick a file to save registrations and click the green button to register racers.</div>
+  	<p>This application is responsible for registrating racers during or after the race has commenced.</p>
+    <div>Run in the terminal with: java -jar registration.jar</div>
+    <div>Pick a file to save registrations and click the green button to register racers.</div>
+    <div>Start numbers can be added afterwards. If the start number is unreadable when the initial registration is ongoing simply press enter to register the driver without a startnumber.</div>
+    <div> If several racers are to begin simultaneously start times can be added later through the ResulMerge application. This needs to be enabled in the config file. </div>
  	
-  	<h4>Resultcalculator</h4>
-	Name: resultMerge.jar
-	arguments:
-		<div>-o: output file path, mandatory</div>
-        <div>-n: name file path, mandatory</div>
-        <div>-f: finish file path, mandatory</div>
-        <div>-s: start file path, mandatory if not massstart</div>
-        <div>-t=maraton: [maraton, varvlopp], mandatory</div>
-	<div>-l: stipulated time, mandatory for "varvlopp"</div>
-        <div>-m: hh.mm.ss, massstart optional</div>
-        
+  	<h4>ResultMerge</h4>
+	<p>Name: resultMerge.jar </p>
+    <p> Arguments: </p>
+	<div>-c "filename" specifies the name of the config-file. No specification of the file uses "config" as standard name. </div>
+    <p>This application is responsible for summarizing and sorting the results from the previous registration-generated files. </p>
+    <p> To change the settings of the merge the config-file can be edited for different settings, for example if the file is to be sorted, the specifics of the race and the settings to the path where the file will be created.</p>
+    <!--<div>-o: output file path, mandatory</div>
+    <div>-n: name file path, mandatory</div>
+    <div>-f: finish file path, mandatory</div>
+    <div>-s: start file path, mandatory if not massstart</div>
+    <div>-t=maraton: [maraton, varvlopp], mandatory</div>
+    <div>-l: stipulated time, mandatory for "varvlopp"</div>
+    <div>-m: hh.mm.ss, massstart optional</div> -->
   	<h4>Examples</h4>
   	<div> java -jar resultMerge.jar -o resultat.txt -s starttider.txt -f maltider.txt -n namnfil.txt -t maraton</div>
   	<div> java -jar resultMerge.jar -o resultat3.txt -m 00.01.37 -f maltider.txt -n namnfil.txt -t varvlopp </div>
