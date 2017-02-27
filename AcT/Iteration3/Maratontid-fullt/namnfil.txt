@@ -1,0 +1,13 @@
+StartNr; Namn; Klubb; MC
+GemensamKlass
+1; Jakob Hök; TEAM06; ATM
+2; Emil Wihlander; TEAM06; BTM
+3; Måns Magnusson; TEAM06; CTM
+4; Jacob Canbäck; TEAM06; DTM
+5; Emil Tostrup; TEAM06; XTM
+6; Emil Aminy; TEAM06; XTM
+7; Johan Ravnborg; TEAM06; XTM
+8; Fredrik Nyberg; TEAM06; XTM
+9; Erik Söderberg; TEAM06; XTM
+10; Samuel Klingström; TEAM06; XTM
+11; Jesper Olsson; TEAM06; CoachHoj

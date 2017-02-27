@@ -5,12 +5,22 @@ cp dasUberEnduroApplicationen/registration/build/libs/registration.jar release/.
 cp dasUberEnduroApplicationen/resultMerge/build/libs/resultMerge.jar release/.
 cp dasUberEnduroApplicationen/Manual.html release/.
 cp README.md release/.
-cp teknisk-dokumentation.pdf release/.
-cp -r AcT/ release/.
-cp -r dasUberEnduroApplicationen/ release/. 
-cp runAcT.sh release/.
-rm -r release/dasUberEnduroApplicationen/registration
-rm -r release/dasUberEnduroApplicationen/bin
-rm -r release/dasUberEnduroApplicationen/resultMerge
+cp -r config release/.
 zip -r release.zip release
-rm -r release/
+rm -r release
+
+mkdir -p src_release
+cp dasUberEnduroApplicationen/registration/build/libs/registration.jar src_release/.
+cp dasUberEnduroApplicationen/resultMerge/build/libs/resultMerge.jar src_release/.
+cp dasUberEnduroApplicationen/Manual.html src_release/.
+cp README.md src_release/.
+cp teknisk-dokumentation.pdf src_release/.
+cp -r AcT/ src_release/.
+cp -r dasUberEnduroApplicationen/ src_release/. 
+cp runAcT.sh src_release/.
+cp -r config src_release/.
+rm -r src_release/dasUberEnduroApplicationen/registration
+rm -r src_release/dasUberEnduroApplicationen/bin
+rm -r src_release/dasUberEnduroApplicationen/resultMerge
+zip -r src_release.zip src_release
+rm -r src_release/

@@ -29,7 +29,7 @@ public class IOReader {
 		readStart(path, db, -1);
 	}
 	
-	public static void readStart(String path, Database db, int etapp) throws Exception, FileNotFoundException, IOException {
+	public static void readStart(String path, Database db, int leg) throws Exception, FileNotFoundException, IOException {
 		Chart c = new Chart(readStringFromFile(path));
 		for (List<String> row : c.getRows()) {
 			if (row.size() != 2)
@@ -38,11 +38,11 @@ public class IOReader {
 			String time = row.get(1);
 			String numberOrClass = row.get(0);
 			try{
-			   db.addStart(Integer.parseInt(numberOrClass), time, etapp);
+			   db.addStart(Integer.parseInt(numberOrClass), time, leg);
 			}
 			catch(NumberFormatException e) {
 				for(int startNumber : db.getRacersInClass(numberOrClass))
-					db.addStart(startNumber, time, etapp);
+					db.addStart(startNumber, time, leg);
 			}
 			
 		}
@@ -54,12 +54,12 @@ public class IOReader {
 		readFinish(path, db, -1);
 	}
 	
-	public static void readFinish(String path, Database db, int etapp) throws Exception, FileNotFoundException, IOException {
+	public static void readFinish(String path, Database db, int leg) throws Exception, FileNotFoundException, IOException {
 		Chart c = new Chart(readStringFromFile(path));
 		for (List<String> row : c.getRows()) {
 			if (row.size() != 2)
 				throw new Exception("invalid finish time row");
-			db.addFinish(Integer.parseInt(row.get(0)), row.get(1), etapp);
+			db.addFinish(Integer.parseInt(row.get(0)), row.get(1), leg);
 		}
 	}
 

@@ -21,14 +21,14 @@ public class ConfigReader {
 
 		String outputFolder = null;
 		String type = "maraton";
-		int nbrOfEtapps = 0;
+		int nbrOfLegs = 0;
 		String massStartTime = null;
 		String nameFilePath = null;
 		String stipulatedTime = null;
 		Map<Integer,LinkedList<String>> startFiles = new HashMap<>();
 		Map<Integer,LinkedList<String>> finishFiles = new HashMap<>();
-		boolean isLapRace = false, isEtappRace = false;
-		EtappInfo info = null;
+		boolean isLapRace = false, isLegRace = false;
+		LegInfo info = null;
 		
 		try {
 
@@ -40,59 +40,59 @@ public class ConfigReader {
 
 			type = root.optString("race type", "maraton");
 			isLapRace = type.equals("varvlopp");
-			isEtappRace = type.equals("etapplopp");
+			isLegRace = type.equals("etapplopp");
 			massStartTime = root.optString("group start", null);
 			nameFilePath = root.getString("name file");
 			stipulatedTime = root.optString("stipulated time", null);
-			nbrOfEtapps = root.optInt("number of etapps", 1);
+			nbrOfLegs = root.optInt("number of etapps", 1);
 
 			if (massStartTime == null) {
 				JSONArray jsonStartFiles = root.getJSONArray("start files");
 				for (int i = 0; i < jsonStartFiles.length(); ++i) {
-					int etapp;
+					int Leg;
 					String file;
-					if(isEtappRace) {
+					if(isLegRace) {
 						JSONObject jo = jsonStartFiles.getJSONObject(i);
-						etapp = jo.optInt("etapp", -1);
+						Leg = jo.optInt("etapp", -1);
 						file = jo.getString("file");
 					} else {
-						etapp = -1;
+						Leg = -1;
 						file = jsonStartFiles.getString(i);
 					}
 					
-					if(startFiles.containsKey(etapp)) {
-						startFiles.get(etapp).add(file);
+					if(startFiles.containsKey(Leg)) {
+						startFiles.get(Leg).add(file);
 					} else {
 						LinkedList<String> f = new LinkedList<>();
 						f.add(file);
-						startFiles.put(etapp, f);
+						startFiles.put(Leg, f);
 					}	
 				}
 			}
 			
-			if (isEtappRace) {
-				info = new EtappInfo(root.getJSONArray("etapper"));
+			if (isLegRace) {
+				info = new LegInfo(root.getJSONArray("etapper"));
 			}
 
 			JSONArray jsonFinishFiles = root.getJSONArray("finish files");
 			for (int i = 0; i < jsonFinishFiles.length(); ++i) {
-				int etapp;
+				int Leg;
 				String file;
-				if(isEtappRace) {
+				if(isLegRace) {
 					JSONObject jo = jsonFinishFiles.getJSONObject(i);
-					etapp = jo.optInt("etapp", -1);
+					Leg = jo.optInt("etapp", -1);
 					file = jo.getString("file");
 				} else {
-					etapp = -1;
+					Leg = -1;
 					file = jsonFinishFiles.getString(i);
 				}
 				
-				if(finishFiles.containsKey(etapp)) {
-					finishFiles.get(etapp).add(file);
+				if(finishFiles.containsKey(Leg)) {
+					finishFiles.get(Leg).add(file);
 				} else {
 					LinkedList<String> f = new LinkedList<>();
 					f.add(file);
-					finishFiles.put(etapp, f);
+					finishFiles.put(Leg, f);
 				}
 			}
 
@@ -109,13 +109,13 @@ public class ConfigReader {
 		
 
 		Database db;
-		if (isEtappRace) {
-			db = new Database(massStartTime, Database.ETAPP_RACE);
-			db.setEtappInfo(info);
-			if (nbrOfEtapps != 0) {
-				db.setNumberEtapps(nbrOfEtapps);
+		if (isLegRace) {
+			db = new Database(massStartTime, Database.LEG_RACE);
+			db.setLegInfo(info);
+			if (nbrOfLegs != 0) {
+				db.setNumberLegs(nbrOfLegs);
 			} else {
-				throw new IllegalArgumentException("Missing nbr of etapps for etapp race");
+				throw new IllegalArgumentException("Missing nbr of Legs for Leg race");
 			}
 		} else if (isLapRace) {
 			db = new Database(massStartTime, Database.MULTI_LAP_RACE);
@@ -130,13 +130,13 @@ public class ConfigReader {
 
 		IOReader.readNames(nameFilePath, db);
 
-		for (int etapp : startFiles.keySet()) {
-			for(String s: startFiles.get(etapp))
-				IOReader.readStart(s, db, etapp);
+		for (int leg : startFiles.keySet()) {
+			for(String s: startFiles.get(leg))
+				IOReader.readStart(s, db, leg);
 		}
-		for (int etapp : finishFiles.keySet()) {
-			for(String s: finishFiles.get(etapp))
-				IOReader.readFinish(s, db, etapp);
+		for (int leg : finishFiles.keySet()) {
+			for(String s: finishFiles.get(leg))
+				IOReader.readFinish(s, db, leg);
 		}
 		
 		ResultWriter.write(outputFolder, db);
