@@ -4,8 +4,6 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import resultMerge.Database;
@@ -24,53 +22,71 @@ public class IOReader {
 		br.close();
 		return s;
 	}
-	
+
 	public static void readStart(String path, Database db) throws Exception, FileNotFoundException, IOException {
 		readStart(path, db, -1);
 	}
-	
-	public static void readStart(String path, Database db, int leg) throws Exception, FileNotFoundException, IOException {
+
+	public static void readStart(String path, Database db, int leg)
+			throws Exception, FileNotFoundException, IOException {
 		Chart c = new Chart(readStringFromFile(path));
 		int index = 0;
-		try{
-		for (List<String> row : c.getRows()) {
-			index++;
-			if (row.size() != 2)
-				throw new Exception("ERROR: Invalid format at row " + index + ": \n>" + row.toString() + "\nIn file: " + path);
+		try {
+			for (List<String> row : c.getRows()) {
+				index++;
+				if (row.size() != 2)
+					throw new IllegalArgumentException("Invalid format: " + row.toString()
+							+ " Expected 2 \";\"-separated Strings, found " + row.size());
 
-			String time = row.get(1);
-			String numberOrClass = row.get(0);
-			try{
-			   db.addStart(Integer.parseInt(numberOrClass), time, leg);
+				String time = row.get(1);
+				String numberOrClass = row.get(0);
+				try {
+					db.addStart(Integer.parseInt(numberOrClass), time, leg);
+				} catch (NumberFormatException e) {
+					List<Integer> racersInClass = db.getRacersInClass(numberOrClass);
+					if(racersInClass.size() == 0) {
+						System.err.println("Found no racers in class " + numberOrClass);
+						System.err.println("while parsing line " + index + " in file " + path);
+					}
+					for (int startNumber : racersInClass)
+						db.addStart(startNumber, time, leg);
+				}
 			}
-			catch(NumberFormatException e) {
-				for(int startNumber : db.getRacersInClass(numberOrClass))
-					db.addStart(startNumber, time, leg);
-			}
-			
-		}
-		}catch(Exception e){
+		} catch (IllegalArgumentException e) {
 			System.out.println(e.getMessage());
+			System.out.println("while parsing line " + index + " in file " + path);
 			System.exit(1);
-			
 		}
 	}
-	
-	
-	
+
 	public static void readFinish(String path, Database db) throws Exception, FileNotFoundException, IOException {
 		readFinish(path, db, -1);
 	}
-	
-	public static void readFinish(String path, Database db, int leg) throws Exception, FileNotFoundException, IOException {
-		Chart c = new Chart(readStringFromFile(path));
-		for (List<String> row : c.getRows()) {
-			if (row.size() != 2)
-				throw new Exception("invalid finish time row");
-			db.addFinish(Integer.parseInt(row.get(0)), row.get(1), leg);
-		}
-	}
 
+	public static void readFinish(String path, Database db, int leg)
+			throws Exception, FileNotFoundException, IOException {
+		Chart c = new Chart(readStringFromFile(path));
+		int index = 0;
+		try {
+			for (List<String> row : c.getRows()) {
+				index++;
+				if (row.size() != 2)
+					throw new IllegalArgumentException("Invalid format: " + row.toString()
+							+ " Expected 2 \";\"-separated Strings, found " + row.size());
+				int id;
+				try {
+					id = Integer.parseInt(row.get(0));
+				} catch (NumberFormatException e) {
+					throw new IllegalArgumentException("Expected starnumber, found:" + row.get(0));
+				}
+				db.addFinish(id, row.get(1), leg);
+			}
+		} catch (IllegalArgumentException e) {
+			System.out.println(e.getMessage());
+			System.out.println("while parsing line " + index + " in file " + path);
+			System.exit(1);
+		} 
+	}
 
 	public static void readNames(String path, Database db) throws Exception {
 		Chart c = new Chart(readStringFromFile(path));
