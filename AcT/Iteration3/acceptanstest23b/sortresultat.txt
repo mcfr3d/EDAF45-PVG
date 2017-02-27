@@ -1,0 +1,5 @@
+GemensamKlass
+Plac; StartNr; Namn; Klubb; MC; #Etapper; TotalTid; Etapp1; Etapp2*5
+1; 2; Bengt Bsson; Bklubb; BTM; 2; 02.10.10; 01.10.00; 01.00.10
+2; 1; Ander Asson; Aklubb; ATM; 2; 02.10.15; 01.00.00; 01.10.15
+3; 3; Claes Csson; Cklubb; CTM; 2; 02.15.05; 01.20.00; 00.55.05
