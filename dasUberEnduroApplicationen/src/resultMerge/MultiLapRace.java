@@ -43,10 +43,20 @@ public class MultiLapRace implements RaceType {
 	}
 
 	private String totalTime() {
-		if (startTimes.isEmpty() || finishTimes.isEmpty())
+		try { 
+			return Time.diff(finishTimes.getFirst(), startTimes.getFirst()).toString();
+		} catch(Exception e) {
 			return "--.--.--";
-		String tmp = Time.diff(finishTimes.getFirst(), startTimes.getFirst()).toString();
-		return tmp;
+		}
+	}
+	
+	public Time getTotalTime() {
+		String time = totalTime();
+		try {
+			return new Time(time);
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**
@@ -127,27 +137,6 @@ public class MultiLapRace implements RaceType {
 				return Time.diff(finishTimes.getFirst(), meanTimes.getLast());
 			}
 		}
-		
-		/*
-		if (index >= laps && finishTimes.size() != 0) {
-			return null;
-		} else if (index == laps - 1) {
-			if (finishTimes.isEmpty()) {
-				return null;
-			} else if (laps != 1) {
-				return Time.diff(finishTimes.getFirst(), meanTimes.get(index - 1));
-			} else {
-				return Time.diff(finishTimes.getFirst(), startTimes.getFirst());
-			}
-		} else if (index < meanTimes.size() && startTimes.size() > 0 && meanTimes.size() > 0) {
-			if (index == 0) {
-				return Time.diff(meanTimes.getFirst(), startTimes.getFirst());
-			} else {
-				return Time.diff(meanTimes.get(index), meanTimes.get(index - 1));
-			}
-		} else {
-			return null;
-		}*/
 	}
 
 	/**

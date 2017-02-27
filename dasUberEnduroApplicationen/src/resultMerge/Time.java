@@ -45,7 +45,7 @@ public class Time {
 				diff -= SECONDS_OF_A_DAY;
 			return new Time(diff);
 		} catch (Exception e) {
-			return new Time("--.--.--");
+			return null;
 		}
 
 	}

@@ -90,6 +90,10 @@ public class Racer implements Comparable<Racer> {
 	public int getLaps() {
 		return rt.getLaps();
 	}
+	
+	public Time getTotalTime() {
+		return rt.getTotalTime();
+	}
 
 	public void addOptionalData(String data) {
 

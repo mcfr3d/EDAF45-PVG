@@ -188,10 +188,10 @@ public class Database {
 		ArrayList<Racer> invalidStipulatedTime = new ArrayList<>();
 
 		for (Racer r : racers) {
+			Time tot = r.getTotalTime();
 			switch (raceType) {
 			case ONE_LAP_RACE: {
-				String rTime = TotalTimeCalculator.computeDifference(r.getFirstStartTime(), r.getFinishTime());
-				if (!rTime.equals("--.--.--")) {
+				if (tot != null) {
 					sortedRacerList.add(r);
 				} else {
 					invalidStipulatedTime.add(r);
@@ -199,8 +199,7 @@ public class Database {
 				break;
 			}
 			case MULTI_LAP_RACE: {
-				String rTime = TotalTimeCalculator.computeDifference(r.getFirstStartTime(), r.getFinishTime());
-				if (rTime.compareTo(stipulatedTime) > 0) {
+				if (tot!=null && tot.toString().compareTo(stipulatedTime) >= 0) {
 					sortedRacerList.add(r);
 				} else {
 					invalidStipulatedTime.add(r);

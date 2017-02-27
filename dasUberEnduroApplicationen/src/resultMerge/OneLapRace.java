@@ -56,6 +56,15 @@ public class OneLapRace implements RaceType {
 		}
 		return "--.--.--";
 	}
+	
+	public Time getTotalTime() {
+		String time = totalTime();
+		try {
+			return new Time(time);
+		} catch (Exception e) {
+			return null;
+		}
+	}
 
 	private String errors() {
 		StringBuilder sb = new StringBuilder();

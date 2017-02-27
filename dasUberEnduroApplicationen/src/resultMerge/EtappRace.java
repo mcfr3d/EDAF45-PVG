@@ -132,6 +132,13 @@ public class EtappRace implements RaceType {
 		}
 		return totaltime;
 	}
+	
+	public Time getTotalTime() {
+		Time time = totalTime();
+		if(time.getTimeAsInt() == 0) return null;
+		return time;
+	}
+	
 
 	@Override
 	public String getStart() {
