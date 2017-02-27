@@ -36,7 +36,7 @@ public class IOReader {
 		for (List<String> row : c.getRows()) {
 			index++;
 			if (row.size() != 2)
-				throw new Exception("ERROR: Invalid start time at row " + index + ": \n" + row.toString());
+				throw new Exception("ERROR: Invalid format at row " + index + ": \n>" + row.toString() + "\nIn file: " + path);
 
 			String time = row.get(1);
 			String numberOrClass = row.get(0);
