@@ -7,10 +7,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class ServerSetupDialog {
-	
+
 	public static ClientConnection initConnect() {
 		ClientConnection cc = new ClientConnection();
-		
+
 		JTextField ipAddressField = new JTextField(15);
 		JTextField portField = new JTextField(5);
 
@@ -20,25 +20,34 @@ public class ServerSetupDialog {
 		myPanel.add(Box.createHorizontalStrut(15)); // a spacer
 		myPanel.add(new JLabel("Port:"));
 		myPanel.add(portField);
-
-		int result = JOptionPane.showConfirmDialog(null, myPanel, "Konfigurera serverkoppling (Valfritt)",
-				JOptionPane.OK_CANCEL_OPTION);
-		if (result == JOptionPane.OK_OPTION) {
-			try {
-				if(cc.tryToConnect(ipAddressField.getText(), Integer.parseInt(portField.getText()), 3000)) {
-					JOptionPane.showMessageDialog(null,
-						    "Successfully Connected to server :)");
-				} else {
-					throw new Exception("Connection Failed");
+		boolean exit = false;
+		do {
+			int result = JOptionPane.showConfirmDialog(null, myPanel, "Konfigurera serverkoppling (Valfritt)",
+					JOptionPane.OK_CANCEL_OPTION);
+			if (result == JOptionPane.OK_OPTION) {
+				try {
+					if (portField.getText().matches("\\d+")) {
+						if (cc.tryToConnect(ipAddressField.getText(), Integer.parseInt(portField.getText()), 3000)) {
+							JOptionPane.showMessageDialog(null, "Kopplad till servern :)");
+						} else {
+							throw new Exception("Connection Failed");
+						}
+						exit = true;
+					} else {
+						JOptionPane.showMessageDialog(null, "En port består endast av siffror", "Felmeddelande",
+								JOptionPane.ERROR_MESSAGE);
+					}
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, "Kunde inte nå servern :(", e.getMessage(),
+							JOptionPane.ERROR_MESSAGE);
+					exit = true;
 				}
-			} catch(Exception e) {
-				JOptionPane.showMessageDialog(null,
-					    "Failed to connect to server :(",
-					    e.getMessage(),
-					    JOptionPane.ERROR_MESSAGE);
+
 			}
-			
-		}
+			else if(result == JOptionPane.OK_CANCEL_OPTION){
+				exit=true;
+			}
+		} while (!exit);
 		return cc;
 	}
 }

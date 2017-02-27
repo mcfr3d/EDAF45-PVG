@@ -28,7 +28,6 @@ public class Main {
 			});
 			new Gui(fileToSave.getAbsolutePath(), cc);
 		} else {
-			
 			JOptionPane.showMessageDialog(null, "Du måste välja en fil!", "Felmeddelande",JOptionPane.ERROR_MESSAGE);
 		}
 
