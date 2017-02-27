@@ -85,4 +85,9 @@ public class Time {
 	public Time add(Time legTime) {
 		return new Time(this.time + legTime.time);
 	}
+
+	public Time multiply(int multiplier) {
+		return new Time(multiplier*time);
+		
+	}
 }

@@ -5,12 +5,14 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 import util.TotalTimeCalculator;
 
 public class Database {
+	private static final String NON_EXISTING_RACER = "Icke existerande startnummer";
 	private HashMap<Integer, Racer> racers;
 	private List<String> raceClasses;
 	private int raceType;
@@ -49,7 +51,7 @@ public class Database {
 		}
 		r.setName(name);
 		r.setRacerClass(raceClass);
-		if (massStart && !raceClass.equals("Icke existerande startnummer")) {
+		if (massStart && !raceClass.equals(NON_EXISTING_RACER)) {
 			r.addTime(new Time(massStartTime, true, -1));
 		}
 
@@ -63,7 +65,7 @@ public class Database {
 
 	private Racer getRacer(int driver) {
 		if (!racers.containsKey(driver))
-			addRacer(driver, "", "Icke existerande startnummer");
+			addRacer(driver, "", NON_EXISTING_RACER);
 		return racers.get(driver);
 	}
 
@@ -131,6 +133,7 @@ public class Database {
 
 	public void setLegInfo(LegInfo info) {
 		legInfo = info;
+		LegRace.setLegInfo(info);
 	}
 
 	public String getResult(boolean sort) {
@@ -147,7 +150,7 @@ public class Database {
 
 		for (String s : raceClasses.keySet()) {
 
-			if (s.equals("Icke existerande startnummer")) {
+			if (s.equals(NON_EXISTING_RACER)) {
 				ss = genResultForClass(s, raceClasses.get(s), sort);
 			} else {
 				sb.append(genResultForClass(s, raceClasses.get(s), sort));
@@ -159,31 +162,39 @@ public class Database {
 	}
 
 	private String genResultForClass(String raceClass, HashSet<Racer> racersInClass, boolean sort) {
-
-		int maxLaps = 0;
-		for (Racer r : racersInClass) {
-			maxLaps = Math.max(maxLaps, r.getLaps());
+		int maxCheckpoints = 0;
+		if (raceType == MULTI_LAP_RACE) {
+			for (Racer r : racersInClass) {
+				maxCheckpoints = Math.max(maxCheckpoints, r.getLaps());
+			}
+			MultiLapRace.setMaxLaps(maxCheckpoints);
+		} else if (raceType == LEG_RACE) {
+			maxCheckpoints = legInfo.getNbrOfLegs();
 		}
+
 		StringBuilder sb = new StringBuilder();
 		if (!raceClass.equals(""))
 			sb.append(raceClass).append('\n');
 		// should be done dependent on what race we have
-		MultiLapRace.setMaxLaps(maxLaps);
 
 		if (sort)
 			sb.append("Plac; ");
-
-		sb.append(genHeader(maxLaps, sort)).append('\n');
+		if (raceClass.equals(NON_EXISTING_RACER))
+			sb.append(genNonExistingRacerHeader(maxCheckpoints, sort));
+		else
+			sb.append(genHeader(maxCheckpoints, sort));
+		
+		sb.append('\n');
 
 		if (sort)
-			writeSortedResult(sb, maxLaps, racersInClass);
+			writeSortedResult(sb, maxCheckpoints, racersInClass);
 		else
 			writeUnsortedResult(sb, racersInClass);
 
 		return sb.toString();
 	}
 
-	private void writeSortedResult(StringBuilder sb, int maxLaps, HashSet<Racer> racers) {
+	private void writeSortedResult(StringBuilder sb, int nbrOfCheckpoints, HashSet<Racer> racers) {
 		ArrayList<Racer> sortedRacerList = new ArrayList<>();
 		ArrayList<Racer> invalidStipulatedTime = new ArrayList<>();
 
@@ -199,7 +210,7 @@ public class Database {
 				break;
 			}
 			case MULTI_LAP_RACE: {
-				if (tot!=null && tot.toString().compareTo(stipulatedTime) >= 0) {
+				if (tot != null && tot.toString().compareTo(stipulatedTime) >= 0) {
 					sortedRacerList.add(r);
 				} else {
 					invalidStipulatedTime.add(r);
@@ -208,10 +219,10 @@ public class Database {
 			}
 			case LEG_RACE: {
 				int legs = r.getLaps();
-				if(legs == nbrOfLegs)
+				if (nbrOfCheckpoints == legs)
 					sortedRacerList.add(r);
 				else
-					invalidStipulatedTime.add(r);	
+					invalidStipulatedTime.add(r);
 				break;
 			}
 			}
@@ -256,10 +267,17 @@ public class Database {
 			sb.append(r.resultWithErrors(this)).append("\n");
 	}
 
-	private String genHeader(int laps, boolean sort) {
+	private String genNonExistingRacerHeader(int checkpoints, boolean sort) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(columnHeaders[0]).append("; ");
+		sb.append(sort ? genSortedRaceTypeHeader(checkpoints) : genRaceTypeHeader(checkpoints));
+		return sb.toString();
+	}
+
+	private String genHeader(int checkpoints, boolean sort) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(genRacerHeader());
-		sb.append(sort ? genSortedRaceTypeHeader(laps) : genRaceTypeHeader(laps));
+		sb.append(sort ? genSortedRaceTypeHeader(checkpoints) : genRaceTypeHeader(checkpoints));
 		return sb.toString();
 	}
 
@@ -271,46 +289,51 @@ public class Database {
 		return sb.toString();
 	}
 
-	private String genSortedRaceTypeHeader(int laps) {
+	private String genSortedRaceTypeHeader(int checkpoints) {
 		StringBuilder header = new StringBuilder();
 		if (raceType == ONE_LAP_RACE) {
 			header.append("TotalTid; Starttid; Måltid");
 		} else if (raceType == MULTI_LAP_RACE) {
 			header.append("#Varv; TotalTid;");
-			for (int i = 1; i < laps; i++) {
+			for (int i = 1; i < checkpoints; i++) {
 				header.append(" Varv" + i + ";");
 			}
-			header.append(" Varv" + laps);
+			header.append(" Varv" + checkpoints);
 
 		} else {
 			header.append("#Etapper; TotalTid;");
-			for (int i = 1; i < laps; i++) {
-				header.append(" Etapp" + i + ";");
+			int legs = legInfo.getNbrOfLegs();
+			for (int i = 1; i <= legs; i++) {
+				String s = "";
+				int mult = legInfo.getMultiplier(i-1);
+				if (mult != 1) s = "*" + mult;
+				header.append(" Etapp" + i + s + ";");
+				
 			}
-			header.append(" Etapp" + laps);
+			header.deleteCharAt(header.length() -1);
 		}
 		return header.toString();
 
 	}
 
-	private String genRaceTypeHeader(int laps) {
+	private String genRaceTypeHeader(int checkpoints) {
 		StringBuilder header = new StringBuilder();
-		header.append(genSortedRaceTypeHeader(laps));
+		header.append(genSortedRaceTypeHeader(checkpoints));
 		if (raceType != ONE_LAP_RACE)
 			header.append(";");
 		if (raceType == MULTI_LAP_RACE) {
 			header.append(" Start;");
-			for (int i = 1; i < laps; i++) {
+			for (int i = 1; i < checkpoints; i++) {
 				header.append(" Varvning" + i + ";");
 			}
 			header.append(" Mål");
 		} else if (raceType == LEG_RACE) {
-			for (int i = 1; i < laps; i++) {
+			for (int i = 1; i < checkpoints; i++) {
 				header.append(" Start" + i + ";");
 				header.append(" Mål" + i + ";");
 			}
-			header.append(" Start" + laps + ";");
-			header.append(" Mål" + laps);
+			header.append(" Start" + checkpoints + ";");
+			header.append(" Mål" + checkpoints);
 		}
 		return header.toString();
 	}

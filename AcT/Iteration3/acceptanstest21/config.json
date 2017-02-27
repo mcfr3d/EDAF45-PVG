@@ -1,0 +1,22 @@
+{
+	"race type" : "etapplopp",
+	"name file" : "namnfil.txt",
+	"number of etapps": 2,
+	"etapper" : [
+		{
+			"minimum time" : "00.05.00",
+			"multiplier" : 1
+		},
+		{
+			"minimum time" : "00.05.00",
+			"multiplier" : 1
+		}
+	],
+	"start files" : [
+		{"etapp": 1, "file": "starttider1.txt"},
+		{"etapp": 2, "file": "starttider2.txt"}],
+	"finish files" : [
+		{"etapp": 1, "file": "maltider1.txt"},
+		{"etapp": 2, "file": "maltider2.txt"}]
+	
+}
