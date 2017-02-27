@@ -76,13 +76,18 @@ public class MultiLapRace implements RaceType {
 			}
 		});
 		StringBuilder sb = new StringBuilder();
-		sb.append(getLaps()).append("; ");
+		sb.append(realLaps()).append("; ");
 		sb.append(totalTime()).append("; ");
 		LinkedList<Time> times = new LinkedList<>();
 		if(!startTimes.isEmpty()) times.add(startTimes.getFirst());
 		for(Time t: meanTimes) times.addLast(t);
 		if(!finishTimes.isEmpty()) times.addLast(finishTimes.getFirst());
-		for (int i = 0; i < maxLaps; i++) {
+		int i = 0;
+		if(startTimes.isEmpty()) {
+			i++;
+			sb.append("; ");
+		}
+		for (; i < maxLaps; i++) {
 			if (times.size() > 1) {
 				Time t = times.removeFirst();
 				sb.append(Time.diff(times.getFirst(), t).toString());
@@ -119,7 +124,7 @@ public class MultiLapRace implements RaceType {
 	}
 
 	private Time getLapTime(int index) {
-		int laps = getLaps();
+		int laps = realLaps();
 		if(laps <= index) return null;
 		if(index == 0) {
 			if(startTimes.isEmpty()) return null;
@@ -129,7 +134,6 @@ public class MultiLapRace implements RaceType {
 			return Time.diff(meanTimes.get(index), meanTimes.get(index-1));
 		} else {
 			if(finishTimes.isEmpty()) {
-				System.out.println(laps + " " + meanTimes.size() + " " + index);
 				return Time.diff(meanTimes.get(index), meanTimes.get(index-1));
 			} else {
 				return Time.diff(finishTimes.getFirst(), meanTimes.getLast());
@@ -178,7 +182,7 @@ public class MultiLapRace implements RaceType {
 	 *         minutes else an empty string
 	 */
 	private String impossibleLapTime() {
-		for (int i = 0; i < getLaps(); i++) {
+		for (int i = 0; i < realLaps(); i++) {
 			Time t = getLapTime(i);
 			if (t != null && t.getTimeAsInt() < 15 * 60) {
 				return "Omöjlig varvtid?; ";
@@ -229,10 +233,16 @@ public class MultiLapRace implements RaceType {
 		maxLaps = 0;
 	}
 
-	public int getLaps() {
+	private int realLaps() {
 		int laps = meanTimes.size();
 		if(!finishTimes.isEmpty()) laps++;
+		if(startTimes.isEmpty()) laps--;
 		return laps;
+	}
+	
+	//should only be used for header generation
+	public int getLaps() {
+		return meanTimes.size() + 1;
 	}
 
 	public static void setMaxLaps(int laps) {
@@ -254,7 +264,7 @@ public class MultiLapRace implements RaceType {
 		} else if (other.genResultWithErrors(null).contains("?")) {
 			return -1;
 		}
-		int diff = getLaps() - o.getLaps();
+		int diff = realLaps() - other.realLaps();
 		if (diff != 0)
 			return -diff; // sort on descending order of laps
 		return totalTime().compareTo(other.totalTime());

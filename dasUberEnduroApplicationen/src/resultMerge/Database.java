@@ -135,6 +135,7 @@ public class Database {
 
 	public void setStipulatedTime(String stipulatedTime) {
 		this.stipulatedTime = stipulatedTime;
+		MultiLapRace.setStipulatedTime(new Time(stipulatedTime));
 	}
 	
 	public void setNumberEtapps(int nbrOfEtapps) {
@@ -181,7 +182,6 @@ public class Database {
 			sb.append(raceClass).append('\n');
 		// should be done dependent on what race we have
 		MultiLapRace.setMaxLaps(maxLaps); 
-		MultiLapRace.setStipulatedTime(new Time(stipulatedTime));
 
 		if (sort) {
 			// Adding placement to header
@@ -212,6 +212,13 @@ public class Database {
 			}
 		}
 		Collections.sort(sortedRacerList);
+		invalidStipulatedTime.sort(new Comparator<Racer>() {
+
+			@Override
+			public int compare(Racer a, Racer b) {
+				return a.getStartNumber() - b.getStartNumber();
+			}
+		});
 		
 		for(int i = 1; i <= sortedRacerList.size(); i++) {
 			sb.append(i + "; " + sortedRacerList.get(i-1).result()).append('\n');
