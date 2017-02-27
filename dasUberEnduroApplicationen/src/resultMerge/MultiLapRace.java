@@ -15,18 +15,6 @@ public class MultiLapRace implements RaceType {
 	private LinkedList<Time> meanTimes = new LinkedList<>();
 	private static int stipulatedTime = 60 * 60;
 
-	@Override
-	public void addStart(String start) {
-		Time t = new Time(start, true);
-		addTime(t);
-	}
-
-	@Override
-	public void addFinish(String finish) {
-		Time t = new Time(finish);
-		addTime(t);
-	}
-
 	/**
 	 * Adds a time object to the correct list If a starttime is added after
 	 * finish times it moves time objects from meanTime to finishTimes if

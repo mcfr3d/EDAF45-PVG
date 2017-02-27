@@ -5,25 +5,12 @@ import java.util.LinkedList;
 import util.TotalTimeCalculator;
 
 public class OneLapRace implements RaceType {
-
 	private LinkedList<Time> startTimes = new LinkedList<>();
 	private LinkedList<Time> finishTimes = new LinkedList<>();
-
-	@Override
-	public void addStart(String start) {
-		Time t = new Time(start, true);
-		startTimes.add(t);
-	}
-
-	@Override
-	public void addFinish(String finish) {
-		Time t = new Time(finish);
-		finishTimes.add(t);
-	}
 	
 	public void addTime(Time t) {
-		if(t.isStart()) addStart(t.toString());
-		else addFinish(t.toString());
+		if(t.isStart()) startTimes.add(t);
+		else finishTimes.add(t);
 	}
 	
 	@Override

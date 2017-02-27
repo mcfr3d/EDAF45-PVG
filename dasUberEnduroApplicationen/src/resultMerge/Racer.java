@@ -39,14 +39,14 @@ public class Racer implements Comparable<Racer> {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	public void addStart(String startTime) {
-		rt.addStart(startTime);
-	}
-
-	public void addFinish(String finishTime) {
-		rt.addFinish(finishTime);
-	}
+	//Not used
+//	public void addStart(String startTime) {
+//		rt.addStart(startTime);
+//	}
+//	//Not used
+//	public void addFinish(String finishTime) {
+//		rt.addFinish(finishTime);
+//	}
 	
 	public void addTime(Time t) {
 		rt.addTime(t);

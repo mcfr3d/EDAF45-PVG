@@ -18,6 +18,28 @@ public class LegRace implements RaceType {
 		public String getStart() {
 			return start.isEmpty() ? "Start?" : start.getFirst().toString();
 		}
+		
+		public String getStartWithErrors(StringBuilder errors, int i) {
+			if (start.size() > 1) {
+				errors.append("Flera starttider Etapp" + i);
+				for (int j = 1; j < start.size(); j++) {
+					errors.append(" " + start.get(j));
+				}
+				errors.append("; ");
+			}
+			return getStart(); 
+		}
+		
+		public String getFinishWithErrors(StringBuilder errors, int i) {
+			if (finish.size() > 1) {
+				errors.append("Flera måltider Etapp" + i);
+				for (int j = 1; j < finish.size(); j++) {
+					errors.append(" " + finish.get(j));
+				}
+				errors.append("; ");
+			}
+			return getFinish(); 
+		}
 
 		public String getFinish() {
 			return finish.isEmpty() ? "Slut?" : finish.getFirst().toString();
@@ -43,18 +65,6 @@ public class LegRace implements RaceType {
 	}
 
 	@Override
-	public void addStart(String start) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void addFinish(String finish) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public String genResult() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(getLaps()).append("; ");
@@ -76,27 +86,27 @@ public class LegRace implements RaceType {
 	@Override
 	public String genResultWithErrors(Database db) {
 		StringBuilder sb = new StringBuilder();
+		StringBuilder errors = new StringBuilder();
 		sb.append(genResult()).append("; ");
-		String errors = "";
-		int i = 0;
+		int i = 1;
+		
 		for (Leg l : legs) { // adds start and finish for each leg
-			sb.append(l.getStart()).append("; ");
-			sb.append(l.getFinish()).append("; ");
+			sb.append(l.getStartWithErrors(errors, i)).append("; ");
+			sb.append(l.getFinishWithErrors(errors, i)).append("; ");
 			if (db != null) {
 				try {
-					Time minimumTime = db.getLegInfo().getMinimumTime(i);
+					Time minimumTime = db.getLegInfo().getMinimumTime(i - 1);
 					Time diff = Time.diff(new Time(l.getFinish()), new Time(l.getStart()));
+
 					if (diff.getTimeAsInt() < minimumTime.getTimeAsInt()) {
-						errors += " etapp " + (i + 1) + " omöjlig tid";
+						errors.append("Omöjlig tid Etapp" + i).append("; ");
 					}
 				} catch (Exception ee) {
 				}
 			}
+			i++;
 		}
-		// TODO: add errors (mutiple start/finish times and so on.)
-		errors = errors.trim();
-		if (!errors.equals(""))
-			sb.append(errors + "; ");
+		sb.append(errors);
 		String out = sb.toString();
 		return out.substring(0, out.length() - 2);
 
