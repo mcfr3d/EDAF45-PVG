@@ -43,18 +43,6 @@ public class EtappRace implements RaceType {
 	}
 
 	@Override
-	public void addStart(String start) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void addFinish(String finish) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public String genResult() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(getLaps()).append("; ");

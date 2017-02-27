@@ -41,19 +41,6 @@ public class Database {
 		raceClasses = new ArrayList<String>();
 	}
 
-	public boolean setMassStart(String time) {
-		boolean isCorrectFormat = TotalTimeCalculator.isCorrectFormat(time);
-
-		if (isCorrectFormat) {
-			massStart = true;
-			massStartTime = time;
-			for (Racer r : racers.values()) {
-				r.addStart(time);
-			}
-		}
-		return isCorrectFormat;
-	}
-
 	public boolean addRacer(int startNo, String name, String raceClass) {
 		Racer r;
 		if(raceType == ETAPP_RACE) {

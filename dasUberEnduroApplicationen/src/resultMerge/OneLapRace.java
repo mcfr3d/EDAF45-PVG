@@ -8,20 +8,10 @@ public class OneLapRace implements RaceType {
 
 	private LinkedList<String> startTimes = new LinkedList<>();
 	private LinkedList<String> finishTimes = new LinkedList<>();
-
-	@Override
-	public void addStart(String start) {
-		startTimes.add(start);
-	}
-
-	@Override
-	public void addFinish(String finish) {
-		finishTimes.add(finish);
-	}
 	
 	public void addTime(Time t) {
-		if(t.isStart()) addStart(t.toString());
-		else addFinish(t.toString());
+		if(t.isStart()) startTimes.add(t.toString());
+		else finishTimes.add(t.toString());
 	}
 	
 	@Override
