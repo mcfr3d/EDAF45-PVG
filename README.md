@@ -2,7 +2,7 @@
 
 Denna README fil är till för att underlätta för en ny programmerare att sätta sig in i programmet. I vår tekniska dokumentation på Wikin finns en beskrivning av programmets helhet samt UML-diagram på de olika paketen och en bild som beskriver ett programflöde. Vi har även en manual där vi beskriver hur man bygger programmet och hur konfigurationsfilen hanteras vid start av de olika loppen etc. 
 
-# Avklarade stories 
+#1. Avklarade stories 
 
 * Story 3: Enkel Resultatlista
 * Story 4: Personuppgifter
@@ -21,6 +21,8 @@ Denna README fil är till för att underlätta för en ny programmerare att sät
 * Story 17: Variabelt antal uppgifter om förarna
 * Story 18: Sorterad resultatlista
 * Story 19: Etapplopp
+* Story 22: Minimitid för etapper
+* Story 23: Sorterad resultatlista (även etapper)
 * Story 24: Masstart
 * Story 25: Stöd för konfiguration
 * Story 26: Teknisk dokumentation
@@ -32,13 +34,42 @@ Denna README fil är till för att underlätta för en ny programmerare att sät
 * Story 35: Nattetapp
 * Story 36: Kö vid målgång 
 
-# Teknisk Dokumentation
+#2. Teknisk Dokumentation
 
 Den tekniska dokumentationen kan hittas överst i arkitekturen. Där finns beskrivning av hur projektet är uppbyggt, hur det används samt befintliga verktyg för att utveckla detta.
 
-# Paket och Klasser
+#3. Kort översikt
 
-## registration
+##3.1 Arkitektur
+Programet är organiserat i tre paket:
+
+* registration
+* resultMerge
+* util
+
+##3.2 Filstruktur
+
+Våra Javaklasser ligger i "src" och alla enhetstest ligger i mappen "test".
+config.json inheåller en exempel config fil 
+
+##3.3 Bygga projektet
+Projektet byggs i två program.
+För att bygga projektet gör följande:
+
+1. Skriv 'gradlew build' i repository /PVGvt17-team06-production / dasUberEnduroApplicationen /
+2. Då ligger jar-filerna i "/PVGvt17-team06-production/dasUberEnduroApplicationen/registration/build/libs/registration,jar" och "/PVGvt17-team06-production/dasUberEnduroApplicationen/resultMerge/build/libs/resultMerge.jar"
+
+##3.4 Köra projektet
+Regisration kan köras genom att dubbelklicka på jar-filen.
+ResultMerge körs genom komandotolken med kommandot java -jar ${home}/dasUberEnduroApplicationen/resultMerge/build/libs/resultMerge.jar -c config.json
+När reultmerge ska alla konfigfilen,namnfilen,starttidsfilen och sluttidsfilen ligga i samma mapp som JAR filen.
+
+##3.5 Köra acceptanstester
+Alla acceptanstester och unittester kan köras genom kommandot ./runAcT.sh då man är i huvudmappen
+
+#4. Paket och Klasser
+
+##4.1 registration
 
 Gui - Huvudfönstret för registrering av Racers. Uppdelad i tre paneler: översta för att skriva in startnummer och registrera, vänstra för att se alla nuvarande registreringar, och högra för att se alla nuvarande registreringar som ej gått igenom på grund av oläsbar nummerplåt. Det går att ta bort och editera registreringar i höger panel.
 
@@ -50,7 +81,7 @@ Subscriber - Enbart till för att notifiera Gui:t då en racer har blivit editer
 
 
 
-## resultMerge
+##4.2 resultMerge
 
 ConfigReader - Läser config-filen som innehåller alla väsentliga filer. Beskrivs mer i vår manual. Här skapas en database beroende på vilken Race-typ som väljs.
 
@@ -82,7 +113,7 @@ Time - Stöds ej för tillfället. Är tänkt att representera tider generellt s
 
 
 
-## util
+##4.3 util
 
 Chart - Stöds ej för tillfället. Är tänkt att göra regex enklare och smidigare att hantera vid hantering av strängar.
 
