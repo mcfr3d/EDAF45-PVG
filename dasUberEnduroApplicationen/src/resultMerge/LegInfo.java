@@ -29,4 +29,7 @@ public class LegInfo {
 	public int getMultiplier(int index) {
 		return legs.get(index).multiplier;
 	}
+	public int getNbrOfLegs() {
+		return legs.size();
+	}
 }

@@ -31,9 +31,12 @@ public class IOReader {
 	
 	public static void readStart(String path, Database db, int leg) throws Exception, FileNotFoundException, IOException {
 		Chart c = new Chart(readStringFromFile(path));
+		int index = 0;
+		try{
 		for (List<String> row : c.getRows()) {
+			index++;
 			if (row.size() != 2)
-				throw new Exception("invalid start time row");
+				throw new Exception("ERROR: Invalid format at row " + index + ": \n>" + row.toString() + "\nIn file: " + path);
 
 			String time = row.get(1);
 			String numberOrClass = row.get(0);
@@ -44,6 +47,11 @@ public class IOReader {
 				for(int startNumber : db.getRacersInClass(numberOrClass))
 					db.addStart(startNumber, time, leg);
 			}
+			
+		}
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+			System.exit(1);
 			
 		}
 	}

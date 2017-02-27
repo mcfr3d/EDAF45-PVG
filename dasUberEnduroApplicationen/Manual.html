@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="sv">
   <head>
@@ -48,6 +46,30 @@ Om man inte kan läsa en förares startnummer på grund av t.ex smutsig nummerpl
   	<li>etapp - Numret på etappen.</li>
 	<li>file - Lokala sökvägen till filen med starttider för etappen.</li>
 	</ul>
+	<p> Här är en mall för hur configfilen ska se ut, den ska sparas som en .json fil:</p>
+	<code>
+	<pre>	
+	{
+		"race type" : "varvlopp",
+		"outputs" : [
+			{
+				"file" : "dasUberEnduroApplicationen/mapp_med_shit/resultat.html",
+				"sort" : false,	
+				"html" : true
+			},
+			{
+				"file" : "dasUberEnduroApplicationen/mapp_med_shit/resultat_sorted.txt",
+				"sort" : true
+			}
+		],
+		"name file" : "dasUberEnduroApplicationen/mapp_med_shit/namnfil.txt",
+		"start files" : [],
+		"finish files" : ["dasUberEnduroApplicationen/mapp_med_shit/maltider.txt"],
+		"group start" : "03.00.00",
+		"stipulated time" : "01.00.00"
+	}
+	</pre>
+	</code> 
 	</li>
  	<li>finish files - Lokala sökvägen till filen med sluttider. Flera filer kan anges genom att kommaseparera dem. Om race type är angett som ”etapplopp” anges finish files istället som objekt innehållandes: 
 	<ul>
