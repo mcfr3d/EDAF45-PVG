@@ -1,5 +1,8 @@
 #!/bin/bash
 home=$(pwd)
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+NC='\033[0m'
 cd dasUberEnduroApplicationen && ./gradlew build && cd ..
 for d in AcT/*/*/ ; do
 	cd $d
@@ -9,9 +12,9 @@ for d in AcT/*/*/ ; do
 	diff output_unsorted.txt resultat.txt
 	
 	if diff output_unsorted.txt resultat.txt >/dev/null; then
-    	echo "Unsorted passed";
+    	echo -e "${GREEN}Unsorted passed${NC}";
 	else
-    	echo "Unsorted failed";
+    	echo -e "${RED}Unsorted failed${NC}";
 	fi
 	
 	if [ -f sortresultat.txt ]; then
@@ -19,9 +22,9 @@ for d in AcT/*/*/ ; do
 		diff output.txt sortresultat.txt
 	
 		if diff output.txt sortresultat.txt >/dev/null; then
-    		echo "Sorted passed";
+    		echo -e "${GREEN}Sorted passed${NC}";
 		else
-    		echo "Sorted failed";
+    		echo -e "${RED}Sorted failed${NC}";
 		fi
 	fi
 	

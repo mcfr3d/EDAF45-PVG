@@ -3,36 +3,70 @@
 <!DOCTYPE html>
 <html lang="sv">
   <head>
-
     <title>Manual</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   </head>
   <body style="background-color: #F280A1">
   	<h1>Handbuch für Über Enduro Applikationen </h1> 
   	<h1>By Drachentöter Inc.</h1>
-  	<h2>How to Run&Install </h2>
-  	unzip release1g6.zip and go into the folder with a terminal.
-  	<h3>Subapplications </h3>
-  	<h4>Registration</h4>
-  	Name: registration.jar
-  	<div>Run in the terminal with: java -jar registration.jar</div>
- 	<div>Pick a file to save registrations and click the green button to register racers.</div>
- 	
-  	<h4>Resultcalculator</h4>
-	Name: resultMerge.jar
-	arguments:
-		<div>-o: output file path, mandatory</div>
-        <div>-n: name file path, mandatory</div>
-        <div>-f: finish file path, mandatory</div>
-        <div>-s: start file path, mandatory if not massstart</div>
-        <div>-t=maraton: [maraton, varvlopp], mandatory</div>
-	<div>-l: stipulated time, mandatory for "varvlopp"</div>
-        <div>-m: hh.mm.ss, massstart optional</div>
-        
-  	<h4>Examples</h4>
-  	<div> java -jar resultMerge.jar -o resultat.txt -s starttider.txt -f maltider.txt -n namnfil.txt -t maraton</div>
-  	<div> java -jar resultMerge.jar -o resultat3.txt -m 00.01.37 -f maltider.txt -n namnfil.txt -t varvlopp </div>
-	
+  	<h2>Installering och körning </h2>
+	Unzippa filen release.zip och placera mappen release på ett lämpligt ställe på datorn.
+  	<h3>Delapplikationer </h3>
+	Programmet består av två stycken delapplikationer. Dels ett registreringsprogram och dels ett resultatprogram.
+  	<h4>Registreringsprogrammet</h4>
+	<ul>
+  	<li><u>Beskrivning</u> - Namnet på programmet är registration.jar och används för att registrera tider under tävlingar. Både starttider och sluttider.</li>
+	<p></p>
+ 	<li><u>Körning</u> - För att köra programmet kan man antingen öppna filhanteraren, navigera in i mappen release och dubbelklicka på filen registration.jar. Eller så kan man köra programmet via terminalen genom att navigera in i mappen release och sedan skriva: <code>java -jar registration.jar</code> .</li>
+	<p></p>
+ 	<li><u>Användning</u> - När programmet öppnar får man först välja en fil som tiderna ska sparas till. Därefter öppnas en ruta för konfiguration av serveranslutning. Eftersom server-klient lösningen inte är fullt integrerad i denna release kan du här trycka på avbryt. När det är gjort öppnas själva programmet som man registrerar tider i. För att registrera en tid så skriver man in förarens startnummer, t.ex ”12”, i textfältet och trycker sedan på enter alternativt på knappen ”Registrera”. Förarens startnummer och tiden syns då till vänster i rutan nedan. För att registrera tiden för flera förare samtidigt kan man skriva på följande olika sätt:
+	<p></p>
+	<ul>
+  	<li>Flera förare - t.ex ”5 8 7 11”</li>
+ 	<li>Intervall - t.ex ”1-9”</li>
+ 	<li>Klass - t.ex ”Seniorer” (måste skrivas exakt som klassen är skriven i namnfilen)</li>
+	<li>Kombination av de ovannämnda sätten - t.ex ”6 12 15-18 Seniorer”</li>
+	</ul>
+	<p></p>
+Om man inte kan läsa en förares startnummer på grund av t.ex smutsig nummerplåt så kan man lämna textfältet tomt och registrera tiden ändå. Registreringen syns då till höger i rutan nedan där man har chans att i efterhand skriva in startnumret. Likaså om man skriver någon felaktig input i textfältet så hamnar registreringen till höger där man har möjlighet att korrigera felet. Resultatet av körningen av programmet är en textfil som innehåller alla de registrerade tiderna. Denna fil används sen av resultatprogrammet för att generera resultatfiler.
+	</ul>
+  	<h4>Resultatprogrammet</h4>
+	<ul>
+  	<li><u>Beskrivning</u> - Namnet på programmet är resultMerge.jar och används för generera filer med resultatet från en tävling.</li>
+	<p></p>
+	<li><u>Körning</u> - För att köra programmet behöver man först skapa en konfigurationsfil som man ger som parameter till programmet. I mappen release finns filen templateconfig.json som visar exempel på hur konfigurationsfilen kan se ut och hur man fyller i den. De parametrar som man ger programmet via konfigurationsfilen är:
+	<p></p>
+	<ul>
+  	<li>race type - Kan vara ”maraton”, ”varvlopp” eller ”etapplopp”. Default är ”maraton”.</li>
+ 	<li>group start - Tiden för eventuell masstart. </li>
+	<li>name file - Lokala sökvägen till namnfilen. Krävs för att kunna köra programmet. </li>
+	<li>stipulated time - Stipulerad tid. Krävs om race type är angett till ”varvlopp”. </li>
+	<li>number of etapps - Antalet etapper vid etapplopp. Krävs om race type är angett till ”etapplopp”. </li>
+	<li>output folder - Lokala sökvägen till mappen där man vill att resultatfilerna ska hamna.</li>
+	<li>start files - Lokala sökvägen till filen med starttider. Flera filer kan anges genom att kommaseparera dem. Om race type är angett som ”etapplopp” anges start files istället som objekt innehållandes: 
+	<ul>
+  	<li>etapp - Numret på etappen.</li>
+	<li>file - Lokala sökvägen till filen med starttider för etappen.</li>
+	</ul>
+	</li>
+ 	<li>finish files - Lokala sökvägen till filen med sluttider. Flera filer kan anges genom att kommaseparera dem. Om race type är angett som ”etapplopp” anges finish files istället som objekt innehållandes: 
+	<ul>
+  	<li>etapp - Numret på etappen.</li>
+	<li>file - Lokala sökvägen till filen med sluttider för etappen.</li>
+	</ul>
+	</li>
+	<li>etapper - Minimum tid för varje etapp. Krävs om race type är angett till ”etapplopp” och måste anges för etapperna i nummerordning.</li>
+	</ul>
+	<p></p>
+När konfigurationsfilen är skapad och korrekt ifylld kan man förslagsvis döpa den till config.json och placera den i mappen release. Därefter kan man köra programmet via terminalen genom att navigera in i mappen release och sedan skriva: <code>java -jar resultMerge.jar -c config.json</code> . Resultatet av körningen blir filerna:
+	<p></p>
+	<ul>
+  	<li>output_unsorted.txt - .txt fil innehållandes det osorterade tävlingsresultatet.</li>
+	<li>output.txt - .txt fil innehållandes det sorterade tävlingsresultatet.</li>
+	<li>output.html - .html fil innehållandes det sorterade tävlingsresultatet.</li>
+	</ul>
+	</li>
+	</ul>
 	<img src="https://lh3.googleusercontent.com/-Jv6h28zaNrc/WDSnc24nmcI/AAAAAAAAlyU/6zrF9TUHKqUiSDGpTJdVgbOAmBS3aeKUQCJoC/w800-h800/tumooouououou0.gif" alt="Dovahkiin" height="200" width="400">
   </body>
 </html>
