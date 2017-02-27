@@ -15,6 +15,7 @@ public class ServerSetupDialog {
 		JTextField portField = new JTextField(5);
 
 		JPanel myPanel = new JPanel();
+		
 		myPanel.add(new JLabel("IP-adress:"));
 		myPanel.add(ipAddressField);
 		myPanel.add(Box.createHorizontalStrut(15)); // a spacer
@@ -40,11 +41,10 @@ public class ServerSetupDialog {
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, "Kunde inte nå servern :(", e.getMessage(),
 							JOptionPane.ERROR_MESSAGE);
-					exit = true;
 				}
 
 			}
-			else if(result == JOptionPane.OK_CANCEL_OPTION){
+			else if(result == JOptionPane.CANCEL_OPTION){
 				exit=true;
 			}
 		} while (!exit);

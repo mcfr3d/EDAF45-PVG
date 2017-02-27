@@ -328,7 +328,7 @@ public class Database {
 	public List<Integer> getRacersInClass(String className) {
 		List<Integer> list = new LinkedList<>();
 		for (Racer r : racers.values())
-			if (r.getClass().equals(className))
+			if (r.getRacerClass().equals(className))
 				list.add(r.getStartNumber());
 		return list;
 	}
