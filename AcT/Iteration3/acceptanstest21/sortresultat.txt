@@ -4,6 +4,6 @@ Plac; StartNr; Namn; Klubb; MC; #Etapper; TotalTid; Etapp1; Etapp2
 2; 2; Bengt Bsson; Bklubb; BTM; 2; 01.22.02; 01.10.00; 00.12.02
 ; 3; Claes Csson; Cklubb; CTM; 1; 00.13.03; ; 00.13.03
 Icke existerande startnummer
-Plac; StartNr; Namn; Klubb; MC; #Etapper; TotalTid; Etapp1; Etapp2
-; 4; ; 0; --.--.--; ; 
-; 5; ; 0; --.--.--; ; 
+Plac; StartNr; #Etapper; TotalTid; Etapp1; Etapp2
+; 4; 0; --.--.--; ; 
+; 5; 0; --.--.--; ; 

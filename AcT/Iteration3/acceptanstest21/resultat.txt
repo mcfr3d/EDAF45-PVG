@@ -4,6 +4,6 @@ StartNr; Namn; Klubb; MC; #Etapper; TotalTid; Etapp1; Etapp2; Start1; Mål1; Sta
 2; Bengt Bsson; Bklubb; BTM; 2; 01.22.02; 01.10.00; 00.12.02; 11.01.00; 12.11.00; 12.31.00; 12.43.02; Flera måltider Etapp1 12.22.00
 3; Claes Csson; Cklubb; CTM; 1; 00.13.03; ; 00.13.03; Start?; Slut?; 12.32.00; 12.45.03
 Icke existerande startnummer
-StartNr; Namn; Klubb; MC; #Etapper; TotalTid; Etapp1; Etapp2; Start1; Mål1; Start2; Mål2
-4; ; 0; --.--.--; ; ; 11.03.00; Slut?; Start?; Slut?
-5; ; 0; --.--.--; ; ; Start?; Slut?; Start?; 12.45.04
+StartNr; #Etapper; TotalTid; Etapp1; Etapp2; Start1; Mål1; Start2; Mål2
+4; 0; --.--.--; ; ; 11.03.00; Slut?; Start?; Slut?
+5; 0; --.--.--; ; ; Start?; Slut?; Start?; 12.45.04

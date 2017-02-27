@@ -12,6 +12,7 @@ import java.util.List;
 import util.TotalTimeCalculator;
 
 public class Database {
+	private static final String NON_EXISTING_RACER = "Icke existerande startnummer";
 	private HashMap<Integer, Racer> racers;
 	private List<String> raceClasses;
 	private int raceType;
@@ -50,7 +51,7 @@ public class Database {
 		}
 		r.setName(name);
 		r.setRacerClass(raceClass);
-		if (massStart && !raceClass.equals("Icke existerande startnummer")) {
+		if (massStart && !raceClass.equals(NON_EXISTING_RACER)) {
 			r.addTime(new Time(massStartTime, true, -1));
 		}
 
@@ -64,7 +65,7 @@ public class Database {
 
 	private Racer getRacer(int driver) {
 		if (!racers.containsKey(driver))
-			addRacer(driver, "", "Icke existerande startnummer");
+			addRacer(driver, "", NON_EXISTING_RACER);
 		return racers.get(driver);
 	}
 
@@ -148,7 +149,7 @@ public class Database {
 
 		for (String s : raceClasses.keySet()) {
 
-			if (s.equals("Icke existerande startnummer")) {
+			if (s.equals(NON_EXISTING_RACER)) {
 				ss = genResultForClass(s, raceClasses.get(s), sort);
 			} else {
 				sb.append(genResultForClass(s, raceClasses.get(s), sort));
@@ -177,8 +178,12 @@ public class Database {
 
 		if (sort)
 			sb.append("Plac; ");
-
-		sb.append(genHeader(maxCheckpoints, sort)).append('\n');
+		if (raceClass.equals(NON_EXISTING_RACER))
+			sb.append(genNonExistingRacerHeader(maxCheckpoints, sort));
+		else
+			sb.append(genHeader(maxCheckpoints, sort));
+		
+		sb.append('\n');
 
 		if (sort)
 			writeSortedResult(sb, maxCheckpoints, racersInClass);
@@ -259,6 +264,13 @@ public class Database {
 
 		for (Racer r : list)
 			sb.append(r.resultWithErrors(this)).append("\n");
+	}
+
+	private String genNonExistingRacerHeader(int checkpoints, boolean sort) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(columnHeaders[0]).append("; ");
+		sb.append(sort ? genSortedRaceTypeHeader(checkpoints) : genRaceTypeHeader(checkpoints));
+		return sb.toString();
 	}
 
 	private String genHeader(int checkpoints, boolean sort) {
