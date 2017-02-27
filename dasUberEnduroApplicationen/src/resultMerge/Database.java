@@ -133,6 +133,7 @@ public class Database {
 
 	public void setLegInfo(LegInfo info) {
 		legInfo = info;
+		LegRace.setLegInfo(info);
 	}
 
 	public String getResult(boolean sort) {
@@ -162,15 +163,15 @@ public class Database {
 
 	private String genResultForClass(String raceClass, HashSet<Racer> racersInClass, boolean sort) {
 		int maxCheckpoints = 0;
-		if(raceType == MULTI_LAP_RACE) {
+		if (raceType == MULTI_LAP_RACE) {
 			for (Racer r : racersInClass) {
 				maxCheckpoints = Math.max(maxCheckpoints, r.getLaps());
 			}
 			MultiLapRace.setMaxLaps(maxCheckpoints);
-		} else if(raceType == LEG_RACE) {
+		} else if (raceType == LEG_RACE) {
 			maxCheckpoints = legInfo.getNbrOfLegs();
 		}
-		
+
 		StringBuilder sb = new StringBuilder();
 		if (!raceClass.equals(""))
 			sb.append(raceClass).append('\n');
@@ -302,10 +303,14 @@ public class Database {
 		} else {
 			header.append("#Etapper; TotalTid;");
 			int legs = legInfo.getNbrOfLegs();
-			for (int i = 1; i < legs; i++) {
-				header.append(" Etapp" + i + ";");
+			for (int i = 1; i <= legs; i++) {
+				String s = "";
+				int mult = legInfo.getMultiplier(i-1);
+				if (mult != 1) s = "*" + mult;
+				header.append(" Etapp" + i + s + ";");
+				
 			}
-			header.append(" Etapp" + legs);
+			header.deleteCharAt(header.length() -1);
 		}
 		return header.toString();
 

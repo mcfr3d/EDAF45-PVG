@@ -3,9 +3,15 @@ package resultMerge;
 import java.util.LinkedList;
 
 public class LegRace implements RaceType {
+	private static LegInfo legInfo;
 	private class Leg {
 		LinkedList<Time> start = new LinkedList<>();
 		LinkedList<Time> finish = new LinkedList<>();
+		int leg;
+
+		public Leg(int i) {
+			leg = i;
+		}
 
 		public void addStart(Time t) {
 			start.add(t);
@@ -48,7 +54,9 @@ public class LegRace implements RaceType {
 		public Time getLegTime() {
 			if (!(start.isEmpty() || finish.isEmpty())) {
 				try {
-					return Time.diff(finish.getFirst(), start.getFirst());
+					Time t = Time.diff(finish.getFirst(), start.getFirst());
+					t = t.multiply(legInfo.getMultiplier(leg));
+					return t;
 				} catch (Exception e) {
 				}
 			}
@@ -61,7 +69,7 @@ public class LegRace implements RaceType {
 	public LegRace(int nbrLegs) {
 		legs = new Leg[nbrLegs];
 		for (int i = 0; i < nbrLegs; i++)
-			legs[i] = new Leg();
+			legs[i] = new Leg(i);
 	}
 
 	@Override
@@ -96,7 +104,7 @@ public class LegRace implements RaceType {
 			if (db != null) {
 				try {
 					Time minimumTime = db.getLegInfo().getMinimumTime(i - 1);
-					Time diff = Time.diff(new Time(l.getFinish()), new Time(l.getStart()));
+					Time diff = l.getLegTime();
 
 					if (diff.getTimeAsInt() < minimumTime.getTimeAsInt()) {
 						errors.append("Omöjlig tid Etapp" + i).append("; ");
@@ -172,6 +180,10 @@ public class LegRace implements RaceType {
 			return legDiff;
 		int timediff = totalTime().getTimeAsInt() - lr.totalTime().getTimeAsInt();
 		return timediff;
+	}
+
+	public static void setLegInfo(LegInfo info) {
+		legInfo = info;	
 	}
 
 }

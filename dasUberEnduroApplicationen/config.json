@@ -1,0 +1,19 @@
+{
+	"race type" : "masstart",
+	"outputs" : [
+		{
+			"file" : "resultat.html",
+			"sort" : false,
+			"html" : true
+		},
+		{
+			"file" : "resultat_sorted.txt",
+			"sort" : true
+		}
+	],
+	"name file" : "namnfil.txt",
+	"start files" : [],
+	"finish files" : ["maltider.txt"],
+	"group start" : "03.00.00",
+	"stipulated time" : "01.00.00"
+}
