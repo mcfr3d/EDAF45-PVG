@@ -1,0 +1,13 @@
+GemensamKlass
+StartNr; Namn; Klubb; MC; TotalTid; Starttid; Måltid
+1; Jakob Hök; TEAM06; ATM; 01.00.00; 11.00.00; 12.00.00
+2; Emil Wihlander; TEAM06; BTM; 01.01.00; 11.00.00; 12.01.00
+3; Måns Magnusson; TEAM06; CTM; 01.00.00; 11.02.00; 12.02.00
+4; Jacob Canbäck; TEAM06; DTM; 01.01.10; 11.01.00; 12.02.10
+5; Emil Tostrup; TEAM06; XTM; 00.58.11; 11.04.00; 12.02.11
+6; Emil Aminy; TEAM06; XTM; 00.07.12; 11.03.00; 11.10.12; Omöjlig Totaltid?
+7; Johan Ravnborg; TEAM06; XTM; 01.00.14; 11.02.00; 12.02.14
+8; Fredrik Nyberg; TEAM06; XTM; 01.00.10; 11.05.00; 12.05.10
+9; Erik Söderberg; TEAM06; XTM; 01.04.11; 11.01.00; 12.05.11
+10; Samuel Klingström; TEAM06; XTM; 01.03.00; 11.03.00; 12.06.00
+11; Jesper Olsson; TEAM06; CoachHoj; 02.29.37; 11.04.00; 13.33.37

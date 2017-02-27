@@ -7,4 +7,5 @@ public interface RaceType extends Comparable<RaceType> {
 	public String getStart();
 	public String getFinish();
 	public int getLaps();
+	public Time getTotalTime();
 }

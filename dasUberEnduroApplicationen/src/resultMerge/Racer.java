@@ -31,9 +31,9 @@ public class Racer implements Comparable<Racer> {
 		}
 	}
 	
-	public Racer(int startNumber, int raceType, int nbrOfEtapps) {
+	public Racer(int startNumber, int raceType, int nbrOfLegs) {
 		this.startNumber = startNumber;
-		rt = new EtappRace(nbrOfEtapps);
+		rt = new LegRace(nbrOfLegs);
 	}
 
 	public void setName(String name) {
@@ -89,6 +89,10 @@ public class Racer implements Comparable<Racer> {
 
 	public int getLaps() {
 		return rt.getLaps();
+	}
+	
+	public Time getTotalTime() {
+		return rt.getTotalTime();
 	}
 
 	public void addOptionalData(String data) {

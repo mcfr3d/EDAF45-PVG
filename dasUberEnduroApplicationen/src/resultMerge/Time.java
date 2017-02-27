@@ -3,7 +3,7 @@ package resultMerge;
 public class Time {
 	private int time;
 	private boolean isStart;
-	private int etapp;
+	private int leg;
 	public static final int SECONDS_OF_A_DAY = 24 * 60 * 60;
 
 	public Time(int time) {
@@ -14,12 +14,12 @@ public class Time {
 		this(time, start, -1);
 	}
 
-	public Time(int time, boolean start, int etapp) {
+	public Time(int time, boolean start, int leg) {
 		if (time < 0)
 			throw new IllegalArgumentException("Negative Time");
 		this.time = time;
 		this.isStart = start;
-		this.etapp = etapp;
+		this.leg = leg;
 	}
 
 	public Time(String t) {
@@ -32,8 +32,8 @@ public class Time {
 		time = toSeconds(t);
 	}
 
-	public Time(String t, boolean start, int etapp) {
-		this(0, start, etapp);
+	public Time(String t, boolean start, int leg) {
+		this(0, start, leg);
 		time = toSeconds(t);
 	}
 
@@ -45,7 +45,7 @@ public class Time {
 				diff -= SECONDS_OF_A_DAY;
 			return new Time(diff);
 		} catch (Exception e) {
-			return new Time("--.--.--");
+			return null;
 		}
 
 	}
@@ -74,15 +74,15 @@ public class Time {
 		return isStart;
 	}
 
-	public int getEtappNbr() {
-		return etapp;
+	public int getLegNbr() {
+		return leg;
 	}
 
 	public int getTimeAsInt() {
 		return time;
 	}
 
-	public Time add(Time etappTime) {
-		return new Time(this.time + etappTime.time);
+	public Time add(Time legTime) {
+		return new Time(this.time + legTime.time);
 	}
 }
