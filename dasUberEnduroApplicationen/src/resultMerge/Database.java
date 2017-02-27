@@ -131,6 +131,7 @@ public class Database {
 
 	public void setLegInfo(LegInfo info) {
 		legInfo = info;
+		LegRace.setLegInfo(info);
 	}
 
 	public String getResult(boolean sort) {
@@ -284,10 +285,14 @@ public class Database {
 
 		} else {
 			header.append("#Etapper; TotalTid;");
-			for (int i = 1; i < laps; i++) {
-				header.append(" Etapp" + i + ";");
+			for (int i = 1; i <= laps; i++) {
+				String s = "";
+				int mult = legInfo.getMultiplier(i-1);
+				if (mult != 1) s = "*" + mult;
+				header.append(" Etapp" + i + s + ";");
+				
 			}
-			header.append(" Etapp" + laps);
+			header.deleteCharAt(header.length() -1);
 		}
 		return header.toString();
 
