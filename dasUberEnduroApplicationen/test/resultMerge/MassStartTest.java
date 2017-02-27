@@ -14,11 +14,10 @@ public class MassStartTest {
 	
 	@Test
 	public void testMassStartAfter(){
-		Database db = new Database();
+		Database db = new Database("00.00.00", Database.ONE_LAP_RACE);
 		db.addRacer(1, "A A", "");
 		db.addRacer(1, "A A", "");
 		db.addRacer(1, "A A", "");
-		db.setMassStart("00.00.00");
 		for(Racer r: db.getRacers().values()) {
 			assertEquals("00.00.00", r.getFirstStartTime());
 		}

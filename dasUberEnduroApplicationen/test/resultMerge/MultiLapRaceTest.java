@@ -20,17 +20,17 @@ public class MultiLapRaceTest {
 	public void testOneLap() {
 		MultiLapRace.setMaxLaps(1);
 		MultiLapRace.setStipulatedTime(new Time("00.11.00"));
-		temp.addStart("00.00.00");
-		temp.addFinish("01.00.00");
+		temp.addTime(new Time("00.00.00", true));
+		temp.addTime(new Time("01.00.00", false));
 		assertEquals("1; 01.00.00; 01.00.00; 00.00.00; 01.00.00", temp.genResultWithErrors(null));
 	}
 	@Test
 	public void testTwoLap() {
 		MultiLapRace.setMaxLaps(2);
 		MultiLapRace.setStipulatedTime(new Time("01.11.00"));
-		temp.addStart("00.00.00");
-		temp.addFinish("01.00.01");
-		temp.addFinish("02.00.03");
+		temp.addTime(new Time("00.00.00", true));
+		temp.addTime(new Time("01.00.01", false));
+		temp.addTime(new Time("02.00.03", false));
 		assertEquals("2; 02.00.03; 01.00.01; 01.00.02; 00.00.00; 01.00.01; 02.00.03", temp.genResultWithErrors(null));
 	}
 	@Test
@@ -38,12 +38,12 @@ public class MultiLapRaceTest {
 		MultiLapRace.setMaxLaps(2);
 		MultiLapRace.setStipulatedTime(new Time("01.11.00"));
 		temp2 = new MultiLapRace(); 
-		temp.addStart("00.00.00");
-		temp.addFinish("01.00.00");
-		temp.addFinish("02.00.00");
+		temp.addTime(new Time("00.00.00", true));
+		temp.addTime(new Time("01.00.00", false));
+		temp.addTime(new Time("02.00.00", false));
 		
-		temp2.addStart("00.00.00");
-		temp2.addFinish("02.00.00");
+		temp2.addTime(new Time("00.00.00", true));
+		temp2.addTime(new Time("02.00.00", false));
 		assertEquals("1; 02.00.00; 02.00.00; ; 00.00.00; ; 02.00.00", temp2.genResultWithErrors(null));
 		assertEquals("2; 02.00.00; 01.00.00; 01.00.00; 00.00.00; 01.00.00; 02.00.00", temp.genResultWithErrors(null));
 	}
@@ -53,9 +53,9 @@ public class MultiLapRaceTest {
 	public void testNoStart() {
 		MultiLapRace.setMaxLaps(3);
 		MultiLapRace.setStipulatedTime(new Time("00.41.00"));
-		temp.addFinish("12.30.00");
-		temp.addFinish("13.00.00");
-		temp.addFinish("13.23.34");
+		temp.addTime("12.30.00");
+		temp.addTime("13.00.00");
+		temp.addTime("13.23.34");
 		assertEquals("0; --.--.--; ; ; ; Start?; 12.30.00; 13.00.00; Slut?", temp.genResultWithErrors());
 	}*/
 	
@@ -63,7 +63,7 @@ public class MultiLapRaceTest {
 	public void testNoFinish() {
 		MultiLapRace.setMaxLaps(3);
 		MultiLapRace.setStipulatedTime(new Time("03.39.00"));
-		temp.addStart("12.01.00");
+		temp.addTime(new Time("12.01.00", true));
 		assertEquals("0; --.--.--; ; ; ; 12.01.00; ; ; Slut?", temp.genResultWithErrors(null));
 	}
 	
@@ -71,11 +71,11 @@ public class MultiLapRaceTest {
 	public void testMultipleStartTimes(){
 		MultiLapRace.setStipulatedTime(new Time("00.42.00"));
 		MultiLapRace.setMaxLaps(3);
-		temp.addStart("12.02.00");
-		temp.addStart("12.05.00");
-		temp.addFinish("12.22.00");
-		temp.addFinish("12.42.00");
-		temp.addFinish("13.05.06");
+		temp.addTime(new Time("12.02.00", true));
+		temp.addTime(new Time("12.05.00", true));
+		temp.addTime(new Time("12.22.00", false));
+		temp.addTime(new Time("12.42.00", false));
+		temp.addTime(new Time("13.05.06", false));
 		assertEquals("3; 01.03.06; 00.20.00; 00.20.00; 00.23.06; 12.02.00; 12.22.00; 12.42.00; 13.05.06; Flera starttider? 12.05.00 ", temp.genResultWithErrors(null));
 	}
 	
@@ -83,10 +83,10 @@ public class MultiLapRaceTest {
 	public void testImpossibleLapTime() {
 		MultiLapRace.setStipulatedTime(new Time("00.42.00"));
 		MultiLapRace.setMaxLaps(3);
-		temp.addStart("12.03.00");
-		temp.addFinish("12.23.00");
-		temp.addFinish("12.43.00");
-		temp.addFinish("12.52.07");
+		temp.addTime(new Time("12.03.00", true));
+		temp.addTime(new Time("12.23.00", false));
+		temp.addTime(new Time("12.43.00", false));
+		temp.addTime(new Time("12.52.07", false));
 		System.out.println(temp.genResultWithErrors(null));
 		assertEquals("3; 00.49.07; 00.20.00; 00.20.00; 00.09.07; 12.03.00; 12.23.00; 12.43.00; 12.52.07; Omöjlig varvtid?", temp.genResultWithErrors(null));
 	}
@@ -96,14 +96,14 @@ public class MultiLapRaceTest {
 		MultiLapRace.setMaxLaps(3);
 		MultiLapRace.setStipulatedTime(new Time("00.39.00"));
 		MultiLapRace a = new MultiLapRace();
-		a.addStart("12.00.00");
-		a.addFinish("12.20.00");
-		a.addFinish("12.40.00");
+		a.addTime(new Time("12.00.00", true));
+		a.addTime(new Time("12.20.00", false));
+		a.addTime(new Time("12.40.00", false));
 		MultiLapRace b = new MultiLapRace();
-		b.addStart("12.00.00");
-		b.addFinish("12.17.00");
-		b.addFinish("12.38.00");
-		b.addFinish("12.59.00");
+		b.addTime(new Time("12.00.00", true));
+		b.addTime(new Time("12.17.00", false));
+		b.addTime(new Time("12.38.00", false));
+		b.addTime(new Time("12.59.00", false));
 		assertEquals(1,a.compareTo(b));
 	}
 
@@ -112,13 +112,13 @@ public class MultiLapRaceTest {
 		MultiLapRace.setMaxLaps(3);
 		MultiLapRace.setStipulatedTime(new Time("00.39.00"));
 		MultiLapRace a = new MultiLapRace();
-		a.addStart("12.00.00");
-		a.addFinish("12.20.00");
-		a.addFinish("12.40.00");
+		a.addTime(new Time("12.00.00", true));
+		a.addTime(new Time("12.20.00", false));
+		a.addTime(new Time("12.40.00", false));
 		MultiLapRace b = new MultiLapRace();
-		b.addFinish("12.17.00");
-		b.addFinish("12.38.00");
-		b.addFinish("12.59.00");
+		b.addTime(new Time("12.17.00", false));
+		b.addTime(new Time("12.38.00", false));
+		b.addTime(new Time("12.59.00", false));
 		assertEquals(-1,a.compareTo(b));
 	}
 
@@ -127,14 +127,14 @@ public class MultiLapRaceTest {
 		MultiLapRace.setMaxLaps(3);
 		MultiLapRace.setStipulatedTime(new Time("00.39.00"));
 		MultiLapRace a = new MultiLapRace();
-		a.addStart("12.00.00");
-		a.addFinish("12.10.00");// Less than minimum lap time -> invalid
-		a.addFinish("12.40.00");
+		a.addTime(new Time("12.00.00", true));
+		a.addTime(new Time("12.10.00", false));// Less than minimum lap time -> invalid
+		a.addTime(new Time("12.40.00", false));
 		MultiLapRace b = new MultiLapRace();
-		b.addStart("12.00.00");
-		b.addFinish("12.17.00");
-		b.addFinish("12.38.00");
-		b.addFinish("12.59.00");
+		b.addTime(new Time("12.00.00", true));
+		b.addTime(new Time("12.17.00", false));
+		b.addTime(new Time("12.38.00", false));
+		b.addTime(new Time("12.59.00", false));
 		assertTrue(0 < a.compareTo(b));
 	}
 	
@@ -143,13 +143,13 @@ public class MultiLapRaceTest {
 		MultiLapRace.setMaxLaps(3);
 		MultiLapRace.setStipulatedTime(new Time("00.11.00"));
 		MultiLapRace a = new MultiLapRace();
-		a.addFinish("12.10.00");
-		a.addFinish("12.40.00");
+		a.addTime(new Time("12.10.00", false));
+		a.addTime(new Time("12.40.00", false));
 		MultiLapRace b = new MultiLapRace();
-		b.addStart("12.00.00");
-		b.addFinish("12.1.00");
-		b.addFinish("12.2.00");
-		b.addFinish("12.3.00");
+		b.addTime(new Time("12.00.00", true));
+		b.addTime(new Time("12.1.00", false));
+		b.addTime(new Time("12.2.00", false));
+		b.addTime(new Time("12.3.00", false));
 		assertEquals(0,a.compareTo(b));
 	}
 	
@@ -158,15 +158,15 @@ public class MultiLapRaceTest {
 		MultiLapRace.setMaxLaps(3);
 		MultiLapRace.setStipulatedTime(new Time("00.41.00"));
 		MultiLapRace a = new MultiLapRace();
-		a.addStart("12.00.00");
-		a.addFinish("12.20.00");
-		a.addFinish("12.40.00");
-		a.addFinish("13.00.00");
+		a.addTime(new Time("12.00.00", true));
+		a.addTime(new Time("12.20.00", false));
+		a.addTime(new Time("12.40.00", false));
+		a.addTime(new Time("13.00.00", false));
 		MultiLapRace b = new MultiLapRace();
-		b.addStart("12.00.00");
-		b.addFinish("12.17.00");
-		b.addFinish("12.38.00");
-		b.addFinish("12.59.00");
+		b.addTime(new Time("12.00.00", true));
+		b.addTime(new Time("12.17.00", false));
+		b.addTime(new Time("12.38.00", false));
+		b.addTime(new Time("12.59.00", false));
 		assertEquals(1,a.compareTo(b));
 	}
 	@Test
@@ -174,15 +174,15 @@ public class MultiLapRaceTest {
 		MultiLapRace.setMaxLaps(3);
 		MultiLapRace.setStipulatedTime(new Time("00.41.00"));
 		MultiLapRace a = new MultiLapRace();
-		a.addStart("12.00.00");
-		a.addFinish("12.20.00");
-		a.addFinish("12.40.00");
-		a.addFinish("13.00.00");
+		a.addTime(new Time("12.00.00", true));
+		a.addTime(new Time("12.20.00", false));
+		a.addTime(new Time("12.40.00", false));
+		a.addTime(new Time("13.00.00", false));
 		MultiLapRace b = new MultiLapRace();
-		b.addStart("12.00.00");
-		b.addFinish("12.17.00");
-		b.addFinish("12.38.00");
-		b.addFinish("13.00.00");
+		b.addTime(new Time("12.00.00", true));
+		b.addTime(new Time("12.17.00", false));
+		b.addTime(new Time("12.38.00", false));
+		b.addTime(new Time("13.00.00", false));
 		assertEquals(0,a.compareTo(b));
 	}
 	
