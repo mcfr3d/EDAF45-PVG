@@ -2,8 +2,8 @@ package resultMerge;
 
 import java.util.LinkedList;
 
-public class EtappRace implements RaceType {
-	private class Etapp {
+public class LegRace implements RaceType {
+	private class Leg {
 		LinkedList<Time> start = new LinkedList<>();
 		LinkedList<Time> finish = new LinkedList<>();
 
@@ -23,7 +23,7 @@ public class EtappRace implements RaceType {
 			return finish.isEmpty() ? "Slut?" : finish.getFirst().toString();
 		}
 
-		public Time getEtappTime() {
+		public Time getLegTime() {
 			if (!(start.isEmpty() || finish.isEmpty())) {
 				try {
 					return Time.diff(finish.getFirst(), start.getFirst());
@@ -34,12 +34,12 @@ public class EtappRace implements RaceType {
 		}
 	}
 
-	private Etapp[] etapper;
+	private Leg[] legs;
 
-	public EtappRace(int antalEtapper) {
-		etapper = new Etapp[antalEtapper];
-		for (int i = 0; i < antalEtapper; i++)
-			etapper[i] = new Etapp();
+	public LegRace(int nbrLegs) {
+		legs = new Leg[nbrLegs];
+		for (int i = 0; i < nbrLegs; i++)
+			legs[i] = new Leg();
 	}
 
 	@Override
@@ -62,10 +62,10 @@ public class EtappRace implements RaceType {
 		String totTimeStr = totalTime.getTimeAsInt() == 0 ? "--.--.--" : totalTime.toString();
 		sb.append(totTimeStr.toString()).append("; ");
 
-		for (int i = 0; i < etapper.length; i++) {
-			Time etappTime = etapper[i].getEtappTime();
-			if (etappTime != null) {
-				sb.append(etappTime.toString());
+		for (int i = 0; i < legs.length; i++) {
+			Time legTime = legs[i].getLegTime();
+			if (legTime != null) {
+				sb.append(legTime.toString());
 			}
 			sb.append("; ");
 		}
@@ -79,13 +79,13 @@ public class EtappRace implements RaceType {
 		sb.append(genResult()).append("; ");
 		String errors = "";
 		int i = 0;
-		for (Etapp e : etapper) { // adds start and finish for each etapp
-			sb.append(e.getStart()).append("; ");
-			sb.append(e.getFinish()).append("; ");
+		for (Leg l : legs) { // adds start and finish for each leg
+			sb.append(l.getStart()).append("; ");
+			sb.append(l.getFinish()).append("; ");
 			if (db != null) {
 				try {
-					Time minimumTime = db.getEtappInfo().getMinimumTime(i);
-					Time diff = Time.diff(new Time(e.getFinish()), new Time(e.getStart()));
+					Time minimumTime = db.getLegInfo().getMinimumTime(i);
+					Time diff = Time.diff(new Time(l.getFinish()), new Time(l.getStart()));
 					if (diff.getTimeAsInt() < minimumTime.getTimeAsInt()) {
 						errors += " etapp " + (i + 1) + " omöjlig tid";
 					}
@@ -105,9 +105,9 @@ public class EtappRace implements RaceType {
 	@Override
 	public int getLaps() {
 		int counter = 0;
-		for (int i = 0; i < etapper.length; i++) {
-			Time etappTime = etapper[i].getEtappTime();
-			if (etappTime != null) {
+		for (int i = 0; i < legs.length; i++) {
+			Time legTime = legs[i].getLegTime();
+			if (legTime != null) {
 				counter++;
 			}
 		}
@@ -116,10 +116,10 @@ public class EtappRace implements RaceType {
 
 	private Time totalTime() {
 		Time totaltime = new Time(0);
-		for (int i = 0; i < etapper.length; i++) {
-			Time etappTime = etapper[i].getEtappTime();
-			if (etappTime != null) {
-				totaltime = totaltime.add(etappTime);
+		for (int i = 0; i < legs.length; i++) {
+			Time legTime = legs[i].getLegTime();
+			if (legTime != null) {
+				totaltime = totaltime.add(legTime);
 			}
 		}
 		return totaltime;
@@ -139,21 +139,21 @@ public class EtappRace implements RaceType {
 
 	@Override
 	public void addTime(Time t) throws ArrayIndexOutOfBoundsException {
-		int etappNbr = t.getEtappNbr() - 1;
+		int legNbr = t.getLegNbr() - 1;
 
 		if (t.isStart())
-			etapper[etappNbr].addStart(t);
+			legs[legNbr].addStart(t);
 		else
-			etapper[etappNbr].addFinish(t);
+			legs[legNbr].addFinish(t);
 	}
 
 	@Override
 	public int compareTo(RaceType o) {
-		EtappRace er = (EtappRace) o;
-		int etappdiff = er.getLaps() - getLaps();
-		if (etappdiff != 0)
-			return etappdiff;
-		int timediff = totalTime().getTimeAsInt() - er.totalTime().getTimeAsInt();
+		LegRace lr = (LegRace) o;
+		int legDiff = lr.getLaps() - getLaps();
+		if (legDiff != 0)
+			return legDiff;
+		int timediff = totalTime().getTimeAsInt() - lr.totalTime().getTimeAsInt();
 		return timediff;
 	}
 

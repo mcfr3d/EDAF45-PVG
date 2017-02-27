@@ -9,18 +9,18 @@ import org.json.JSONTokener;
 import org.junit.Before;
 import org.junit.Test;
 
-public class EtappRaceTest {
+public class LegRaceTest {
 	
-	private EtappRace tmp;
+	private LegRace tmp;
 	private Database db;
 	private static String etappConfig = "{\"etapper\":[{\"minimum time\":\"00.05.00\"}]}";
 	
 	@Before
 	public void init() {
-		tmp = new EtappRace(1);
+		tmp = new LegRace(1);
 		JSONObject root = new JSONObject(new JSONTokener(etappConfig));
-		db = new Database(null,Database.ETAPP_RACE);
-		db.setEtappInfo(new EtappInfo(root.getJSONArray("etapper")));
+		db = new Database(null,Database.LEG_RACE);
+		db.setLegInfo(new LegInfo(root.getJSONArray("etapper")));
 	}
 	
 	@Test
@@ -51,7 +51,7 @@ public class EtappRaceTest {
 	}
 	@Test
 	public void test2Etapp() {
-		tmp = new EtappRace(2);
+		tmp = new LegRace(2);
 		tmp.addTime(new Time("12.00.00",true,1));
 		tmp.addTime(new Time("13.00.00",false,1));
 		tmp.addTime(new Time("13.15.00",true,2));
@@ -60,7 +60,7 @@ public class EtappRaceTest {
 		assertEquals(res, tmp.genResultWithErrors(null));
 	}
 	@Test
-	public void testEtappWidthMinimumTime() {
+	public void testLegWidthMinimumTime() {
 		tmp.addTime(new Time("12.00.00",true,1));
 		tmp.addTime(new Time("12.04.00",false,1));
 		String res = "1; 00.04.00; 00.04.00; 12.00.00; 12.04.00; etapp 1 omöjlig tid";

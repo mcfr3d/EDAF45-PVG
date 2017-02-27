@@ -17,12 +17,12 @@ public class Database {
 	private boolean massStart = false;
 	private String massStartTime;
 	private String stipulatedTime = "00.00.00";
-	private int nbrOfEtapps = 0;
-	private EtappInfo etappInfo;
+	private int nbrOfLegs = 0;
+	private LegInfo legInfo;
 	private String[] columnHeaders;
 	public final static int ONE_LAP_RACE = 0;
 	public final static int MULTI_LAP_RACE = 1;
-	public final static int ETAPP_RACE = 2;
+	public final static int LEG_RACE = 2;
 
 	// kept so previous tests works. tests should be refactored.
 	// creates a db for OneLapRace without massStart.
@@ -55,8 +55,8 @@ public class Database {
 
 	public boolean addRacer(int startNo, String name, String raceClass) {
 		Racer r;
-		if (raceType == ETAPP_RACE) {
-			r = new Racer(startNo, raceType, nbrOfEtapps);
+		if (raceType == LEG_RACE) {
+			r = new Racer(startNo, raceType, nbrOfLegs);
 		} else {
 			r = new Racer(startNo, raceType);
 		}
@@ -84,18 +84,18 @@ public class Database {
 		addStart(driver, time, -1);
 	}
 
-	public void addStart(int driver, String time, int etapp) {
+	public void addStart(int driver, String time, int leg) {
 		Racer r = getRacer(driver);
-		r.addTime(new Time(time, true, etapp));
+		r.addTime(new Time(time, true, leg));
 	}
 
 	public void addFinish(int driver, String time) {
 		addFinish(driver, time, -1);
 	}
 
-	public void addFinish(int driver, String time, int etapp) {
+	public void addFinish(int driver, String time, int leg) {
 		Racer r = getRacer(driver);
-		r.addTime(new Time(time, false, etapp));
+		r.addTime(new Time(time, false, leg));
 	}
 
 	public void setName(int driver, String name) {
@@ -117,8 +117,8 @@ public class Database {
 		return raceType == MULTI_LAP_RACE;
 	}
 
-	public boolean isEtappRace() {
-		return raceType == ETAPP_RACE;
+	public boolean islegRace() {
+		return raceType == LEG_RACE;
 	}
 
 	public HashMap<Integer, Racer> getRacers() {
@@ -138,12 +138,12 @@ public class Database {
 		MultiLapRace.setStipulatedTime(new Time(stipulatedTime));
 	}
 
-	public void setNumberEtapps(int nbrOfEtapps) {
-		this.nbrOfEtapps = nbrOfEtapps;
+	public void setNumberLegs(int nbrOfLegs) {
+		this.nbrOfLegs = nbrOfLegs;
 	}
 
-	public void setEtappInfo(EtappInfo info) {
-		etappInfo = info;
+	public void setLegInfo(LegInfo info) {
+		legInfo = info;
 	}
 
 	public String getResult(boolean sort) {
@@ -220,9 +220,9 @@ public class Database {
 				}
 				break;
 			}
-			case ETAPP_RACE: {
-				int etapper = r.getLaps();
-				if(etapper == nbrOfEtapps)
+			case LEG_RACE: {
+				int legs = r.getLaps();
+				if(legs == nbrOfLegs)
 					sortedRacerList.add(r);
 				else
 					invalidStipulatedTime.add(r);	
@@ -318,7 +318,7 @@ public class Database {
 				header.append(" Varvning" + i + ";");
 			}
 			header.append(" Mål");
-		} else if (raceType == ETAPP_RACE) {
+		} else if (raceType == LEG_RACE) {
 			for (int i = 1; i < laps; i++) {
 				header.append(" Start" + i + ";");
 				header.append(" Mål" + i + ";");
@@ -341,8 +341,8 @@ public class Database {
 		return list;
 	}
 
-	public EtappInfo getEtappInfo() {
-		return etappInfo;
+	public LegInfo getLegInfo() {
+		return legInfo;
 	}
 
 }

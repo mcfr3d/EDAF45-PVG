@@ -6,17 +6,19 @@ import util.TotalTimeCalculator;
 
 public class OneLapRace implements RaceType {
 
-	private LinkedList<String> startTimes = new LinkedList<>();
-	private LinkedList<String> finishTimes = new LinkedList<>();
+	private LinkedList<Time> startTimes = new LinkedList<>();
+	private LinkedList<Time> finishTimes = new LinkedList<>();
 
 	@Override
 	public void addStart(String start) {
-		startTimes.add(start);
+		Time t = new Time(start, true);
+		startTimes.add(t);
 	}
 
 	@Override
 	public void addFinish(String finish) {
-		finishTimes.add(finish);
+		Time t = new Time(finish);
+		finishTimes.add(t);
 	}
 	
 	public void addTime(Time t) {
@@ -72,22 +74,22 @@ public class OneLapRace implements RaceType {
 		if (startTimes.size() > 1) {
 			sb.append("Flera starttider?");
 			boolean skipped = false;
-			for (String s : startTimes) {
+			for (Time t : startTimes) {
 				if (!skipped)
 					skipped = true;
 				else
-					sb.append(" " + s);
+					sb.append(" " + t);
 			}
 			sb.append("; ");
 		}
 		if (finishTimes.size() > 1) {
 			sb.append("Flera måltider?");
 			boolean skipped = false;
-			for (String s : finishTimes) {
+			for (Time t : finishTimes) {
 				if (!skipped)
 					skipped = true;
 				else
-					sb.append(" " + s);
+					sb.append(" " + t);
 			}
 			sb.append("; ");
 		}
@@ -101,12 +103,12 @@ public class OneLapRace implements RaceType {
 
 	@Override
 	public String getStart() {
-		return startTimes.isEmpty() ? "" : startTimes.getFirst();
+		return startTimes.isEmpty() ? "" : startTimes.getFirst().toString();
 	}
 
 	@Override
 	public String getFinish() {
-		return finishTimes.isEmpty() ? "" : finishTimes.getFirst();
+		return finishTimes.isEmpty() ? "" : finishTimes.getFirst().toString();
 	}
 
 	@Override
