@@ -6,6 +6,7 @@ cp dasUberEnduroApplicationen/resultMerge/build/libs/resultMerge.jar release/.
 cp dasUberEnduroApplicationen/Manual.html release/.
 cp README.md release/.
 cp -r config release/.
+cp -r AcT/ release/.
 zip -r release.zip release
 rm -r release
 

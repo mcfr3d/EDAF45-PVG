@@ -34,7 +34,7 @@ Denna README fil är till för att underlätta för en ny programmerare att sät
 * Story 31: Teknisk dokumentation
 * Story 32: Källkodsrelease 2
 * Story 33B: Robust program
-* Story 33C: Robust program
+* Story 33C: Kodkvalité
 * Story 35: Nattetapp
 * Story 36: Kö vid målgång 
 
