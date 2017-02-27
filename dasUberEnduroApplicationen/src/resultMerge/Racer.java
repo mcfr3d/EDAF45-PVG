@@ -39,14 +39,6 @@ public class Racer implements Comparable<Racer> {
 	public void setName(String name) {
 		this.name = name;
 	}
-	//Not used
-//	public void addStart(String startTime) {
-//		rt.addStart(startTime);
-//	}
-//	//Not used
-//	public void addFinish(String finishTime) {
-//		rt.addFinish(finishTime);
-//	}
 	
 	public void addTime(Time t) {
 		rt.addTime(t);
@@ -69,7 +61,10 @@ public class Racer implements Comparable<Racer> {
 		for (String s : optionalData) {
 			sb.append(s + "; ");
 		}
-		return startNumber + "; " + name + "; " + sb.toString();
+		if (name == null || name.equals(""))
+			return startNumber + "; ";
+		else
+			return startNumber + "; " + name + "; " + sb.toString();
 	}
 	
 	public String result() {

@@ -40,7 +40,6 @@ Om man inte kan läsa en förares startnummer på grund av t.ex smutsig nummerpl
 	<li>name file - Lokala sökvägen till namnfilen. Krävs för att kunna köra programmet. </li>
 	<li>stipulated time - Stipulerad tid. Krävs om race type är angett till ”varvlopp”. </li>
 	<li>number of etapps - Antalet etapper vid etapplopp. Krävs om race type är angett till ”etapplopp”. </li>
-	<li>output folder - Lokala sökvägen till mappen där man vill att resultatfilerna ska hamna.</li>
 	<li>start files - Lokala sökvägen till filen med starttider. Flera filer kan anges genom att kommaseparera dem. Om race type är angett som ”etapplopp” anges start files istället som objekt innehållandes: 
 	<ul>
   	<li>etapp - Numret på etappen.</li>
@@ -60,30 +59,16 @@ Om man inte kan läsa en förares startnummer på grund av t.ex smutsig nummerpl
 	</ul>
 	</li>
 	</ul>
-	<p> Här är en mall för hur configfilen ska se ut, den ska sparas som en .json fil:</p>
-	<code>
-	<pre>	
-	{
-		"race type" : "varvlopp",
-		"outputs" : [
-			{
-				"file" : "dasUberEnduroApplicationen/mapp_med_shit/resultat.html",
-				"sort" : false,	
-				"html" : true
-			},
-			{
-				"file" : "dasUberEnduroApplicationen/mapp_med_shit/resultat_sorted.txt",
-				"sort" : true
-			}
-		],
-		"name file" : "dasUberEnduroApplicationen/mapp_med_shit/namnfil.txt",
-		"start files" : [],
-		"finish files" : ["dasUberEnduroApplicationen/mapp_med_shit/maltider.txt"],
-		"group start" : "03.00.00",
-		"stipulated time" : "01.00.00"
-	}
-	</pre>
-	</code>
+	</li>
+ 	<li>finish files - Lokala sökvägen till filen med sluttider. Flera filer kan anges genom att kommaseparera dem. Om race type är angett som ”etapplopp” anges finish files istället som objekt innehållandes: 
+	<ul>
+  	<li>etapp - Numret på etappen.</li>
+	<li>file - Lokala sökvägen till filen med sluttider för etappen.</li>
+	</ul>
+	</li>
+	<li>etapper - Minimum tid för varje etapp. Krävs om race type är angett till ”etapplopp” och måste anges för etapperna i nummerordning.</li>
+	</ul>
+	<p> I mappen config finns det tre exempel på configurationsfiler, config_maraton.json, config_varv.json, config_etapp.json</p>
 	<p></p>
 När konfigurationsfilen är skapad och korrekt ifylld kan man förslagsvis döpa den till config.json och placera den i mappen release. Därefter kan man köra programmet via terminalen genom att navigera in i mappen release och sedan skriva: <code>java -jar resultMerge.jar -c config.json</code> . Resultatet av körningen blir filerna:
 	<p></p>
