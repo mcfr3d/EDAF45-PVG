@@ -45,6 +45,20 @@ Om man inte kan läsa en förares startnummer på grund av t.ex smutsig nummerpl
 	<ul>
   	<li>etapp - Numret på etappen.</li>
 	<li>file - Lokala sökvägen till filen med starttider för etappen.</li>
+	</ul> 
+	</li>
+ 	<li>finish files - Lokala sökvägen till filen med sluttider. Flera filer kan anges genom att kommaseparera dem. Om race type är angett som ”etapplopp” anges finish files istället som objekt innehållandes: 
+	<ul>
+  	<li>etapp - Numret på etappen.</li>
+	<li>file - Lokala sökvägen till filen med sluttider för etappen.</li>
+	</ul>
+	</li>
+	<li>etapper - Info om etapperna. Krävs om race type är angett till ”etapplopp” och måste anges för etapperna i nummerordning. Anges som objekt innehållandes:
+	<ul>
+  	<li>minimum time - Minimala tiden för etapper.</li>
+	<li>multiplier - Vikten av etappen. Tiden multipliceras med multiplier.</li>
+	</ul>
+	</li>
 	</ul>
 	<p> Här är en mall för hur configfilen ska se ut, den ska sparas som en .json fil:</p>
 	<code>
@@ -69,16 +83,7 @@ Om man inte kan läsa en förares startnummer på grund av t.ex smutsig nummerpl
 		"stipulated time" : "01.00.00"
 	}
 	</pre>
-	</code> 
-	</li>
- 	<li>finish files - Lokala sökvägen till filen med sluttider. Flera filer kan anges genom att kommaseparera dem. Om race type är angett som ”etapplopp” anges finish files istället som objekt innehållandes: 
-	<ul>
-  	<li>etapp - Numret på etappen.</li>
-	<li>file - Lokala sökvägen till filen med sluttider för etappen.</li>
-	</ul>
-	</li>
-	<li>etapper - Minimum tid för varje etapp. Krävs om race type är angett till ”etapplopp” och måste anges för etapperna i nummerordning.</li>
-	</ul>
+	</code>
 	<p></p>
 När konfigurationsfilen är skapad och korrekt ifylld kan man förslagsvis döpa den till config.json och placera den i mappen release. Därefter kan man köra programmet via terminalen genom att navigera in i mappen release och sedan skriva: <code>java -jar resultMerge.jar -c config.json</code> . Resultatet av körningen blir filerna:
 	<p></p>
@@ -93,7 +98,11 @@ När konfigurationsfilen är skapad och korrekt ifylld kan man förslagsvis döp
 	<img src="http://68.media.tumblr.com/b6514ccc933d9f153a4c198b4ff93ea7/tumblr_mtn83ly7gE1sjro9ko1_500.gif" alt="GoT Dragon" height="200" width="350">
 	<img src="https://media.giphy.com/media/l41YchoA82CryasHS/giphy.gif" alt="Derpy Dragon" height="200" width="200">
 	<img src="https://media1.giphy.com/media/52YhqvPO5l3lS/200.gif#13" alt="Treadmill dragon" height="200" width="200">
-	<img src="https://media4.giphy.com/media/sRCV0hq3TWzde/200.gif#167" alt="Mulan" height="200" width="400">	
+	<img src="https://media4.giphy.com/media/sRCV0hq3TWzde/200.gif#167" alt="Mulan" height="200" width="400">
+<img src="http://i.makeagif.com/media/2-20-2015/uZlVbu.gif" alt="Bolibompa" height="200" width="400">
+<img src="https://gif-avatars.com/img/150x150/dragon.gif" alt="Hiccup" height="200" width="200">
+
+
 
 
   </body>

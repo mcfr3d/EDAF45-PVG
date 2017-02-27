@@ -86,27 +86,12 @@ public class Database {
 		r.addTime(new Time(time, false, leg));
 	}
 
-	public void setName(int driver, String name) {
-
-		Racer r = getRacer(driver);
-
-		r.setName(name);
-	}
-
 	public void setRacerClass(int driver, String raceClass) {
 		if (!raceClasses.contains(raceClass)) {
 			raceClasses.add(raceClass);
 		}
 		Racer r = getRacer(driver);
 		r.setRacerClass(raceClass);
-	}
-
-	public boolean isMultiLapRace() {
-		return raceType == MULTI_LAP_RACE;
-	}
-
-	public boolean islegRace() {
-		return raceType == LEG_RACE;
 	}
 
 	public HashMap<Integer, Racer> getRacers() {
