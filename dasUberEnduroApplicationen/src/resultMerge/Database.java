@@ -183,17 +183,14 @@ public class Database {
 		// should be done dependent on what race we have
 		MultiLapRace.setMaxLaps(maxLaps); 
 
-		if (sort) {
-			// Adding placement to header
-			sb.append("Plac; ");
-			sb.append(genHeader(maxLaps)).append('\n');
+		if (sort) sb.append("Plac; ");
+		
+		sb.append(genHeader(maxLaps, sort)).append('\n');
 
-			// Sorting and writing
+		if(sort)
 			writeSortedResult(sb, maxLaps, racersInClass);
-		} else {
-			sb.append(genHeader(maxLaps)).append('\n');
+		else
 			writeUnsortedResult(sb, racersInClass);
-		}
 
 		return sb.toString();
 	}
@@ -251,10 +248,10 @@ public class Database {
 			sb.append(r.resultWithErrors(this)).append("\n");
 	}
 
-	private String genHeader(int laps) {
+	private String genHeader(int laps, boolean sort) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(genRacerHeader());
-		sb.append(genRaceTypeHeader(laps));
+		sb.append(sort? genSortedRaceTypeHeader(laps) : genRaceTypeHeader(laps));
 		return sb.toString();
 	}
 
@@ -265,30 +262,46 @@ public class Database {
 		}
 		return sb.toString();
 	}
-
-	private String genRaceTypeHeader(int laps) {
+	
+	private String genSortedRaceTypeHeader(int laps) {
 		StringBuilder header = new StringBuilder();
 		if (raceType == ONE_LAP_RACE) {
 			header.append("TotalTid; Starttid; Måltid");
 		} else if (raceType == MULTI_LAP_RACE){
 			header.append("#Varv; TotalTid;");
-			for (int i = 1; i <= laps; i++) {
+			for (int i = 1; i < laps; i++) {
 				header.append(" Varv" + i + ";");
 			}
+			header.append(" Varv" + laps);
+			
+		} else {
+			header.append("#Etapper; TotalTid;");
+			for (int i = 1; i < laps; i++) {
+				header.append(" Etapp" + i + ";");
+			}
+			header.append(" Etapp" + laps);
+		}
+		return header.toString();
+		
+	}
+	
+	private String genRaceTypeHeader(int laps) {
+		StringBuilder header = new StringBuilder();
+		header.append(genSortedRaceTypeHeader(laps));
+		if(raceType != ONE_LAP_RACE) header.append(";");
+		if (raceType == MULTI_LAP_RACE){
 			header.append(" Start;");
 			for (int i = 1; i < laps; i++) {
 				header.append(" Varvning" + i + ";");
 			}
 			header.append(" Mål");
-		} else {
-			header.append("#Etapper; TotalTid;");
-			for (int i = 1; i <= laps; i++) {
-				header.append(" Etapp" + i + ";");
-			}
-			for (int i = 1; i <= laps; i++) {
+		} else if(raceType == ETAPP_RACE) {
+			for (int i = 1; i < laps; i++) {
 				header.append(" Start" + i + ";");
 				header.append(" Mål" + i + ";");
 			}
+			header.append(" Start" + laps + ";");
+			header.append(" Mål" + laps);
 		}
 		return header.toString();
 	}
