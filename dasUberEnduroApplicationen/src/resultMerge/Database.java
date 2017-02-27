@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -159,31 +160,35 @@ public class Database {
 	}
 
 	private String genResultForClass(String raceClass, HashSet<Racer> racersInClass, boolean sort) {
-
-		int maxLaps = 0;
-		for (Racer r : racersInClass) {
-			maxLaps = Math.max(maxLaps, r.getLaps());
+		int maxCheckpoints = 0;
+		if(raceType == MULTI_LAP_RACE) {
+			for (Racer r : racersInClass) {
+				maxCheckpoints = Math.max(maxCheckpoints, r.getLaps());
+			}
+			MultiLapRace.setMaxLaps(maxCheckpoints);
+		} else if(raceType == LEG_RACE) {
+			maxCheckpoints = legInfo.getNbrOfLegs();
 		}
+		
 		StringBuilder sb = new StringBuilder();
 		if (!raceClass.equals(""))
 			sb.append(raceClass).append('\n');
 		// should be done dependent on what race we have
-		MultiLapRace.setMaxLaps(maxLaps);
 
 		if (sort)
 			sb.append("Plac; ");
 
-		sb.append(genHeader(maxLaps, sort)).append('\n');
+		sb.append(genHeader(maxCheckpoints, sort)).append('\n');
 
 		if (sort)
-			writeSortedResult(sb, maxLaps, racersInClass);
+			writeSortedResult(sb, maxCheckpoints, racersInClass);
 		else
 			writeUnsortedResult(sb, racersInClass);
 
 		return sb.toString();
 	}
 
-	private void writeSortedResult(StringBuilder sb, int maxLaps, HashSet<Racer> racers) {
+	private void writeSortedResult(StringBuilder sb, int nbrOfCheckpoints, HashSet<Racer> racers) {
 		ArrayList<Racer> sortedRacerList = new ArrayList<>();
 		ArrayList<Racer> invalidStipulatedTime = new ArrayList<>();
 
@@ -199,7 +204,7 @@ public class Database {
 				break;
 			}
 			case MULTI_LAP_RACE: {
-				if (tot!=null && tot.toString().compareTo(stipulatedTime) >= 0) {
+				if (tot != null && tot.toString().compareTo(stipulatedTime) >= 0) {
 					sortedRacerList.add(r);
 				} else {
 					invalidStipulatedTime.add(r);
@@ -208,10 +213,10 @@ public class Database {
 			}
 			case LEG_RACE: {
 				int legs = r.getLaps();
-				if(legs == nbrOfLegs)
+				if (nbrOfCheckpoints == legs)
 					sortedRacerList.add(r);
 				else
-					invalidStipulatedTime.add(r);	
+					invalidStipulatedTime.add(r);
 				break;
 			}
 			}
@@ -256,10 +261,10 @@ public class Database {
 			sb.append(r.resultWithErrors(this)).append("\n");
 	}
 
-	private String genHeader(int laps, boolean sort) {
+	private String genHeader(int checkpoints, boolean sort) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(genRacerHeader());
-		sb.append(sort ? genSortedRaceTypeHeader(laps) : genRaceTypeHeader(laps));
+		sb.append(sort ? genSortedRaceTypeHeader(checkpoints) : genRaceTypeHeader(checkpoints));
 		return sb.toString();
 	}
 
@@ -271,46 +276,47 @@ public class Database {
 		return sb.toString();
 	}
 
-	private String genSortedRaceTypeHeader(int laps) {
+	private String genSortedRaceTypeHeader(int checkpoints) {
 		StringBuilder header = new StringBuilder();
 		if (raceType == ONE_LAP_RACE) {
 			header.append("TotalTid; Starttid; Måltid");
 		} else if (raceType == MULTI_LAP_RACE) {
 			header.append("#Varv; TotalTid;");
-			for (int i = 1; i < laps; i++) {
+			for (int i = 1; i < checkpoints; i++) {
 				header.append(" Varv" + i + ";");
 			}
-			header.append(" Varv" + laps);
+			header.append(" Varv" + checkpoints);
 
 		} else {
 			header.append("#Etapper; TotalTid;");
-			for (int i = 1; i < laps; i++) {
+			int legs = legInfo.getNbrOfLegs();
+			for (int i = 1; i < legs; i++) {
 				header.append(" Etapp" + i + ";");
 			}
-			header.append(" Etapp" + laps);
+			header.append(" Etapp" + legs);
 		}
 		return header.toString();
 
 	}
 
-	private String genRaceTypeHeader(int laps) {
+	private String genRaceTypeHeader(int checkpoints) {
 		StringBuilder header = new StringBuilder();
-		header.append(genSortedRaceTypeHeader(laps));
+		header.append(genSortedRaceTypeHeader(checkpoints));
 		if (raceType != ONE_LAP_RACE)
 			header.append(";");
 		if (raceType == MULTI_LAP_RACE) {
 			header.append(" Start;");
-			for (int i = 1; i < laps; i++) {
+			for (int i = 1; i < checkpoints; i++) {
 				header.append(" Varvning" + i + ";");
 			}
 			header.append(" Mål");
 		} else if (raceType == LEG_RACE) {
-			for (int i = 1; i < laps; i++) {
+			for (int i = 1; i < checkpoints; i++) {
 				header.append(" Start" + i + ";");
 				header.append(" Mål" + i + ";");
 			}
-			header.append(" Start" + laps + ";");
-			header.append(" Mål" + laps);
+			header.append(" Start" + checkpoints + ";");
+			header.append(" Mål" + checkpoints);
 		}
 		return header.toString();
 	}
