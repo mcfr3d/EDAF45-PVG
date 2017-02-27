@@ -130,8 +130,3 @@ Getopt - Parsar argument från kommandoraden.
 EvaluatedExpression - Wrapper för två länkade listor, en som ger korrekt angivna startnummer samt felaktigt angivna startnummer.
 
 RegistrationExpression - Parsar en sträng från registration's Gui och ger tillbaka en EvaluatedExpression.
-
-## Acceptanstester:
-
-Just nu har vi lite problem med felaktigt format på configfiler, vilket gör att ganska många acceptanstester från iteration2 inte är körbara.
-
