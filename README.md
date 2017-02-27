@@ -21,6 +21,8 @@ Denna README fil är till för att underlätta för en ny programmerare att sät
 * Story 17: Variabelt antal uppgifter om förarna
 * Story 18: Sorterad resultatlista
 * Story 19: Etapplopp
+* Story 20: Specialsträckor
+* Story 21: Felhantering för etapplopp
 * Story 22: Minimitid för etapper
 * Story 23: Sorterad resultatlista (även etapper)
 * Story 24: Masstart
@@ -31,6 +33,8 @@ Denna README fil är till för att underlätta för en ny programmerare att sät
 * Story 29: Integrera HTML-baserad resultatlista
 * Story 31: Teknisk dokumentation
 * Story 32: Källkodsrelease 2
+* Story 33B: Robust program
+* Story 33C: Robust program
 * Story 35: Nattetapp
 * Story 36: Kö vid målgång 
 
@@ -62,7 +66,7 @@ För att bygga projektet gör följande:
 ##3.4 Köra projektet
 Regisration kan köras genom att dubbelklicka på jar-filen.
 ResultMerge körs genom komandotolken med kommandot java -jar ${home}/dasUberEnduroApplicationen/resultMerge/build/libs/resultMerge.jar -c config.json
-När reultmerge ska alla konfigfilen,namnfilen,starttidsfilen och sluttidsfilen ligga i samma mapp som JAR filen.
+När reultmerge ska konfigfilen,namnfilen,starttidsfilen och sluttidsfilen ligga i samma mapp som JAR filen.
 
 ##3.5 Köra acceptanstester
 Alla acceptanstester och unittester kan köras genom kommandot ./runAcT.sh då man är i huvudmappen
