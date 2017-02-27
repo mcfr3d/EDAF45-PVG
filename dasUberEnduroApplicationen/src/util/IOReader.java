@@ -4,8 +4,6 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import resultMerge.Database;
@@ -45,7 +43,12 @@ public class IOReader {
 				try {
 					db.addStart(Integer.parseInt(numberOrClass), time, leg);
 				} catch (NumberFormatException e) {
-					for (int startNumber : db.getRacersInClass(numberOrClass))
+					List<Integer> racersInClass = db.getRacersInClass(numberOrClass);
+					if(racersInClass.size() == 0) {
+						System.err.println("Found no racers in class " + numberOrClass);
+						System.err.println("while parsing line " + index + " in file " + path);
+					}
+					for (int startNumber : racersInClass)
 						db.addStart(startNumber, time, leg);
 				}
 			}
