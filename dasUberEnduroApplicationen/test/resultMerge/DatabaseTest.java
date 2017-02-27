@@ -137,7 +137,7 @@ public class DatabaseTest {
 		db.addFinish(1, "01.00.00");
 		db.addFinish(1, "01.00.01");
 		assertTrue(db.isMultiLapRace());
-		String result = "Tester\nPlac; StartNr; Namn; #Varv; TotalTid; Varv1; Varv2; Varv3; Start; Varvning1; Varvning2; Mål\n"
+		String result = "Tester\nPlac; StartNr; Namn; #Varv; TotalTid; Varv1; Varv2; Varv3\n"
 				+ "1; 1; Test Tsson; 3; 01.00.01; 00.00.01; 00.59.59; 00.00.01\n";
 		assertEquals("Sort not working with one racer, multiple lap: ", result, db.getResult(true));
 	}
@@ -201,7 +201,7 @@ public class DatabaseTest {
 		db.addFinish(2, "01.00.02");
 
 		String raceClass = "Tester\n";
-		String header = "Plac; StartNr; Namn; #Varv; TotalTid; Varv1; Varv2; Varv3; Start; Varvning1; Varvning2; Mål\n";
+		String header = "Plac; StartNr; Namn; #Varv; TotalTid; Varv1; Varv2; Varv3\n";
 		String racer1 = "1; 1; Test Tsson; 3; 01.00.01; 00.00.01; 00.59.59; 00.00.01\n";
 		String racer2 = "2; 2; Per Psson; 3; 01.00.02; 00.00.02; 00.59.58; 00.00.02\n";
 		String racer3 = "3; 3; Oleg Osson; 3; 01.00.05; 00.00.05; 00.59.55; 00.00.05\n";
@@ -236,7 +236,7 @@ public class DatabaseTest {
 		db.addFinish(2, "00.00.02");
 		db.addFinish(2, "01.00.01");
 		String raceClass = "Tester\n";
-		String header = "Plac; StartNr; Namn; #Varv; TotalTid; Varv1; Varv2; Varv3; Start; Varvning1; Varvning2; Mål\n";
+		String header = "Plac; StartNr; Namn; #Varv; TotalTid; Varv1; Varv2; Varv3\n";
 		String racer1 = "1; 1; Test Tsson; 3; 01.00.01; 00.00.01; 00.59.59; 00.00.01\n";
 		String racer2 = "2; 2; Per Psson; 2; 01.00.01; 00.00.02; 00.59.59; \n";
 		String racer3 = "3; 4; Sten Ssson; 2; 01.00.01; 00.00.05; 00.59.56; \n";

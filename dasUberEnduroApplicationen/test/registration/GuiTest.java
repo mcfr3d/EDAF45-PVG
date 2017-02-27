@@ -63,7 +63,7 @@
 //	
 //	@Test
 //	public void testClassRegistration() {
-//		textEntry.setText("seniorer");
+//		textEntry.setText("@seniorer");
 //		button.doClick();
 //		assertEquals("seniorer", textOutput.getText().substring(0, 8));
 //	}
