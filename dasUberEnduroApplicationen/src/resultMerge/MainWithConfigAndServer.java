@@ -1,11 +1,9 @@
 package resultMerge;
 
-import util.Getopt;
-//TODO
 public class MainWithConfigAndServer {
 
 	public static void main(String[] args) {
-		try {
+/*		try {
 
 			Getopt g = new Getopt(args, "c:p:", true);
 
@@ -34,7 +32,7 @@ public class MainWithConfigAndServer {
 			
 			e.printStackTrace();
 		}
-	
+	*/
 	}
 
 }
