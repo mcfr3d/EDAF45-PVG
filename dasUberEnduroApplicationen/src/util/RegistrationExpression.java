@@ -6,12 +6,12 @@ import java.util.LinkedList;
 public class RegistrationExpression {
 	public static EvaluatedExpression eval(String input) {
 		EvaluatedExpression e = new EvaluatedExpression();
-		for(String text: formatInputString(input)) {
-			if(isInterval(text)){
+		for (String text : formatInputString(input)) {
+			if (isInterval(text)) {
 				String[] array = text.split("-");
 				int start = Integer.parseInt(array[0].trim());
 				int end = Integer.parseInt(array[1].trim());
-				if(start>end){
+				if (start > end) {
 					e.errorList.add(text);
 				}
 				for (int i = start; i <= end; i++) {
@@ -28,26 +28,30 @@ public class RegistrationExpression {
 				}
 			}
 		}
-		for(Iterator<String> it = e.errorList.iterator(); it.hasNext(); ) {
+		Iterator<String> it = e.errorList.iterator();
+		while (it.hasNext()) {
 			String s = it.next();
-			if(isAlpha(s) && !s.isEmpty()) {
-			    it.remove();
-				e.evaluatedClasses.add(s);
+			if (!s.isEmpty() && s.charAt(0) == '@') {
+				s = s.substring(1);
+				if (isAlpha(s) && !s.isEmpty()) {
+					it.remove();
+					e.evaluatedClasses.add(s);
+				}
 			}
 		}
 		return e;
 	}
-	
+
 	private static String[] formatInputString(String text) {
 		text = text.trim();
 		text = text.replaceAll("\\s*(-)+\\s*", "-");
-		text = text.replaceAll(",", " ");			
+		text = text.replaceAll(",", " ");
 		return text.split("\\s+");
 	}
 
 	private static boolean isInterval(String text) {
 		return text.matches("\\d+\\s*[-]\\s*\\d+");
-		
+
 	}
 
 	private static boolean correctInput(String input) {
@@ -58,15 +62,15 @@ public class RegistrationExpression {
 		}
 		return input.length() != 0;
 	}
-	
+
 	private static boolean isAlpha(String name) {
-	    char[] chars = name.toCharArray();
-	    for (char c : chars) {
-	        if(!Character.isLetter(c)) {
-	            return false;
-	        }
-	    }
-	    return true;
+		char[] chars = name.toCharArray();
+		for (char c : chars) {
+			if (!Character.isLetter(c)) {
+				return false;
+			}
+		}
+		return true;
 	}
-	
+
 }

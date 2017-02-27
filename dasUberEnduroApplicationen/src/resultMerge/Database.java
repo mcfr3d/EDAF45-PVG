@@ -23,7 +23,6 @@ public class Database {
 	public final static int ONE_LAP_RACE = 0;
 	public final static int MULTI_LAP_RACE = 1;
 	public final static int ETAPP_RACE = 2;
-	
 
 	// kept so previous tests works. tests should be refactored.
 	// creates a db for OneLapRace without massStart.
@@ -43,17 +42,17 @@ public class Database {
 
 	public boolean addRacer(int startNo, String name, String raceClass) {
 		Racer r;
-		if(raceType == ETAPP_RACE) {
+		if (raceType == ETAPP_RACE) {
 			r = new Racer(startNo, raceType, nbrOfEtapps);
 		} else {
 			r = new Racer(startNo, raceType);
 		}
 		r.setName(name);
 		r.setRacerClass(raceClass);
-		if(massStart && !raceClass.equals("Icke existerande startnummer")) {
+		if (massStart && !raceClass.equals("Icke existerande startnummer")) {
 			r.addTime(new Time(massStartTime, true, -1));
 		}
-		
+
 		if (racers.containsKey(startNo)) {
 			return false;
 		} else {
@@ -71,6 +70,7 @@ public class Database {
 	public void addStart(int driver, String time) {
 		addStart(driver, time, -1);
 	}
+
 	public void addStart(int driver, String time, int etapp) {
 		Racer r = getRacer(driver);
 		r.addTime(new Time(time, true, etapp));
@@ -79,7 +79,7 @@ public class Database {
 	public void addFinish(int driver, String time) {
 		addFinish(driver, time, -1);
 	}
-	
+
 	public void addFinish(int driver, String time, int etapp) {
 		Racer r = getRacer(driver);
 		r.addTime(new Time(time, false, etapp));
@@ -103,7 +103,7 @@ public class Database {
 	public boolean isMultiLapRace() {
 		return raceType == MULTI_LAP_RACE;
 	}
-	
+
 	public boolean isEtappRace() {
 		return raceType == ETAPP_RACE;
 	}
@@ -124,11 +124,11 @@ public class Database {
 		this.stipulatedTime = stipulatedTime;
 		MultiLapRace.setStipulatedTime(new Time(stipulatedTime));
 	}
-	
+
 	public void setNumberEtapps(int nbrOfEtapps) {
-		this.nbrOfEtapps = nbrOfEtapps;		
+		this.nbrOfEtapps = nbrOfEtapps;
 	}
-	
+
 	public void setEtappInfo(EtappInfo info) {
 		etappInfo = info;
 	}
@@ -147,7 +147,7 @@ public class Database {
 
 		for (String s : raceClasses.keySet()) {
 
-			if (s == "Icke existerande startnummer") {
+			if (s.equals("Icke existerande startnummer")) {
 				ss = genResultForClass(s, raceClasses.get(s), sort);
 			} else {
 				sb.append(genResultForClass(s, raceClasses.get(s), sort));
@@ -168,19 +168,17 @@ public class Database {
 		if (!raceClass.equals(""))
 			sb.append(raceClass).append('\n');
 		// should be done dependent on what race we have
-		MultiLapRace.setMaxLaps(maxLaps); 
+		MultiLapRace.setMaxLaps(maxLaps);
 
-		if (sort) {
-			// Adding placement to header
+		if (sort)
 			sb.append("Plac; ");
-			sb.append(genHeader(maxLaps)).append('\n');
 
-			// Sorting and writing
+		sb.append(genHeader(maxLaps, sort)).append('\n');
+
+		if (sort)
 			writeSortedResult(sb, maxLaps, racersInClass);
-		} else {
-			sb.append(genHeader(maxLaps)).append('\n');
+		else
 			writeUnsortedResult(sb, racersInClass);
-		}
 
 		return sb.toString();
 	}
@@ -190,12 +188,33 @@ public class Database {
 		ArrayList<Racer> invalidStipulatedTime = new ArrayList<>();
 
 		for (Racer r : racers) {
-
-			String rTime = TotalTimeCalculator.computeDifference(r.getFirstStartTime(), r.getFinishTime());
-			if (rTime.compareTo(stipulatedTime) > 0) {
-				sortedRacerList.add(r);
-			} else {
-				invalidStipulatedTime.add(r);
+			switch (raceType) {
+			case ONE_LAP_RACE: {
+				String rTime = TotalTimeCalculator.computeDifference(r.getFirstStartTime(), r.getFinishTime());
+				if (!rTime.equals("--.--.--")) {
+					sortedRacerList.add(r);
+				} else {
+					invalidStipulatedTime.add(r);
+				}
+				break;
+			}
+			case MULTI_LAP_RACE: {
+				String rTime = TotalTimeCalculator.computeDifference(r.getFirstStartTime(), r.getFinishTime());
+				if (rTime.compareTo(stipulatedTime) > 0) {
+					sortedRacerList.add(r);
+				} else {
+					invalidStipulatedTime.add(r);
+				}
+				break;
+			}
+			case ETAPP_RACE: {
+				int etapper = r.getLaps();
+				if(etapper == nbrOfEtapps)
+					sortedRacerList.add(r);
+				else
+					invalidStipulatedTime.add(r);	
+				break;
+			}
 			}
 		}
 		Collections.sort(sortedRacerList);
@@ -206,11 +225,11 @@ public class Database {
 				return a.getStartNumber() - b.getStartNumber();
 			}
 		});
-		
-		for(int i = 1; i <= sortedRacerList.size(); i++) {
-			sb.append(i + "; " + sortedRacerList.get(i-1).result()).append('\n');
+
+		for (int i = 1; i <= sortedRacerList.size(); i++) {
+			sb.append(i + "; " + sortedRacerList.get(i - 1).result()).append('\n');
 		}
-		for(int i = 0; i < invalidStipulatedTime.size(); i++) {
+		for (int i = 0; i < invalidStipulatedTime.size(); i++) {
 			sb.append("; " + invalidStipulatedTime.get(i).result()).append('\n');
 
 		}
@@ -238,10 +257,10 @@ public class Database {
 			sb.append(r.resultWithErrors(this)).append("\n");
 	}
 
-	private String genHeader(int laps) {
+	private String genHeader(int laps, boolean sort) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(genRacerHeader());
-		sb.append(genRaceTypeHeader(laps));
+		sb.append(sort ? genSortedRaceTypeHeader(laps) : genRaceTypeHeader(laps));
 		return sb.toString();
 	}
 
@@ -253,29 +272,46 @@ public class Database {
 		return sb.toString();
 	}
 
-	private String genRaceTypeHeader(int laps) {
+	private String genSortedRaceTypeHeader(int laps) {
 		StringBuilder header = new StringBuilder();
 		if (raceType == ONE_LAP_RACE) {
 			header.append("TotalTid; Starttid; Måltid");
-		} else if (raceType == MULTI_LAP_RACE){
+		} else if (raceType == MULTI_LAP_RACE) {
 			header.append("#Varv; TotalTid;");
-			for (int i = 1; i <= laps; i++) {
+			for (int i = 1; i < laps; i++) {
 				header.append(" Varv" + i + ";");
 			}
+			header.append(" Varv" + laps);
+
+		} else {
+			header.append("#Etapper; TotalTid;");
+			for (int i = 1; i < laps; i++) {
+				header.append(" Etapp" + i + ";");
+			}
+			header.append(" Etapp" + laps);
+		}
+		return header.toString();
+
+	}
+
+	private String genRaceTypeHeader(int laps) {
+		StringBuilder header = new StringBuilder();
+		header.append(genSortedRaceTypeHeader(laps));
+		if (raceType != ONE_LAP_RACE)
+			header.append(";");
+		if (raceType == MULTI_LAP_RACE) {
 			header.append(" Start;");
 			for (int i = 1; i < laps; i++) {
 				header.append(" Varvning" + i + ";");
 			}
 			header.append(" Mål");
-		} else {
-			header.append("#Etapper; TotalTid;");
-			for (int i = 1; i <= laps; i++) {
-				header.append(" Etapp" + i + ";");
-			}
-			for (int i = 1; i <= laps; i++) {
+		} else if (raceType == ETAPP_RACE) {
+			for (int i = 1; i < laps; i++) {
 				header.append(" Start" + i + ";");
 				header.append(" Mål" + i + ";");
 			}
+			header.append(" Start" + laps + ";");
+			header.append(" Mål" + laps);
 		}
 		return header.toString();
 	}
