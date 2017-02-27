@@ -30,21 +30,21 @@ public class OneLapRaceTest {
 	public void testMultipleFinishTimes() {
 		temp.addFinish("12.00.00");
 		temp.addFinish("12.15.00");
-		assertEquals("--.--.--; Start?; 12.00.00; Flera måltider? 12.15.00", temp.genResultWithErrors());
+		assertEquals("--.--.--; Start?; 12.00.00; Flera måltider? 12.15.00", temp.genResultWithErrors(null));
 	}
 
 	@Test
 	public void testMultipleStartTimes() {
 		temp.addStart("12.00.00");
 		temp.addStart("12.15.00");
-		assertEquals("--.--.--; 12.00.00; Slut?; Flera starttider? 12.15.00", temp.genResultWithErrors());
+		assertEquals("--.--.--; 12.00.00; Slut?; Flera starttider? 12.15.00", temp.genResultWithErrors(null));
 	}
 
 	@Test
 	public void testImpossibleTotalTime() {
 		temp.addStart("12.00.00");
 		temp.addFinish("12.10.00");
-		assertEquals("00.10.00; 12.00.00; 12.10.00; Omöjlig Totaltid?", temp.genResultWithErrors());
+		assertEquals("00.10.00; 12.00.00; 12.10.00; Omöjlig Totaltid?", temp.genResultWithErrors(null));
 	}
 
 	@Test

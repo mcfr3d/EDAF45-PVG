@@ -53,6 +53,7 @@ public class EtappRace implements RaceType {
 		// TODO Auto-generated method stub
 
 	}
+
 	@Override
 	public String genResult() {
 		StringBuilder sb = new StringBuilder();
@@ -60,7 +61,7 @@ public class EtappRace implements RaceType {
 		Time totalTime = totalTime();
 		String totTimeStr = totalTime.getTimeAsInt() == 0 ? "--.--.--" : totalTime.toString();
 		sb.append(totTimeStr.toString()).append("; ");
-		
+
 		for (int i = 0; i < etapper.length; i++) {
 			Time etappTime = etapper[i].getEtappTime();
 			if (etappTime != null) {
@@ -73,20 +74,34 @@ public class EtappRace implements RaceType {
 	}
 
 	@Override
-	public String genResultWithErrors() {
+	public String genResultWithErrors(Database db) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(genResult()).append("; ");
-		
+		String errors = "";
+		int i = 0;
 		for (Etapp e : etapper) { // adds start and finish for each etapp
 			sb.append(e.getStart()).append("; ");
 			sb.append(e.getFinish()).append("; ");
+			if (db != null) {
+				try {
+					Time minimumTime = db.getEtappInfo().getMinimumTime(i);
+					Time diff = Time.diff(new Time(e.getFinish()), new Time(e.getStart()));
+					if (diff.getTimeAsInt() < minimumTime.getTimeAsInt()) {
+						errors += " etapp " + (i + 1) + " omöjlig tid";
+					}
+				} catch (Exception ee) {
+				}
+			}
 		}
-		//TODO: add errors (mutiple start/finish times and so on.)
+		// TODO: add errors (mutiple start/finish times and so on.)
+		errors = errors.trim();
+		if (!errors.equals(""))
+			sb.append(errors + "; ");
 		String out = sb.toString();
 		return out.substring(0, out.length() - 2);
-		
+
 	}
-	
+
 	@Override
 	public int getLaps() {
 		int counter = 0;
@@ -136,11 +151,10 @@ public class EtappRace implements RaceType {
 	public int compareTo(RaceType o) {
 		EtappRace er = (EtappRace) o;
 		int etappdiff = er.getLaps() - getLaps();
-		if(etappdiff != 0) return etappdiff;
+		if (etappdiff != 0)
+			return etappdiff;
 		int timediff = totalTime().getTimeAsInt() - er.totalTime().getTimeAsInt();
 		return timediff;
 	}
-
-	
 
 }

@@ -18,6 +18,7 @@ public class Database {
 	private String massStartTime;
 	private String stipulatedTime = "00.00.00";
 	private int nbrOfEtapps = 0;
+	private EtappInfo etappInfo;
 	private String[] columnHeaders;
 	public final static int ONE_LAP_RACE = 0;
 	public final static int MULTI_LAP_RACE = 1;
@@ -134,10 +135,15 @@ public class Database {
 
 	public void setStipulatedTime(String stipulatedTime) {
 		this.stipulatedTime = stipulatedTime;
+		MultiLapRace.setStipulatedTime(new Time(stipulatedTime));
 	}
 	
 	public void setNumberEtapps(int nbrOfEtapps) {
 		this.nbrOfEtapps = nbrOfEtapps;		
+	}
+	
+	public void setEtappInfo(EtappInfo info) {
+		etappInfo = info;
 	}
 
 	public String getResult(boolean sort) {
@@ -176,7 +182,6 @@ public class Database {
 			sb.append(raceClass).append('\n');
 		// should be done dependent on what race we have
 		MultiLapRace.setMaxLaps(maxLaps); 
-		MultiLapRace.setStipulatedTime(new Time(stipulatedTime));
 
 		if (sort) {
 			// Adding placement to header
@@ -207,6 +212,13 @@ public class Database {
 			}
 		}
 		Collections.sort(sortedRacerList);
+		invalidStipulatedTime.sort(new Comparator<Racer>() {
+
+			@Override
+			public int compare(Racer a, Racer b) {
+				return a.getStartNumber() - b.getStartNumber();
+			}
+		});
 		
 		for(int i = 1; i <= sortedRacerList.size(); i++) {
 			sb.append(i + "; " + sortedRacerList.get(i-1).result()).append('\n');
@@ -236,7 +248,7 @@ public class Database {
 		});
 
 		for (Racer r : list)
-			sb.append(r.resultWithErrors()).append("\n");
+			sb.append(r.resultWithErrors(this)).append("\n");
 	}
 
 	private String genHeader(int laps) {
@@ -291,6 +303,10 @@ public class Database {
 			if (r.getClass().equals(className))
 				list.add(r.getStartNumber());
 		return list;
+	}
+
+	public EtappInfo getEtappInfo() {
+		return etappInfo;
 	}
 
 }
